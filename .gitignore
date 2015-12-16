@@ -1,0 +1,32 @@
+#################
+## GitHub
+#################
+
+GitHub.appref-ms
+
+
+
+#################
+## Local LaTeX Files
+#################
+
+*.sty
+*.def
+*.cfg
+.pdf
+*.bst
+*.ldf
+*.aux
+*.bbl
+*.blg
+*.loa
+*.lof
+*.log
+*.lot
+*.out
+evo.pdf
+evo.toc
+*.fd
+*.dat
+*.ltx
+*.bib
