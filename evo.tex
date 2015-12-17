@@ -33,8 +33,6 @@
 %
 % TODO :: replace " - " with "---" (but case-to-case, nicht einfach so blanko!)
 %
-% TODO :: replace " we " with " I "? (but case-to-case, nicht einfach so blanko!)
-%
 % TODO :: alles nochmal auf verb tenses überprüfen, also:
 % "Use present tense to express general truths or facts or conclusions supported by research results that are unlikely to change.
 % In other words, something that is believed to be always true."
@@ -1242,11 +1240,11 @@ store trees, but instead can keep track of general finite graphs.
 % ====================================================================================================================================
 
 To be able to understand the different existing approaches for working with 
-reference graphs and genomic graphs in general, I have re-implemented several 
+reference graphs and genomic graphs in general, we have re-implemented several 
 of these approaches myself. These implementations have been done in the programming 
 language Python and resulted in several scripts that can be steered 
 by a graphical main program written in Delphi. \\
-I have then focused on creating the Graph Merging Library GML, which is a 
+We have then focused on creating the Graph Merging Library GML, which is a 
 collection of algorithms written in JavaScript that make it possible to 
 work with reference graphs in various ways. JavaScript is not a particularly fast 
 language in itself, due to many inbuilt functionalities which are helpful for programming 
@@ -1264,7 +1262,7 @@ and using them in a production environment should of course be possible.
 %                                                                                                                METHODS: Data Formats
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the course of working on this thesis I used existing data 
+In the course of working on this thesis we used existing data 
 formats for genomic graphs and designed a new data format as well, 
 to be able to better understand the strengths and weaknesses of 
 the different possible approaches for encoding graphs.
@@ -1283,7 +1281,7 @@ encoding genomic graphs rather than strings.
 Such a format is FASTG, which is 
 a FASTA-like format designed to handle graph data \citep{specFASTG}. 
 Even though encoding genomic graphs is possible in the FASTG format, 
-I noticed that it has some severe drawbacks.
+we noticed that it has some severe drawbacks.
 
 Files in the FASTG format are unnecessarily big, which is mostly caused 
 by a lot of intentional whitespaces but also by the decision to repeat the 
@@ -1330,7 +1328,7 @@ For very short and simple human-readable graph data,
 often the bubble format is used. 
 It is not supposed to be used for production environments and indeed 
 is not complex enough to describe any but the most trivial kinds of graphs. 
-However, I still decided to also have a look into this particular format, 
+However, we still decided to also have a look into this particular format, 
 as implementing it in a software package is rather straightforward due to 
 its simplicity, and as considering it might teach us valuable lessons 
 about problems to avoid when designing actual graph formats to be used for real world data.
@@ -1417,7 +1415,7 @@ implementation of a graph reference based alignment tool.
 
 \subsection{GML Format}
 
-While programming the Graph Merging Library, I decided to design a new format 
+While programming the Graph Merging Library, we decided to design a new format 
 which could be used to encode genomic graphs. 
 As both the FASTG and the GFA format seem to be rather extensive, 
 the idea behind the GML format is to create a simpler way of encoding graph data. 
@@ -1496,7 +1494,7 @@ located close to where they are found within the main row, but are all concentra
 
 \subsection{FFX Format}
 
-In the process of creating GML, I finally designed one more data format for 
+In the process of creating GML, we finally designed one more data format for 
 genomic graphs. The idea behind FFX, the Flat Fused XBW format, is to enable saving 
 a flat XBW table directly, without having to convert it to some other format 
 first. \\
@@ -1557,20 +1555,20 @@ every opening of the file.
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To get a better understanding of how a regular alignment 
-pipeline works, I started by implementing one such pipeline on my own. 
+pipeline works, we started by implementing one such pipeline on my own. 
 The goal here was not to achieve a solution that could compete with 
 the already commonly used alignment packages, but rather to have a 
-simple test bed that I could then later on expand by slowly adding more 
+simple test bed that we could then later on expand by slowly adding more 
 and more diverse graph reference approaches.
 
 \subsection{Chosen Programming Languages}
 
 As speed was not of great concern, but ease of implementation was, 
-I wrote this pipeline mostly in Python. The various Python scripts 
+we wrote this pipeline mostly in Python. The various Python scripts 
 that correspond to individual steps in the alignment pipeline---mostly 
 pre-processing the reference, aligning the reads to the reference, 
 and assembling the aligned reads into the individual DNA---are however 
-controlled by another program, which I wrote to have quick access to 
+controlled by another program, which we wrote to have quick access to 
 the alignment information and a simple overview of the current status 
 at all times. A screenshot of this main control program can be seen figure~\ref{fig:MCC}. 
 \begin{figure}[!htb]
@@ -1578,7 +1576,7 @@ at all times. A screenshot of this main control program can be seen figure~\ref{
 \includegraphics[width=0.95\textwidth]{evo_fig_MCC.png}
 \caption[Graphical control program]{Screenshot of the graphical control program written in Delphi.} \label{fig:MCC}
 \end{figure}
-I have constructed this control program in Delphi, as implementing a GUI 
+We have constructed this control program in Delphi, as implementing a GUI 
 application in Windows is very simple with that language. \\
 The program can automatically generate short artificial DNA reference strings, 
 generate individual DNA with any amount of modifications---pure edits, 
@@ -1687,7 +1685,7 @@ But a higher $ d $ parameter means drastically more work that needs to be done, 
 being spent.
 
 To counteract this problem, and allow for more mismatches without having to increase the “expensive” (with 
-regards to computing time) parameter $ d $, I introduced a new parameter $ k $ for the alignment script. 
+regards to computing time) parameter $ d $, we introduced a new parameter $ k $ for the alignment script. 
 As before, it is assured that all locations at which the read aligns to the reference with up to $ d $ 
 mismatches are found by the script. However, with only a slight increase in runtime we are also given 
 the chance to find locations with up to $ d + k $ mismatches as well. \\
@@ -1709,11 +1707,11 @@ up to $ d + k $ mismatches is good, while the additional cost is very small.
 \subsection{Simple Graphs}
 
 After having improved my pipeline in the aforementioned ways, 
-I started working on the focus of this thesis: Using a population graph reference 
+We started working on the focus of this thesis: Using a population graph reference 
 rather than a string reference as basis for the read alignment.
 
 To not have to tackle the entire problem immediately at once, 
-I started by focusing on very simple graphs with highly specific requirements 
+We started by focusing on very simple graphs with highly specific requirements 
 as to what kinds of structures they could and especially could not contain. 
 These highly specific requirements meant that the implementation complexity 
 was greatly reduced.
@@ -1760,7 +1758,7 @@ potential alignment sites.
 The second change to the pre-processing script concerned the general approach that the script 
 should take while working through the reference. \\
 For a string reference an iteration over the reference is enough to build up a pre-processed structure. 
-In the first simple test implementation I actually let a Python script build up a hash table explicitly, 
+In the first simple test implementation we actually let a Python script build up a hash table explicitly, 
 by writing down every $ k $-mer within the reference, 
 its origin from within the string 
 and sorting the strings alphabetically. \\
@@ -2021,7 +2019,7 @@ which is more complicated to achieve but does not make it necessary to
 introduce a new step before the actual pre-processing
 \end{enumerate}
 
-I have implemented the second of these possibilities, for which again 
+We have implemented the second of these possibilities, for which again 
 a few changes needed to be made to the Python script that pre-processes the reference.
 
 % TODO :: also implement the first of these possibilities maybe? And make comparisons
@@ -2030,7 +2028,7 @@ a few changes needed to be made to the Python script that pre-processes the refe
 First of all, the script that creates an adjusted, flattened reference 
 needs to work for nested bubbles as well, again choosing the first alternative within any bubble. \\
 So GA(GC(T\pipe C)A\pipe CAGG)T(G\pipe A)C needs to become GAGCTATGC. \\
-To better keep track of this activity, I encapsulated it into a new function 
+To better keep track of this activity, we encapsulated it into a new function 
 within the script called \texttt{flattenreference}. \\
 In previous versions of the script this worked by finding the first bubble within a given string, 
 and then combining the text before the bubble with the first alternative within the bubble and 
@@ -2116,7 +2114,7 @@ GTAGT, while actually GTCTGT is read out, with one extra insertion.
 
 % TODO :: maybe move the following three paragraphs to a more suitable place?
 
-When enabling this within my own script I noticed a problem about the general indel handling 
+When enabling this within our own script we noticed a problem about the general indel handling 
 that had not been addressed before, as it had never really come into focus until then: When 
 there is an indel, it can be hard to figure out whether an insertion or a deletion has taken place, 
 especially if it occurs close to the ends of the read. \\
@@ -2129,7 +2127,7 @@ as then only this one read was shifted, but the other reads at that position ove
 that was wrongfully shifted. However, it often occurred that insertions were wrongfully interpreted as 
 deletions, and vice versa.
 
-To counteract this, I first noticed that it makes no sense to assume an insertion and a deletion at the 
+To counteract this, we first noticed that it makes no sense to assume an insertion and a deletion at the 
 exact same location. If most reads report that there is either an insertion or a deletion, then 
 using both within the program leads to no offset change and therefore all the indicators pointing to 
 indels would be ignored. \\
@@ -2161,7 +2159,7 @@ With these changes, the pipeline was finally able to use arbitrary graphs.
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After gathering experience on how to implement a pipeline used for aligning reads to a reference in general, 
-I decided to create the Graph Merging Library. 
+We decided to create the Graph Merging Library. 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.95\textwidth]{evo_gml_3.png}
@@ -2194,7 +2192,7 @@ Then the info blocks are iterated over, and their contents are added as edges an
 
 After opening the graph, it can be helpful to show it to the user for 
 quick and easy visual inspection. 
-I therefore included a small visualization function within the Graph Merging Library, 
+We therefore included a small visualization function within the Graph Merging Library, 
 which is capable of displaying simple graphs nicely. 
 Algorithm~\ref{alg:visualize} shows how this function works in general. 
 \begin{algorithm}
@@ -2462,7 +2460,7 @@ it is completely irrelevant whether it eventually ends in an exclamation point o
 \subsection{Creating a Node Table}
 
 Instead of directly generating a flat XBW table from the prefix sorted graph, 
-I decided to first generate a node table. 
+We decided to first generate a node table. 
 This is a table that shares important characteristics with a flat XBW table, 
 but which is easier to understand and to use as it is closely related to the 
 graph. Using the visualized graph to understand the corresponding node table 
@@ -2481,13 +2479,13 @@ If several nodes with different labels are preceding the node $ N $,
 then the BWT value takes on the concatenation of all these values. 
 To make it clearer that a BWT containing several characters actually 
 stands for any of these characters, instead of standing for the string 
-formed by the characters, I decided to display BWT values containing 
+formed by the characters, we decided to display BWT values containing 
 more than one character separated by pipe characters, as can be 
 seen in figure~\ref{fig:evo_fig_node_table_example} which is represented 
 by node table~\ref{table:evo_node_table_example}. \\
 % GCTGGCGAG|,3,T,5;,5,,7
 {
-% reduce whitespace in this table (default is 6pt I believe)
+% reduce whitespace in this table (default might be 6pt)
 \renewcommand{\tabcolsep}{1pt}
 \begin{table}[htb]
 \centering
@@ -2568,7 +2566,7 @@ node table into a flat one, a process which can be seen in
 tables~\ref{table:evo_node_to_flat_node} and \ref{table:evo_node_to_flat_flat}. 
 % GATAATG|,3,C,6;,1,AG,3
 {
-% reduce whitespace in this table (default is 6pt I believe)
+% reduce whitespace in this table (default is might be 6pt)
 \renewcommand{\tabcolsep}{5pt}
 \begin{table}[htb]
 \centering
@@ -2644,7 +2642,7 @@ We also cannot merge the separate tables together as they are and work on the no
 after the merge, as the flat XBW format relies heavily on the ordering on the columns. 
 We simply cannot guarantee that we will order the columns correctly 
 if we do not have expanded prefixes in the first place. \\
-I therefore decided to implement the merging of flat XBW tables in two steps, 
+We therefore decided to implement the merging of flat XBW tables in two steps, 
 with the first being an iteration over all columns of the tables that are supposed to be merged, 
 with the aim of determining which prefixes will need to be expanded. The corresponding nodes are 
 split and the prefixes recalculated until no further node splitting will be necessary when the actual 
@@ -2670,7 +2668,7 @@ graph can result in large amounts of node splitting. This leads to an increase
 in file size as opposed to the total file size of the individual graphs that are 
 merged. \\
 To explore how these problems might be avoided, 
-I decided to implement another way to combining several flat XBW tables. 
+We decided to implement another way to combining several flat XBW tables. 
 In this way, consecutive graphs encoded as flat XBW tables are fused together on their ends, 
 meaning that the dollar sign node of one graph is connected with the hash tag node of the next. 
 This connection is not directly achieved within the data structure itself, 
@@ -2703,12 +2701,12 @@ of starting to use reference graphs more widely.
 
 \section{Formats for Genomic Graphs}
 
-I tried out different formats in the course of this thesis, 
+We tried out different formats in the course of this thesis, 
 and noticed that indeed some do seem more appropriate for representing genomic graphs than others. \\
 Surprisingly, implementing an algorithm to open a file in the seemingly simple bubble format was actually 
 not easier than implementing more advanced formats like FASTG, GFA and GML.
 
-I also noticed that none of the considered formats currently offer inbuilt compression techniques. 
+We also noticed that none of the considered formats currently offer inbuilt compression techniques. 
 Changing this however would not be very difficult. Especially in the FFX format, 
 which mainly contains a BWT and two bit-vectors for each data block, 
 a rather simple compression method would be to save both the BWT and the bit-vectors 
@@ -2726,7 +2724,7 @@ just two bits.
 
 \section{Merging XBWs}
 
-Using the Graph Merging Library, I have explored several ways to merge XBWs. 
+Using the Graph Merging Library, we have explored several ways to merge XBWs. 
 As could be expected, merging two node tables is a much simpler process than merging two flat tables, 
 as a node table is much less compressed, and working on it is simpler in general. 
 The node table not being as compressed as a flat table though means 
@@ -2815,7 +2813,7 @@ Likewise, it could be questioned whether simplifying the calling of variants rea
 justifies complicating matters so much in general by the introduction of 
 these new graph structures.
 
-However, I would argue that in the long run, reference graphs will come to be used. 
+However, we would argue that in the long run, reference graphs will come to be used. 
 With every new individual DNA that is constructed, more insight is gained into 
 variations which could be quite common among populations. 
 Discarding all of that data in favour of a simpler but ultimately flawed approach 
