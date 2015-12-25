@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   preserveAspectRatio="xMidYMid slice"
+   viewBox="-70.5 8 1041 184"
+   version="1.1"
+   style="width:1041px;height:184px"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="evo_fig_assume_all_good_2.svg">
+  <metadata
+     id="metadata146">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1076"
+     inkscape:window-height="662"
+     id="namedview144"
+     showgrid="false"
+     inkscape:zoom="1.129683"
+     inkscape:cx="520.5"
+     inkscape:cy="92"
+     inkscape:window-x="115"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <style
+     type="text/css"
+     id="style4">svg * {color:#000;font-family:Times New Roman,serif;line-height:22px;font-style:normal;font-weight:500;}svg &gt; text, svg &gt; text &gt; tspan {font-size:30px;}svg &gt; text.prefix, svg &gt; text.prefix &gt; tspan {font-size:15px;}svg &gt; text &gt; tspan.d {font-size:20px;}svg &gt; text.prefix &gt; tspan.d {font-size:10px;}svg &gt; text &gt; tspan.u {font-size:20px;}svg &gt; text.prefix &gt; tspan.u {font-size:10px;}</style>
+  <rect
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     height="227.375"
+     width="1041"
+     y="8"
+     x="-70.5"
+     id="rect6" />
+  <defs
+     id="defs8">
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="markerArrow1140">
+      <path
+         style="fill:#000;"
+         d="M2,7 L2,9.5 L5,7 L2,4.5 L2,7"
+         id="path11" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="markerArrow1140_extra">
+      <path
+         style="fill:#C00;"
+         d="M2,7 L2,9.5 L5,7 L2,4.5 L2,7"
+         id="path14" />
+    </marker>
+  </defs>
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="50"
+     id="circle16" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="50"
+     id="circle18" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="50"
+     id="text20">
+    <tspan
+       style="font-weight:bold;"
+       id="tspan22">#</tspan>
+  </text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M75,100 L125,100"
+     id="path24" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="150"
+     id="circle26" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="150"
+     id="circle28" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="150"
+     id="text30">A</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M175,100 L225,100"
+     id="path32" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="250"
+     id="circle34" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="250"
+     id="circle36" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="250"
+     id="text38">T</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M275,100 L325,100"
+     id="path40" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="350"
+     id="circle42" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="350"
+     id="circle44" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="350"
+     id="text46">C</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M375,100 L425,100"
+     id="path48" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="450"
+     id="circle50" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="450"
+     id="circle52" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="450"
+     id="text54">T</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M475,100 L525,100"
+     id="path56" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="550"
+     id="circle58" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="550"
+     id="circle60" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="550"
+     id="text62">C</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M575,100 L625,100"
+     id="path64" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="650"
+     id="circle66" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="650"
+     id="circle68" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="650"
+     id="text70">A</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M675,100 L725,100"
+     id="path72" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="750"
+     id="circle74" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="750"
+     id="circle76" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="750"
+     id="text78">G</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M775,100 L825,100"
+     id="path80" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="100"
+     cx="850"
+     id="circle82" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="100"
+     cx="850"
+     id="circle84" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="110"
+     x="850"
+     id="text86">$</text>
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="170"
+     cx="225"
+     id="circle88" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="170"
+     cx="225"
+     id="circle90" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="180"
+     x="225"
+     id="text92">G</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M250,170 L350,170"
+     id="path94" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="170"
+     cx="375"
+     id="circle96" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="170"
+     cx="375"
+     id="circle98" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="180"
+     x="375"
+     id="text100">G</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M400,170 Q440,170 447,125"
+     id="path102" />
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M153,125 Q160,170 200,170"
+     id="path104" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="30"
+     cx="316.66666666666663"
+     id="circle106" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="30"
+     cx="316.66666666666663"
+     id="circle108" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="40"
+     x="316.66666666666663"
+     id="text110">C</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M341.66666666666663,30 L425,30"
+     id="path112" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="30"
+     cx="450"
+     id="circle114" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="30"
+     cx="450"
+     id="circle116" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="40"
+     x="450"
+     id="text118">T</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M475,30 L558.3333333333334,30"
+     id="path120" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="30"
+     cx="583.3333333333334"
+     id="circle122" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="30"
+     cx="583.3333333333334"
+     id="circle124" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="40"
+     x="583.3333333333334"
+     id="text126">A</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M608.3333333333334,30 Q640,30 647,75"
+     id="path128" />
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M253,75 Q260,30 291.66666666666663,30"
+     id="path130" />
+  <circle
+     style="fill:#000"
+     r="20"
+     cy="170"
+     cx="650"
+     id="circle132" />
+  <circle
+     style="fill:#FFF"
+     r="18"
+     cy="170"
+     cx="650"
+     id="circle134" />
+  <text
+     style="fill:#000;"
+     text-anchor="middle"
+     y="180"
+     x="650"
+     id="text136">T</text>
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M675,170 Q740,170 747,125"
+     id="path138" />
+  <path
+     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow1140);"
+     d="M553,125 Q560,170 625,170"
+     id="path140" />
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow1140)"
+     d="m 385,194.97251 q 127.5,75 255,0"
+     id="path142"
+     inkscape:connector-curvature="0" />
+</svg>
