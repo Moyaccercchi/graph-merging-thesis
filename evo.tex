@@ -1190,7 +1190,7 @@ distinct edges $ (u, v) {\: \in \:} E $ for any $ u {\: \in \:} V $.
 Similarly, for every node $ v {\: \in \:} V $ we also define the amount of outgoing edges of 
 node $ v $, or the \textit{outdegree} $ \textrm{out} ( v ) $, as the number of 
 distinct edges $ (v, u) {\: \in \:} E $ for any $ u {\: \in \:} V $. \\
-The graphs considered here are \textit{labeled}, which means that a label $ l( v ) $ is attached 
+The graphs considered here are \textit{labelled}, which means that a label $ l( v ) $ is attached 
 to every node $ v {\: \in \:} V $. 
 Every label $ l( v ) $ represents a character 
 from the alphabet $ \Sigma $, which is a set of characters. 
@@ -1714,9 +1714,15 @@ Then the info blocks are iterated over, and their contents are added as edges an
 
 \subsection{Randomly Generated Graphs}
 
-The Graph Merging Library also contains a function for the automatic generation 
-of random graphs, which can be used to quickly generate input for testing out the 
-provided functions.
+The Graph Merging Library also contains the function \texttt{generateRandomGraphString} for 
+the automatic generation of random graphs, which can be used to quickly generate input for testing the 
+provided merging functions. 
+This function can be called without any arguments, in which case it will generate short graphs 
+or strings. If necessary, the length of the main row can however also be provided to generate 
+graphs of different lengths. The alphabet can also be specified, which otherwise will be 
+set to $ \Sigma = \{ \textrm{A, C, G, T} \} $. Finally, two thresholds with values between $ 0\% $ and $ 100\% $ can 
+be specified, which tell the function how likely it is to add at least one infoblock to the graph, 
+and how likely it is to add more infoblocks after adding the first.
 
 % TODO :: add more text
 
@@ -1734,7 +1740,7 @@ In particular, graphs considered in GML are finite automata.
 
 \subsection{Graph Properties}
 
-A graph $ G = (V, E) $ used in the Graph Merging Library is generally considered to consist of labeled nodes 
+A graph $ G = (V, E) $ used in the Graph Merging Library is generally considered to consist of labelled nodes 
 and directed edges, as introduced in section~\ref{sec:graph_definition}. \\
 We assume that the graph is \textit{connected}. 
 % GACGT|,2,T,4;,3,,5 vs. ACCTG|,1,,5;,1,,3 with no start and end nodes, and taking out the edge in the middle
@@ -1770,16 +1776,16 @@ The lexicographic value of the character “\$” is supposed to be below the
 lexicographic value of all characters in the alphabet $ \Sigma $, 
 which is the case for “\$” if the alphabet only contains English letters and the encoding in 
 which string characters are compared is ASCII \citep{ASCII}. \\
-Furthermore, each graph is assumed to have exactly one node with the label “\#” in which 
+Furthermore, each graph is assumed to have exactly one node with the label “\textbf{\#}” in which 
 each path traversing the entire graph ends. This can be reformulated as there being only one node without any 
-outgoing edges, this node having the label “\#”, and no other node in the graph having this label. 
-The lexicographic value of the character “\#” is supposed to be above the 
+outgoing edges, this node having the label “\textbf{\#}”, and no other node in the graph having this label. 
+The lexicographic value of the character “\textbf{\#}” is supposed to be above the 
 lexicographic value of all characters in the alphabet $ \Sigma $, 
-which is however not the case for “\#” in ASCII. 
-We therefore internally use the character “$^{\,}$”, whose lexicographic value encoded in ASCII 
+which is however not the case for “\textbf{\#}” in ASCII. 
+We therefore internally use the character “{\textasciicircum}”, whose lexicographic value encoded in ASCII 
 is above all English letters in upper case. 
 This is also the reason why we work with upper case letters as node labels. 
-Before being displayed, the character “$^{\,}$” is replaced by “\#”. \\
+Before being displayed, the character “{\textasciicircum}” is replaced by “\textbf{\#}”. \\
 A graph which is not violating any of these assumptions can be seen in figure~\ref{fig:evo_fig_assume_all_good}.
 % AtctCAG|p1,1,gg,4;PATH,2,cta,6;P2,5,T,7;,P1:1,,P2:0
 \begin{figure}[!htb]
@@ -1812,20 +1818,106 @@ no attempt is being made to actually perform work on the graph.
 To perform this check of the core assumptions, the function \texttt{sanitizeAutomaton} is called within GML 
 whenever an input graph string is newly converted to an internal automaton data structure representing it. 
 It in turn calls several functions which check one assumption at a time. \\
-The first one of these functions is \texttt{eliminateMultipleEdgesInAutomaton}. 
+The first one of these functions is called \texttt{eliminateMultipleEdgesInAutomaton}. 
+Its underlying functionality can be found in algorithm~\ref{alg:eliminateMultipleEdgesInAutomaton}.
+\begin{algorithm}
+\caption[Unify multiple edges in a graph]{Unify multiple edges in a graph.}
+\label{alg:eliminateMultipleEdgesInAutomaton}
+\begin{algorithmic}[1]
+\ForAll {graph.nodes \textbf{as} node}
+	\If {$ \textrm{\textbf{length of} node.predecessors} > 1 $}
+	\Comment{Unify array of preceding nodes}
+		\State $ \textrm{new\_array} \gets [ \, ] $
+		\ForAll {node.predecessors \textbf{as} predecessor}
+			\If {\textbf{not} ( new\_array \textbf{contains} predecessor )}
+				\State \textbf{append} predecessor \textbf{to} new\_array
+			\EndIf
+		\EndFor
+		\State $ \textrm{node.predecessors} \gets \textrm{new\_array} $
+	\EndIf
+	
+	\If {$ \textrm{\textbf{length of} node.successors} > 1 $}
+	\Comment{Unify array of succeeding nodes}
+		\State $ \textrm{new\_array} \gets [ \, ] $
+		\ForAll {node.successors \textbf{as} successor}
+			\If {\textbf{not} ( new\_array \textbf{contains} successor )}
+				\State \textbf{append} successor \textbf{to} new\_array
+			\EndIf
+		\EndFor
+		\State $ \textrm{node.successors} \gets \textrm{new\_array} $
+	\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
 It ensures that each edge is unique, meaning that there is no pair of 
 edges $ (u_1, v_1) {\: \in \:} E $ and $ (u_2, v_2) {\: \in \:} E $ for which both $ u_1 = u_2 $ and $ v_1 = v_2 $ are true. 
 It does not actually throw an error if such edges are encountered, but simply deletes one edge of the pair, until none 
 of these pairs of edges are left. \\
 The next function is \texttt{checkAutomatonForLoops}. 
+Its general approach is shown in algorithm~\ref{alg:checkAutomatonForLoops}.
+\begin{algorithm}
+\caption[Check if graph contains loops]{Check if a graph contains loops.}
+\label{alg:checkAutomatonForLoops}
+\begin{algorithmic}[1]
+\State $ \textrm{paths} \gets [ \, [ \, 0 \, ] \, ] $
+\While {$ \textrm{\textbf{length of} paths} > 0 $}
+	\ForAll {paths \textbf{as} path}
+		\State $ \textrm{current\_node} \gets \textrm{\textbf{last element of} path} $
+		\If {$ \textrm{\textbf{length of} current\_node.successors} > 0 $}
+			\ForAll {current\_node.successors \textbf{as} successor}
+				\If {path \textbf{contains} successor}
+					\State \Return true
+					\Comment{Same node encountered twice}
+				\EndIf
+
+				\If {\textbf{last iteration within this for loop}}
+					\State \textbf{append} successor \textbf{to} path
+				\Else
+					\State $ \textrm{next\_path} \gets \textrm{path} $
+					\State \textbf{append} successor \textbf{to} next\_path
+					\State \textbf{append} next\_path \textbf{to} paths
+				\EndIf
+			\EndFor
+		\Else
+			\State \textbf{delete} path \textbf{from} paths
+			\Comment{Drop the path if \$ node was reached}
+		\EndIf
+	\EndFor
+\EndWhile
+\State \Return false
+\end{algorithmic}
+\end{algorithm}
 This function traverses all paths through the graph, starting from the start node, 
 and checks for each new node added to a path if that node has already been traversed within the path before. 
 If such a node is encountered which is traversed several times within one path, then an 
 error is given out and the invalid input warning is displayed to the user. \\
-Finally, the function \texttt{checkAutomatonForIncorrectChars} iterates over all nodes of the automaton 
+Finally, the function \texttt{checkAutomatonForIncorrectChars} as shown in 
+automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of the automaton 
+\begin{algorithm}
+\caption[Check if graph labels contain invalid characters]{Check if graph labels contain invalid characters.}
+\label{alg:checkAutomatonForIncorrectChars}
+\begin{algorithmic}[1]
+\ForAll {graph.nodes \textbf{as} node}
+	\If {( node.label \boldmath$ = $ \$ ) \textbf{and} ( \textbf{length of} node.successors \boldmath$ = $ 0 ) }
+		\State \textbf{continue}
+	\EndIf
+	
+	\If {( node.label \boldmath$ = $ \textbf{\#} ) \textbf{and} ( \textbf{length of} node.predecessors \boldmath$ = $ 0 ) }
+		\State \textbf{continue}
+	\EndIf
+	
+	\If {( $ \textrm{node.label \textbf{in}} \, [ \textrm{A \textbf{to} Z} ] $ ) and ( \textbf{length of} node.label \boldmath$ = $ 1 )}
+		\State \textbf{continue}
+	\EndIf
+	
+	\State \Return true
+\EndFor
+\State \Return false
+\end{algorithmic}
+\end{algorithm}
 and checks if the labels conform to the assumptions, meaning that every node needs to have a 
-label with exactly one English upper case letter, except for the start node which has the label \$ and 
-the end node which has the label \#. 
+label with exactly one English upper case letter, except for the start node which has the label “\$” and 
+the end node which has the label “\textbf{\#}”. 
 Again, if a node is encountered which does not conform to these assumptions, then the invalid input message 
 is shown to the user and the computation is stopped. \\
 We could also use some function to check if the graph is connected, 
@@ -1996,7 +2088,7 @@ in algorithm~\ref{alg:isAutomatonReverseDeterministic}.
 \label{alg:isAutomatonReverseDeterministic}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
-	\State $ \textrm{encountered\_characters} \gets [ ] $
+	\State $ \textrm{encountered\_characters} \gets [ \, ] $
 	\ForAll {node.predecessors \textbf{as} predecessor}
 		\If {encountered\_characters \textbf{contains} predecessor.label}
 			\State \Return false
@@ -2071,7 +2163,7 @@ prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:w
 		\State $ \textrm{same\_as} \gets [ \, ] $
 		\ForAll {that\_node \textbf{in} graph}
 		\Comment {... if any node has the same prefix}
-			\If {$ \textrm{this\_node.prefix} = \textrm{that\_node.prefix} $}
+			\If {this\_node.prefix \boldmath$ = $ that\_node.prefix}
 				\State \textbf{append} $ [\textrm{that\_node}] $ \textbf{to} same\_as
 			\EndIf
 		\EndFor
@@ -2156,8 +2248,8 @@ by node table~\ref{table:evo_node_table_example}. \\
 \caption[Node table corresponding to a graph]{Node table corresponding to the graph in figure~\ref{fig:evo_fig_node_table_example}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & G & G & G & A & C|G & G|T & \# & G|T & T & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGA & TGGC & TGGG & TT & \# & \textbf{Prefix} \\ \hline 
+G & G & G & G & A & C|G & G|T & \textbf{\#} & G|T & T & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGA & TGGC & TGGG & TT & \textbf{\#} & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 100 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 10 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 10 & 10 & 1 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$
  \\ \hline 
@@ -2246,8 +2338,8 @@ tables~\ref{table:evo_node_to_flat_node} and \ref{table:evo_node_to_flat_flat}.
 Table~\ref{table:evo_node_to_flat_flat} shows the corresponding flat table.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & T & G & G & G & A & T & T & \# & A & A|G & A|G & A|C & \$ & \textbf{BWT} \\ \hline 
-\$ & AA & AG & ATA & ATC & ATG & C & G\$ & GA & GT & TA & TC & TG & \# & \textbf{Prefix} \\ \hline 
+G & T & G & G & G & A & T & T & \textbf{\#} & A & A|G & A|G & A|C & \$ & \textbf{BWT} \\ \hline 
+\$ & AA & AG & ATA & ATC & ATG & C & G\$ & GA & GT & TA & TC & TG & \textbf{\#} & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 100 & 10 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 10 & 10 & 10 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -2260,8 +2352,8 @@ G & T & G & G & G & A & T & T & \# & A & A|G & A|G & A|C & \$ & \textbf{BWT} \\ 
 Table~\ref{table:evo_node_to_flat_node} shows the corresponding node table.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & T & G & G & G & A & T & T & \# & A & A & G & A & G & A & C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & A & C & G & G & G & G & G & G & T & T & T & \# & \textbf{FC} \\ \hline 
+G & T & G & G & G & A & T & T & \textbf{\#} & A & A & G & A & G & A & C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & A & C & G & G & G & G & G & G & T & T & T & \textbf{\#} & \textbf{FC} \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
