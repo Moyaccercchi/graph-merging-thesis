@@ -24,7 +24,6 @@ GitHub.appref-ms
 *.log
 *.lot
 *.out
-evo.pdf
 evo.toc
 *.fd
 *.dat
