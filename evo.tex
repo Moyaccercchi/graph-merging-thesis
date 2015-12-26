@@ -33,6 +33,8 @@
 %
 % TODO :: replace " - " with "---" (but case-to-case, nicht einfach so blanko!)
 %
+% TODO :: search for ?? in the PDF document, as that is what missing links will come out as, and link them up proper!
+%
 % TODO :: alles nochmal auf verb tenses überprüfen, also:
 % "Use present tense to express general truths or facts or conclusions supported by research results that are unlikely to change.
 % In other words, something that is believed to be always true."
@@ -122,6 +124,23 @@
 \usepackage{tabularx}
 \usepackage{filecontents}
 
+% the following added for using colored cells in tables
+\usepackage{colortbl}
+% \definecolor{purple_fx}{rgb}{0.66,0,0.66}
+% \definecolor{purple_bg}{rgb}{1.0,1.0,0.66}
+% \definecolor{red_fx}{rgb}{0.8,0,0}
+% \definecolor{red_bg}{rgb}{1.0,0.8,1.0}
+\definecolor{purple_fx}{rgb}{1.0,1.0,1.0}
+\definecolor{purple_bg}{rgb}{0.66,0,0.66}
+\definecolor{red_fx}{rgb}{1.0,1.0,1.0}
+\definecolor{red_bg}{rgb}{0.8,0,0}
+\definecolor{green_fx}{rgb}{1.0,1.0,1.0}
+\definecolor{green_bg}{rgb}{0,0.75,0}
+\definecolor{blue_fx}{rgb}{1.0,1.0,1.0}
+\definecolor{blue_bg}{rgb}{0,0.5,1.0}
+\definecolor{yellow_fx}{rgb}{0,0,0}
+\definecolor{yellow_bg}{rgb}{1.0,0.75,0.125}
+
 % following line added based on Pall's email
 \usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.0cm, includefoot]{geometry}
 
@@ -140,6 +159,8 @@
 % ===================================================================================================================
 %                                                     REFERENCES
 % ===================================================================================================================
+%
+% TODO :: alle ungenutzten Referenzen noch irgendwo unterbringen
 %
 % genutzt
 @article{Siren2014,
@@ -485,6 +506,16 @@
     year =         "1967",
     journal =      "Western Union Technical Review"
 }
+% genutzt
+@article{Siren2009,
+    author =       "Jouni Sirén",
+    title =        "Compressed Suffix Arrays for Massive Data",
+    journal =      "String Processing and Information Retrieval, 16th International Symposium,
+               {SPIRE} 2009, Saariselkä, Finland, August 25-27, 2009 Proceedings",
+    pages =        "63--74",
+    year =         "2009",
+    DOI =          "10.1007/978-3-642-03784-9_7"
+}
 \end{filecontents*}
 
 % Configurations
@@ -828,6 +859,10 @@ known reference, or to create a list of differences between the individual's DNA
 and the reference.
 \\ \\
 
+\textbf{rank: } & The \textit{rank} operation counts how often a given character occurs 
+in a sequence before a certain index. See page \pageref{def:rank}.
+\\ \\
+
 \textbf{read: } & 
 An individual's DNA is often not read out as one continuous string, 
 but as large amount of short pieces of DNA. 
@@ -838,6 +873,10 @@ These short pieces are referred to as individual \textit{reads.}
 A simple method for encoding sequential data by replacing any runs of several 
 identical elements with an integer counting the amount of identical elements and 
 just one of the elements.
+\\ \\
+
+\textbf{select: } & The \textit{select} operation returns the index in a sequence 
+at which a given character occurred a certain amount of times. See page \pageref{def:select}.
 \\ \\
 
 \textbf{self-index:} & 
@@ -1071,7 +1110,9 @@ within the scope of various parts of the analysis pipeline.
 
 Nowadays there are many approaches for aligning short reads to a reference string, 
 and even some work into the alignment of reads to a reference graph has already been 
-undertaken.
+undertaken. 
+We will first focus on the BWT for strings, which is the basis for the more advanced 
+XBW approaches for genomic graphs which will be considered later on.
 
 \section{Burrows--Wheeler Transform Without Graphs}
 
@@ -1106,7 +1147,10 @@ A simple example of this behaviour can be seen in table~\ref{table:evo_backgroun
 \label{table:evo_background_bwt_run_enc}
 \end{table}
 As the transformed text contains all the information necessary to recreate the 
-original text, it is not necessary to store the original text at all. \\
+original text, it is not necessary to store the original text at all.
+
+% ... :: formal BWT definition
+
 Many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} use 
 the BWT to compress the reference 
 and even work on the reference in this compressed form directly, without having 
@@ -1129,10 +1173,6 @@ requests to the slower general RAM. \\
 Therefore, research into methods reducing the memory requirements of alignment tools 
 is still ongoing.
 % TODO :: citation needed? maybe?
-
-\section{Formal Definition of Burrows--Wheeler Transform}
-
-(imagine some text here)
 
 \section{The Role of Graphs in Read Alignment}
 
@@ -1339,6 +1379,195 @@ of its branch. If a node does not have a successor, then the bit vector takes th
 \citet{Siren2014} extended the XBW even further, by introducing a second bit vector that enables nodes 
 to have multiple predecessors as well as multiple successors. Therefore, this extended XBW can not only 
 store trees, but instead can keep track of general finite graphs. 
+In this paper, the extended XBW is stored in two different kinds of data structures, 
+which have not been given explicit names there. We refer to these structures as 
+node tables and flat tables.
+
+\subsection{Node Tables}
+\label{sec:node_table_definition}
+
+We decided to refer to the first of the two data structure as XBW node table, or just node table, 
+as it is a 
+table containing the extended XBW which contains exactly one column for each 
+node of the graph represented by the extended XBW. \\
+More formally, we define:
+
+\textbf{Definition} An \textit{XBW node table} is a table with rows for the BWT, 
+the prefixes and the values of the bit vectors $ M $ and $ F $, 
+representing a finite graph with each column of the table corresponding 
+to exactly one node of the graph.
+
+The columns in a node table are sorted alphabetically by the given prefix. 
+For any column $ i $ representing node $ v_i $ in the graph, 
+the value of the BWT in column $ i $ represents the labels of the nodes 
+preceding $ v_i $. 
+If several nodes with different labels are preceding the node $ v_i $, 
+then the BWT value takes on the concatenation of all these values. 
+To make it clearer that a BWT containing several characters actually 
+stands for any of these characters, instead of standing for the string 
+formed by the characters, we decided to display BWT values containing 
+more than one character separated by pipe characters, as can be 
+seen in figure~\ref{fig:evo_fig_node_table_example} which is represented 
+by node table~\ref{table:evo_node_table_example}. \\
+% GCTGGCGAG|,2,TT,5;,2,TGG,7
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{2pt}
+\begin{table}[htb]
+\centering
+\caption[Node table corresponding to a graph]{Node table corresponding to the graph in figure~\ref{fig:evo_fig_node_table_example}.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+G & G & G & G & A & C|G & G|T & \textbf{\#} & G & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGC & TGGG & TT & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 100 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 1 & 1 & 1 & 10 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\label{table:evo_node_table_example}
+\end{table}
+}
+% GCTGGCGAG|,2,TT,5;,2,TGG,7, just like above
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_node_table_example.pdf}
+\caption[Graph corresponding to a node table]{Graph corresponding to node table~\ref{table:evo_node_table_example}. The prefixes of the nodes have been provided in small print above the nodes, to make it easier to identify which node in the graph corresponds to which column in the table.} \label{fig:evo_fig_node_table_example}
+\end{figure}
+% TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+The value of the prefix in column $ i $ is precisely the prefix of node $ v_i $ in the graph, 
+which is a string starting with the label of $ v_i $ and then containing 
+the labels of the following nodes in sequence of encountering them traversing 
+the graph outwards from $ v_i $.
+The value of the cell $ M $ in column $ i $ is a sequence of bits whose length corresponds to 
+the amount of successor nodes of $ v_i $, or equally the amount of outgoing edges of node $ v_i $. 
+This sequence always starts with the bit “1” and is then followed 
+by as many “0” bits as are necessary to achieve the desired length. 
+Similarly, the value of $ F $ in column $ i $ is a bit sequence whose length corresponds to 
+the amount of predecessor nodes of node $ v_i $. 
+When implementing $ M $ and $ F $, they can instead be thought of as arrays of strings, 
+which each string containing the characters “1” and “0”, for ease of implementation.
+
+\subsection{Flat Tables}
+\label{sec:flat_table_definition}
+
+In contrast to the previously introduced node table, 
+we refer to the next data structure as flat XBW table, or just flat table. 
+This name is inspired by the fact that the data of each row here is not 
+stored as array with elements of various lengths, 
+but instead as flat sequence of characters which can be encoded as string 
+or as array with elements of fixed size. \\
+The definition shows that a flat table consists of similar parts as a node table:
+
+\textbf{Definition} A \textit{flat XBW table} is a table with rows for the BWT, 
+the node labels and the values of $ M $ and $ F $, 
+representing a finite graph. 
+The table is arranged such that each cell contains exactly one character 
+for the BWT and the node labels, and such that each cell contains exactly 
+one bit for the bit vectors $ M $ and $ F $.
+
+We here often refer to the row containing the node labels as first column row, or short “FC”. 
+The reasoning behind this name is that the node labels of the graph relate to this BWT as the first column 
+does to the traditional BWT. 
+That is, the node labels are also alphabetically sorted, and in fact the columns are sorted in such a 
+way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well. \\
+The bit vectors $ M $ and $ F $ are exactly the same as the corresponding bit vectors in the node table, 
+and are each strongly related to one of the other rows. 
+In particular, each cell in the $ M $ vector corresponds to a cell, or character, in the FC row, 
+as each outgoing edge $ (u, v_i) $ of a node $ u $ corresponds to another cell in the $ M $ vector, and each 
+of these outgoing edges shares the same node $ u $ in which it originates, therefore sharing the same label $ l ( u ) $, 
+which is precisely the content of the FC row. \\
+On the other hand, each cell in the $ F $ vector corresponds to a cell, or character, in the BWT. 
+The reason for this is that the graph we are working on is necessarily reverse deterministic 
+for this encoding to function properly, which is explored in further depth in section~\ref{sec:why_rev_det}. 
+Due to that, the label $ l (u_i) $ for each incoming edge $ (u_i, v) $ into a node $ v $ is distinct, 
+as the graph would otherwise not be reverse deterministic. 
+Therefore, for every node $ v $ there are as many entries in the BWT, which contains the labels of the preceding nodes, 
+as there are entries in the $ F $ bit vector, which keeps track of the amount of incoming edges.
+
+Encoding the same graphs both as flat XBW tables and as node tables 
+shows that flat XBW tables are much smaller and therefore easier to store. 
+The biggest differences between the two kinds of tables, 
+which can both be used to encode genomic graphs, 
+are that flat tables do not contain the potentially enormously big prefix cells 
+of node tables, and that flat tables do not require any overhead to 
+keep track of column boundaries within a row. 
+While node tables can contain strings of various sizes in all their cells, 
+flat tables contain exactly one character in each cell, such that 
+an entire table row can be stored as string without losing information 
+about the cell boundaries. \\
+This smaller size comes at the cost of simplicity. 
+Within a node table, each column clearly corresponds to a node within the graph, 
+and a simple manual inspection of the table can lead to various insights into the graph. 
+In a flat table however, not every column describes and entire node within the graph, 
+as some columns only describe parts of nodes, as e.g. a node with several predecessors 
+can have information about its BWT spread across several columns in the flat table. 
+We therefore should not even think about whole columns in the flat table, 
+but instead of clusters of cells which correspond to nodes. 
+We use the $ M $ and $ F $ rows to 
+find these cell clusters across different rows, which for graphs with high in- and outdegrees 
+are not necessarily located in columns that are even close together.
+How cells in a flat table relate to actual nodes in a graph is illustrated via specifically highlighted 
+cells in table~\ref{table:flat_table_with_ct}, which corresponds to the graph with highlighted nodes 
+in figure~\ref{fig:evo_fig_flat_table_with_ct}. \\
+{
+% reduce whitespace in this table (default might be 6pt)
+% \renewcommand{\tabcolsep}{5pt}
+% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
+\begin{table}[htb]
+\centering
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & \textbf{\#} & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C & G & G &\cellcolor{green_bg}\color{green_fx}G & G & G & G & G &\cellcolor{red_bg}\color{red_fx}T & T & T &\cellcolor{blue_bg}\color{blue_fx}T & \textbf{\#} & \textbf{FC} \\ \hline 
+1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{purple_bg}\color{purple_fx}0 &\cellcolor{purple_bg}\color{purple_fx}0 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & 1 & 0 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{green_bg}\color{green_fx}0 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\label{table:flat_table_with_ct}
+\end{table}
+}
+% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG, with colors inverted, just like above
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_flat_table_with_ct.pdf}
+\caption[Graph corresponding to a flat table]{Graph corresponding to flat table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
+\end{figure}
+% TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+More formally, we can observe that 
+if we have a cell in column $ i $ of the FC row, and want to find the other cells corresponding to 
+the node which this cell belongs to, then we first of all check the value of $ M $ in column $ i $. 
+If it is zero, we go to the left until we reach a column $ j $ which contains a one in $ M $. 
+If it is not zero, then we set $ j = i $. 
+We now go to the right from cell $ j + 1 $ onwards, until we encounter a one in $ M $ in column $ k $. 
+This shows us that all the FC values and all the $ M $ value 
+from columns $ j $ until $ k - 1 $, including both $ j $ and $ k - 1 $, 
+belong to the same node in the graph. \\
+To find the corresponding BWT and $ F $ values, we iterate over all columns of the table from the beginning on 
+the left until we reach $ j $, and count the occurrences of ones in $ M $. 
+We refer to this operation as computing the \textit{rank} of character 1 in sequence $ M $ until the limit $ j $, 
+which we denote as $ \textrm{rank}_1 ( M, j ) $ \citep{Siren2009}.\label{def:rank} 
+We then iterate over the columns of the table again from the beginning on the left, 
+increasing a counter every time that the bit vector $ F $ contains a one, until we reach 
+the result that the rank operation gave us. 
+We refer to this as a \textit{select} operation, selecting character 1 in sequence $ F $ until the limit $ l $, 
+where $ l $ in this case is set as the result of the rank operation before. In general, 
+we denote such a select operation as $ \textrm{select}_1 ( F, l ) $ \citep{Siren2009}.\label{def:select} \\
+The result of the select operation is now the index $ h $ of the column in which the BWT and $ F $ values 
+of the node we are interested in start. 
+We again go on to the right through $ F $ until we encounter the next one in column $ g $, 
+and finally know that the node which we were interested in corresponds to the 
+FC and $ M $ values in columns $ j $ until $ k - 1 $ and to the BWT and $ F $ values in columns $ h $ until $ g - 1 $. \\
+Similar operations can be performed to find the range in FC and $ M $ given an index into the BWT, 
+namely ranking the index in $ F $ and calling a select operation on $ M $ to find the corresponding start.
+
+We conclude the explanation of node tables and flat tables by remarking that while each column 
+in an XBW node table corresponds to a node in the graph, 
+each column in the flat table can be thought of as corresponding to an edge in the graph, 
+if the BWT and $ F $ rows are thought of separately from the FC and $ M $ rows. 
+That is, each of the columns in the BWT and $ F $ rows corresponds to an incoming edge for some node, 
+and each of the columns in the FC and $ M $ rows corresponds to an outgoing edge for some node. 
+Therefore, we are always assured that the total length of the BWT, $ F $, FC and $ M $ rows are the same 
+within the flat table, as the total amount of outgoing edges from all nodes in the graph is 
+the same as the total amount of incoming edges into all nodes in the graph.
 
 \chapter{Methods}
 % Lösungsansatz / VON UNS vorgeschlagene Methoden
@@ -1370,10 +1599,10 @@ and using them in a production environment should of course be possible.
 %                                                                                                                METHODS: Data Formats
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In the course of working on this thesis we used existing data 
-formats for genomic graphs and designed a new data format as well, 
+In the course of working on this thesis we used and compared existing data 
+formats for genomic graphs as well as designed several new data formats 
 to be able to better understand the strengths and weaknesses of 
-the different possible approaches for encoding graphs.
+different possible approaches for encoding graphs.
 
 \subsection{FASTG Format}
 
@@ -1388,57 +1617,32 @@ However, the aim here is to find data formats that are capable of
 encoding genomic graphs rather than strings. 
 Such a format is FASTG, which is 
 a FASTA-like format designed to handle graph data \citep{specFASTG}. 
-Even though encoding genomic graphs is possible in the FASTG format, 
-we noticed that it has some severe drawbacks.
 
-Files in the FASTG format are unnecessarily big, which is mostly caused 
-by a lot of intentional whitespaces but also by the decision to repeat the 
-default interpretation of each FASTG-specific command just before the command. 
-In the following FASTG example, the underlined 
-text is just repeated and therefore unnecessary information:
+% TODO :: write about FASTG - do not write down the entire standard, 
+% but rather one or two important things for someone to understand how we implemented it.
 
-...GCA\underline{TATGTCCTCTCTCC}[1:alt\pipe TATGTCCTCTCTCC\pipe GTC]GG...
+\subsection{GFA Format}
 
-On the other hand, when eliminating most of the whitespaces to reduce the file size, 
-FASTG files which are already rather difficult to understand quickly 
-become more and more obscure, such that they are no longer easily human-readable. 
-However, that very human-readability is one of the main advantages of FASTA, 
-and without it not much of a reason is left for using this particular family 
-of formats altogether.
+The GFA or Graphical Fragment Assembly format 
+has been proposed in 2014 \citep{specGFA1,specGFA2}. 
+This young format has a lot of advantages over FASTG, mainly 
+that it is a lot more flexible and can easier be read by programs, 
+as not much emphasis is put on making it human-readable. 
+Therefore, the focus can lie clearly on the needs of developers of advanced software packages, 
+and on allowing them to directly store the kind of data that they encounter, 
+even if it complicates the format slightly.
+% TODO :: citation needed?
 
-The FASTG format also is not very flexible. This can be seen by the fact that 
-it only allows for three layers of variation within the entirety of the data. \\
-The first layer considers global variation that is implemented through a mechanism in which the 
-FASTA comments define which sequences can lead to which others. \\
-The second layer is about local variation that is implemented through FASTG-specific constructs 
-directly in the genomic data. \\
-The third layer represents highly localized variation (such as snips) that can be nested 
-inside of other FASTG-specific constructs from the second layer. \\
-As not all of the constructs can be nested inside of each other 
-and as the comment-based global and construct-based local 
-variation are completely different approaches, this format 
-seems unnecessarily complex.
-
-Finally, the FASTG format as defined in 2012 with 
-its many specialized constructs seems to be excessive for 
-the needs of the Python test pipeline implemented in the course of this thesis. \\
-Trying to implement the entirety of FASTG would in fact 
-also be complicated by the fact that the format is open to amendments, 
-such that solely implementing the existing standard would not be enough 
-to be able to correctly work with all FASTG files which may be encountered. 
-Even the specific bubble notation used within many FASTG files 
-% which looks similar to ...ACGT[C,T]TAGT... 
-does not actually occur in the standard written in 2012 \citep{specGFA1,specFASTG}.
+% TODO :: write more about GFA - as with FASTG, just a quick overview over the main commands and how they can be implemented
 
 \subsection{Bubble Format}
 
-For very short and simple human-readable graph data, 
-often the bubble format is used. 
+Having explored the FASTG and GFA format, we decided to also look 
+at the bubble notation and base a data format on it. 
 It is not supposed to be used for production environments and indeed 
 is not complex enough to describe any but the most trivial kinds of graphs. 
 However, we still decided to also have a look into this particular format, 
-as implementing it in a software package is rather straightforward due to 
-its simplicity, and as considering it might teach us valuable lessons 
+as implementing it in a software package might teach us valuable lessons 
 about problems to avoid when designing actual graph formats to be used for real world data.
 
 In the bubble format a genomic sequence is represented as a single continuous string. 
@@ -1446,7 +1650,7 @@ There are no comments within the format,
 and neither newline characters nor in fact any kinds of whitespaces. \\
 Any sort of graph representation in STPU is based on bubbles, which can be extended as long as necessary, 
 and can be nested. A bubble is started with a “(” character and ended 
-with a “)” character. Alternatives within the bubbles are marked with “\pipe ” 
+with a “)” character. Alternatives within the bubbles are marked with “{\!\pipe}” 
 characters. 
 A representation of a short and simple graph in bubble notation can be seen in figure~\ref{fig:evo_fig_STPUbubble_f}. \\
 Insertions and deletions are represented as bubbles whose alternative route is empty. 
@@ -1489,44 +1693,16 @@ Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 \caption[Cycle in bubble format]{Cycle, which cannot be fully represented in bubble format, but can be approximated to any wanted length as \textup{CGTAGAT(\pipe AGAT(\pipe AGAT(\pipe AGAT(\pipe ...))))TC}.} \label{fig:evo_fig_STPUcycle_f}
 \end{figure}
 
-\subsection{GFA Format}
-
-The GFA or Graphical Fragment Assembly format 
-has been proposed in 2014 \citep{specGFA1,specGFA2}. 
-This young format has a lot of advantages over FASTG, mainly 
-that it is a lot more flexible and can easier be read by programs, 
-as not much emphasis is put on making it human-readable. Therefore, 
-the focus can lie clearly on the readability for automated programs. \\
-Unfortunately, GFA has several drawbacks as well.
-
-A crucial problem is that GFA has only shortly been worked on, 
-and no definitive standard has been published. \\
-Although several people have responded quite favourably to the original blog post 
-outlining the format, many have also come up with improvements and outright criticism, 
-making it less likely that the format in its current state 
-is already suited for implementation \citep{knightGFA1}. \\
-The lack of a unified standard also means that it is not even clear which version of it 
-to base an implementation on.
-
-In the context of this thesis it is also important to consider another drawback. 
-According to Heng Li, the author of the format, GFA only aims to be an assembly format \citep{specGFA3}.
-% "GFA is not limited to an assembly format. It can represent arbitrary relationship between sequences and is thus suitable for a population graph format in theory. However, I would not take applications on population graphs, such as graph mapping, as a killer application of GFA. There are many open questions on population graphs. I cannot design a format for unsolved questions. GFA aims to be an assembly format only, at least for now."
-This means that it can represent a graph based on one particular read assembly. \\
-It has not, however, been designed to represent population graphs---which are exactly 
-the reference graphs for which it would be helpful to have a useful format.
-
-Finally, this format is very broad and allows for a lot of complicated 
-graph behaviour, especially considering its elaborate CIGAR strings. 
-This seems to introduce complexity that is, at least for now, 
-unnecessary for the purposes of creating a simple 
-implementation of a graph reference based alignment tool.
-
 \subsection{GML Format}
 
-While programming the Graph Merging Library, we decided to design a new format 
+After implementing the Bubble Format, which represents a very straightforward but rather 
+limited approach for encoding graphs, 
+we decided to design a different new format 
 which could be used to encode genomic graphs. 
 As both the FASTG and the GFA format seem to be rather extensive, 
-the idea behind the GML format is to create a simpler way of encoding graph data. 
+the idea behind the GML format is to create a simpler way of encoding graph data, 
+while not falling into the pitfalls of the Bubble Format and limiting the scope of 
+the graphs which could be expressed too much. 
 As can be seen with the success of FASTA files for sequential data, 
 the simplicity of a data format is rather important, as it makes it more likely 
 for future tools to be designed with inbuilt support for the format.
@@ -1656,7 +1832,7 @@ every opening of the file.
 % TODO :: make clearer HOW the BWT, M and F are encoded in a data block, and WHAT other data there is
 % TODO :: add pictures of FFX files and the corresponding graphs (also a picture of two graphs being merged, leading to one data block, and two graphs being fused, leading to two data blocks)
 
-\section{Data Format Implementations}
+\subsection{Implementation}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                METHODS: Python Scripts / Data Format Implementations
@@ -1664,7 +1840,7 @@ every opening of the file.
 
 To compare the different data formats that have been proposed, 
 we wrote several scripts in Python. 
-These scripts supported simplified versions of each step in a complete read alignment pipeline. 
+These scripts support simplified versions of each step in a complete read alignment pipeline. 
 The goal here was not to achieve a software package that could compete with 
 the already commonly used alignment solutions, but rather to have a 
 simple test bed for trying out different algorithmic approaches and file formats.
@@ -1690,41 +1866,6 @@ that can be used to more explicitly understand how various algorithms for workin
 A screenshot of user interface can be seen in figure~\ref{fig:evo_gml_3}. \\
 In particular, GML includes different methods for merging and fusing genomic graphs, 
 which may be helpful to other future projects.
-
-\section{Generating a Genomic Graph}
-%
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%                                                                                                  METHODS: Generating a Genomic Graph
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To use a genomic graph in the Graph Merging Library, 
-a GML file can be opened which contains the desired graph. 
-In the graphical user interface, not only can such a GML file be opened, 
-but a valid GML data block can also be entered directly within an input 
-field to simplify getting started with the software. 
-If such a file has been opened, then some work still needs to be undertaken 
-to convert the opened graph into the extended XBW format. \\
-The extended XBW format requires for each graph for start with a node labelled with a 
-hash tag sign and to end with a node labelled with a dollar sign. 
-When opening a GML file, these extra nodes are therefore created first, and the 
-main row as specified in the GML file is added between them as one possible way 
-of traversing the graph from the hash tag node to the dollar sign node. 
-Then the info blocks are iterated over, and their contents are added as edges and nodes.
-% TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
-
-\subsection{Randomly Generated Graphs}
-
-The Graph Merging Library also contains the function \texttt{generateRandomGraphString} for 
-the automatic generation of random graphs, which can be used to quickly generate input for testing the 
-provided merging functions. 
-This function can be called without any arguments, in which case it will generate short graphs 
-or strings. If necessary, the length of the main row can however also be provided to generate 
-graphs of different lengths. The alphabet can also be specified, which otherwise will be 
-set to $ \Sigma = \{ \textrm{A, C, G, T} \} $. Finally, two thresholds with values between $ 0\% $ and $ 100\% $ can 
-be specified, which tell the function how likely it is to add at least one infoblock to the graph, 
-and how likely it is to add more infoblocks after adding the first.
-
-% TODO :: add more text
 
 \section{Core Assumptions of GML}
 \label{sec:gml_core_assumptions}
@@ -1786,13 +1927,31 @@ We therefore internally use the character “{\textasciicircum}”, whose lexico
 is above all English letters in upper case. 
 This is also the reason why we work with upper case letters as node labels. 
 Before being displayed, the character “{\textasciicircum}” is replaced by “\textbf{\#}”. \\
-A graph which is not violating any of these assumptions can be seen in figure~\ref{fig:evo_fig_assume_all_good}.
+It should be noted that we use two different conventions concerning 
+an edge from the end node $ v_{\$} $ to the start node $ v_{\textbf{\#}} $. 
+When we are working with XBW node tables or with flat XBW tables, 
+we assume that there is an edge leading from the end node to the start node. 
+This makes working with these tables slightly easier, as the FC row corresponds 
+exactly to the alphabetically sorted BWT row. 
+If there was no such edge from $ v_{\$} $ to $ v_{\textbf{\#}} $, 
+then the BWT would contain the symbol “\textbf{\#}”, but it would be missing the “\$” character. 
+Also, the FC row would contain the “\$” character, but it would be missing the “\textbf{\#}”. \\
+On the other hand, when we are considering graphs internally as arrays of nodes which 
+each contain a label, an array of predecessors and an array of successors, 
+then we explicitly assume there not to be an edge from the end node to the start node. 
+This means that the predecessor array of the start node is empty, 
+and the successor array of the end node is empty, 
+which can be checked as alternative to reading out the label of the node and checking 
+whether it is a special character.
+
 % AtctCAG|p1,1,gg,4;PATH,2,cta,6;P2,5,T,7;,P1:1,,P2:0
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_assume_all_good.pdf}
 \caption[Graph fulfilling core assumptions of GML]{A graph fulfilling the core assumptions of GML.} \label{fig:evo_fig_assume_all_good}
 \end{figure}
+
+A graph which is not violating any of aforementioned assumptions can be seen in figure~\ref{fig:evo_fig_assume_all_good}.
 
 \subsection{Additional Assumptions for Merging Graphs}
 
@@ -1804,9 +1963,68 @@ connect the two graphs through more than one edge.
 
 % TODO FIGFIGFIG :: show an image of a splitover - several edges connecting this and that, etc. bla blubb
 
-\subsection{Sanitizing the Graph}
+\section{Generating a Genomic Graph}
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%                                                                                                  METHODS: Generating a Genomic Graph
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If graphs which are used as inputs for the GML merging conform to the assumptions listed so far, 
+To use a genomic graph in the Graph Merging Library, 
+a GML file can be opened which contains the desired graph, 
+a valid GML data block can be entered directly into an input field, 
+or a graph can be created randomly for testing purposes.
+
+\subsection{Randomly Generating New Graphs}
+
+The Graph Merging Library contains the function \texttt{generateRandomGraphString} for 
+the automatic generation of random graphs, which can be used to quickly generate input for testing the 
+provided merging functions. 
+This function can be called without any arguments, in which case it will generate short graphs 
+or strings. If necessary, the length of the main row can however also be provided to generate 
+graphs of different lengths. The alphabet can also be specified, which otherwise will be 
+set to $ \Sigma = \{ \textrm{A, C, G, T} \} $. Finally, two thresholds with values between $ 0\% $ and $ 100\% $ can 
+be specified, which tell the function how likely it is to add at least one infoblock to the graph, 
+and how likely it is to add more infoblocks after adding the first.
+
+% TODO :: add more text
+
+\subsection{Internal Graph Format}
+
+When a GML file is being opened, then some work still needs to be undertaken 
+to convert the opened graph into the extended XBW format, and the graph is stored 
+in a different format internally at first before this conversion occurs. \\
+That is, each graph is stored as array which contains all nodes as elements. 
+Every node here is an object which has the properties \texttt{c}, \texttt{n}, \texttt{p} and 
+possibly \texttt{f}. The \texttt{c} property contains one character, which is the label of the node. 
+The \texttt{f} property, if it is defined, contains the prefix of the node. Until the prefixes have 
+been calculated, these properties can be missing. \\
+The \texttt{n} property contains an array of integers, with each integer being the index 
+of a node in the array representing the graph. It represents a list of all succeeding nodes. 
+Similarly, the \texttt{p} property is a list of preceding nodes, implemented as array of integers, 
+with each integer again being the index of a preceding node in the graph array. \\
+The start node with label “\textbf{\#}” is assumed to be found as the first element 
+of the graph array. Apart from this node, the positions of the other nodes within 
+the array are not significant. In fact, elements of the array are also allowed to 
+be empty or the boolean value \texttt{false}. This is helpful when deleting 
+nodes from the graph, as the nodes with higher indices therefore do not need to be re-indexed, 
+which would entail a lot of work as then all the arrays of preceding and succeeding nodes 
+also would need to be updated accordingly. 
+Therefore, every loop iterating over the nodes of the graph needs to check for the 
+current node to actually exist before performing any work on it.
+
+As the extended XBW format requires for each graph for start with a node labelled with a 
+hash tag sign and to end with a node labelled with a dollar sign, 
+while these nodes are not explicitly encoded in the GML format, 
+these extra nodes are created first, when opening a GML file. 
+The main row as specified in the GML file is then added between them as one possible way 
+of traversing the graph from the \textbf{\#} node to the \$ node. \\
+Finally, the info blocks are iterated over, and their contents are added as edges and nodes.
+% TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
+
+\section{Sanitizing the Graph}
+
+If graphs which are used as inputs for the GML merging conform to the assumptions 
+stated in section~\ref{sec:gml_core_assumptions}, 
 then they can be worked on and results can be given out. 
 However, in case of inputs not conforming to these assumptions, the results of the GML algorithms 
 are not useful or even no results are given out, as infinite loops are encountered. 
@@ -2021,14 +2239,25 @@ allows us to instead draw entire parts of paths at once, so that we have a good 
 where exactly to put the nodes on the display when drawing them, as they can simply 
 be arranged next to each other.
 
+\section{Direct Graph Merging}
+
+The aim of the Graph Merging Library is to provide advanced algorithms 
+for the direct merging of flat XBW tables. 
+We therefore developed a very simple method to merge two input graphs 
+which are not compressed, so that the results of the advanced merging 
+algorithms can be checked against the results of this robust and simple method.
+
+% ...
+
 \section{Ensuring the Graph is Reverse Deterministic}
+\label{sec:why_rev_det}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                 METHODS: Ensuring the Graph is Reverse Deterministic
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Having displayed the graph, we now continue working on it to ultimately be able 
-to work with it in the extended XBW format.
+Before being able to encode the graph as either XBW node table or as flat XBW table, 
+it should be ensured that it actually is reverse deterministic.
 
 For any node within the graph, we can construct a prefix, 
 which is the sequence of its own label concatenated with the labels of the nodes which are 
@@ -2050,7 +2279,7 @@ at least two nodes not being able to be unambiguously sorted by their prefixes,
 we can recall the definition of a reverse deterministic graph:
 
 % \begin{moyadef}
-\textbf{Definition} A graph is reverse deterministic if and only if each node has no two predecessors with the same label.
+\textbf{Definition} A graph is \textit{reverse deterministic} if and only if each node has no two predecessors with the same label.
 % \end{moyadef}
 
 % What we want to prove is the following theorem.
@@ -2215,63 +2444,93 @@ it is completely irrelevant whether it eventually ends in an exclamation point o
 %                                                                                                       METHODS: Creating a Node Table
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instead of directly generating a flat XBW table from the prefix sorted graph, 
-We decided to first generate a node table. 
-This is a table that shares important characteristics with a flat XBW table, 
-but which is easier to understand and to use as it is closely related to the 
-graph. Using the visualized graph to understand the corresponding node table 
-can therefore be very helpful.
+Ultimately, we want to generate a flat XBW table from the prefix sorted graph, 
+and explore methods for merging these flat XBW tables. 
+However, in this section we first consider node tables, which share several characteristics 
+with flat XBW tables. 
+Node tables are easier to understand and to use as they are more closely related to the 
+underlying graph, which means that the visualized graph can be used to understand their behaviour. 
+The definition of a node table can be found in section~\ref{sec:node_table_definition}.
 
-\textbf{Definition} An XBW node table is a table with rows for the BWT, 
-the prefixes and the values of $ M $ and $ F $, 
-representing a finite graph with each column of the table corresponding 
-to exactly one node of the graph.
+% To create a node table when a prefix sorted graph is given, we can ...
+%
+% ...
 
-The columns in a node table are sorted alphabetically by the given prefix. 
-For any column $ C $ representing node $ N $ in the graph, 
-the value of the BWT in $ C $ represents the labels of the nodes 
-preceding $ N $. 
-If several nodes with different labels are preceding the node $ N $, 
-then the BWT value takes on the concatenation of all these values. 
-To make it clearer that a BWT containing several characters actually 
-stands for any of these characters, instead of standing for the string 
-formed by the characters, we decided to display BWT values containing 
-more than one character separated by pipe characters, as can be 
-seen in figure~\ref{fig:evo_fig_node_table_example} which is represented 
-by node table~\ref{table:evo_node_table_example}. \\
-% GCTGGCGAG|,3,T,5;,5,,7
-{
-% reduce whitespace in this table (default might be 6pt)
-\renewcommand{\tabcolsep}{1pt}
-\begin{table}[htb]
-\centering
-\caption[Node table corresponding to a graph]{Node table corresponding to the graph in figure~\ref{fig:evo_fig_node_table_example}.}
-\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
-\hline
-G & G & G & G & A & C|G & G|T & \textbf{\#} & G|T & T & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGA & TGGC & TGGG & TT & \textbf{\#} & \textbf{Prefix} \\ \hline 
-1 & 1 & 1 & 100 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 10 & 1 & $\boldsymbol{M}$ \\ \hline 
-1 & 1 & 1 & 1 & 1 & 10 & 10 & 1 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$
- \\ \hline 
-\end{tabular}
-\label{table:evo_node_table_example}
-\end{table}
-}
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{evo_fig_node_table_example.pdf}
-\caption[Graph corresponding to a node table]{Graph corresponding to node table~\ref{table:evo_node_table_example}.} \label{fig:evo_fig_node_table_example}
-\end{figure}
-The value of the prefix of $ C $ is precisely the prefix of node $ N $ in the graph, 
-which is a string starting with the label of $ N $ and then containing 
-the labels of the following nodes in sequence of encountering them traversing 
-the graph outwards from $ N $.
-The value of $ M $ is a string whose length corresponds to 
-the amount of successor nodes of $ N $, or equally the amount of outgoing edges of node $ N $. 
-This string always starts with the character “1” and is then followed 
-by as many “0” characters as are necessary to achieve the desired length. 
-Similarly, the value of $ F $ in column $ C $ is a string whose length corresponds to 
-the amount of predecessor nodes of node $ N $.
+\section{Working on a Node Table}
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%                                                                                                     METHODS: Working on a Node Table
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Assuming that we have created a node table encoding a genomic graph, 
+we can perform various operations on it. 
+This includes going from one node in the table to its successors or predecessors, 
+as well as reading out the prefix of a given node to a certain length.
+
+\subsection{Navigating Through the Graph and Reading Out Labels}
+
+Assuming that we are interested in a certain column $ i $ of the node table, 
+which corresponds to a node $ v_i $ in the graph represented by the table, 
+then we can read out the label $ l ( v_i ) $ of that node by reading out the prefix 
+from the table and taking the first character of this prefix.
+
+To read out the label of a succeeding node, we actually have several possibilities. 
+One way is to take the second character of the prefix of the current node, 
+which corresponds to the first character of the prefix of each succeeding node, 
+and therefore to their labels. This however only works if the prefix of $ v_i $ is 
+given in the table with a length of more than one character, and if all succeeding nodes 
+of $ v_i $ have the same label, as the prefix of $ v_i $ will otherwise have the 
+error character “!” in the second position. \\
+A similar approach can be used to read out the labels of the preceding nodes of $ v_i $. 
+All these labels are different, as the graph has been made reverse deterministic, 
+and they are stored in the BWT row of the node table. So if we find $ \textrm{BWT} ( i ) = \textrm{A{\pipe}G} $, 
+then we know that $ v_i $ has two preceding nodes with the labels A and G. 
+This however only allows us to read out the labels of the immediately preceding nodes, 
+while not enabling us to find the labels of nodes preceding the predecessors of $ v_i $.
+
+A more robust approach for reading out labels of preceding and succeeding nodes 
+is to use navigation functions to traverse the graph from $ v_i $ to the succeeding 
+or preceding node that we are interested in, and to then read out the label of that 
+node as first letter of its prefix. \\
+To navigate the graph in the forward direction, that is, to find the immediate successors 
+of $ v_i $, we can use the \texttt{nextNodes} function. Algorithm~\ref{??} shows how this 
+function works. 
+The main idea behind this function is to add up all the lengths of the $ M $ values of 
+the columns in the node table to the left of $ i $ which have the same label as $ v_i $ does. 
+The resulting integer is stored in the variable jump\_over, we intend to jump over that many 
+nodes in the next step. 
+We then iterate over the node table once more, this time reducing the amount of jump\_over by one for 
+each column which contains the label of $ v_i $ in its BWT cell. 
+When jump\_over reaches zero, we start adding the indices of the columns which we find with $ l ( v_i ) $ in their BWT to 
+the output, until we have added as many indices as the outdegree of $ v_i $. 
+This approach works based on the fact that the left-most occurrence of a letter in the labels of the nodes corresponds 
+to the left-most occurrence of this letter in the BWT, the second occurrence of a letter in the labels of the nodes 
+corresponds to the second occurrence of this letter in the BWT, and so on.
+
+% ... - actually write down this algo!
+% ... - also illustrate nextNodes!
+
+\subsection{Constructing Prefixes}
+
+If we are given the index of a column in the node table, corresponding to a node in the graph, 
+then we can easily read out its prefix as the content of the prefix row in the given column. 
+However, we might need to construct a longer prefix. 
+Such a situation could arise if we were searching for a given text of length $ n $ within the 
+graph, while the prefix we get from the table only has length $ m $ with $ m < n $. 
+If the prefix agrees with the text for all the characters that are given, then we want to 
+append more characters to the prefix until its length reaches $ n $ and a clear decision can 
+be made on whether the prefix agrees with the text or not. \\
+To construct such a longer prefix given a node table with short prefixes, we can use the 
+idea of \textit{prefix doubling}. 
+Hereby we do not append one character to the prefix at a time by iterating over the labels of succeeding nodes, 
+but instead we append the entire prefixes of succeeding nodes.
+
+% TODO :: more? algorithm? At least some sort of figure illustrating this?
+% (I guess a very very simple fake algorithm would actually do it here ^^)
+
+\subsection{Locating Strings in the Graph}
+
+% ...
 
 \section{Merging Node Tables}
 %
@@ -2294,7 +2553,7 @@ of merging two node tables.
 % add origin to H_1 and H_2
 % concatenate H_1 and H_2 as H_12
 % replace $ having origin 0 with $#firstLetterH_2 within prefixes
-% ...
+% and more
 
 \section{Creating a Flat Table}
 %
@@ -2302,32 +2561,12 @@ of merging two node tables.
 %                                                                                                       METHODS: Creating a Flat Table
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Having understood how merging several node tables works, we can now 
-carry on with the actual flat XBW tables. 
-Encoding the same graphs both as flat XBW tables and as node tables 
-shows that flat XBW tables are much smaller and therefore easier to store. 
-The biggest differences between the two kinds of tables, 
-which can both be used to encode genomic graphs, 
-are that flat tables do not contain the potentially enormously big prefix cells 
-of node tables, and that flat tables do not require any overhead to 
-keep track of column boundaries within a row. 
-While node tables can contain strings of various sizes in all their cells, 
-flat tables contain exactly one character in each cell, such that 
-an entire table row can be stored as string without losing information 
-about the cell boundaries. \\
-This smaller size comes at the cost of simplicity. 
-Within a node table, each column clearly corresponds to a node within the graph, 
-and a simple manual inspection of the table can lead to various insights into the graph. 
-In a flat table however, not every column describes and entire node within the graph, 
-as some columns only describe parts of nodes, as e.g. a node with several predecessors 
-can have information about its BWT spread across several columns in the flat table. 
-In addition to that, we should not even think about whole columns in the flat table 
-necessarily, as we need the $ M $ and $ F $ rows to 
-find the corresponding cells across different rows, which are not necessarily located in the same columns.
+We now wish to create a flat XBW table based on a node table. 
+% TODO :: later on also create a flat XBW table directly, without the node table in between?
+For the general definition of such a flat table, see section~\ref{sec:flat_table_definition}.
 
-To convert an XBW node table into a flat table, we need to convert the data which is now in the format of a 
-node table into a flat one, a process which can be seen in 
-tables~\ref{table:evo_node_to_flat_node} and \ref{table:evo_node_to_flat_flat}. 
+The process of converting an XBW node table into a flat table is illustrated in tables~\ref{table:evo_node_to_flat_node} 
+and \ref{table:evo_node_to_flat_flat}, which respectively show the a node table and a flat table representing the same graph. \\
 % GATAATG|,3,C,6;,1,AG,3
 {
 % reduce whitespace in this table (default is might be 6pt)
@@ -2359,7 +2598,7 @@ G & T & G & G & G & A & T & T & \textbf{\#} & A & A & G & A & G & A & C & \$ & \
 \end{tabular}
 \label{table:evo_node_to_flat_flat}
 \end{table}
-For the BWT, $ M $ and $ F $ rows, the process is exactly the same. 
+For the BWT, $ M $ and $ F $ rows, the process of achieving this conversion is exactly the same. 
 We join all the cells together to achieve one string containing the entire 
 row, and then split this row in between every character. 
 If there were pipe characters in between some of the characters, such as 
@@ -2483,11 +2722,99 @@ of starting to use reference graphs more widely.
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We tried out different formats in the course of this thesis, 
-and noticed that indeed some do seem more appropriate for representing genomic graphs than others. \\
+and noticed that indeed some do seem more appropriate than others 
+for representing genomic graphs 
+and in particular population graphs used as alignment references.
+
+\subsection{FASTG Format}
+
+Even though encoding genomic graphs is possible in the FASTG format, 
+we noticed that it has some severe drawbacks.
+
+Files in the FASTG format are unnecessarily big, which is mostly caused 
+by a lot of intentional whitespaces but also by the decision to repeat the 
+default interpretation of each FASTG-specific command just before the command. 
+In the following FASTG example, the underlined 
+text is just repeated and therefore unnecessary information:
+
+...GCA\underline{TATGTCCTCTCTCC}[1:alt\pipe TATGTCCTCTCTCC\pipe GTC]GG...
+
+On the other hand, when eliminating most of the whitespaces to reduce the file size, 
+FASTG files which are already rather difficult to understand quickly 
+become more and more obscure, such that they are no longer easily human-readable. 
+However, that very human-readability is one of the main advantages of FASTA, 
+and without it not much of a reason is left for using this particular family 
+of formats altogether.
+
+The FASTG format also is not very flexible. This can be seen by the fact that 
+it only allows for three layers of variation within the entirety of the data. \\
+The first layer considers global variation that is implemented through a mechanism in which the 
+FASTA comments define which sequences can lead to which others. \\
+The second layer is about local variation that is implemented through FASTG-specific constructs 
+directly in the genomic data. \\
+The third layer represents highly localized variation (such as snips) that can be nested 
+inside of other FASTG-specific constructs from the second layer. \\
+As not all of the constructs can be nested inside of each other 
+and as the comment-based global and construct-based local 
+variation are completely different approaches, this format 
+seems unnecessarily complex.
+
+Finally, the FASTG format as defined in 2012 with 
+its many specialized constructs seems to be excessive for 
+the needs of the Python test pipeline implemented in the course of this thesis. \\
+Trying to implement the entirety of FASTG would in fact 
+also be complicated by the fact that the format is open to amendments, 
+such that solely implementing the existing standard would not be enough 
+to be able to correctly work with all FASTG files which may be encountered. 
+Even the specific bubble notation used within many FASTG files 
+% which looks similar to ...ACGT[C,T]TAGT... 
+does not actually occur in the standard written in 2012 \citep{specGFA1,specFASTG}.
+
+\subsection{GFA Format}
+
+Unfortunately, GFA has several drawbacks as well.
+
+A crucial problem is that GFA has only shortly been worked on, 
+and no definitive standard has been published. \\
+Although several people have responded quite favourably to the original blog post 
+outlining the format, many have also come up with improvements and outright criticism, 
+making it less likely that the format in its current state 
+is already suited for implementation \citep{knightGFA1}. \\
+The lack of a unified standard also means that it is not even clear which version of it 
+to base an implementation on.
+
+In the context of this thesis it is also important to consider another drawback. 
+According to Heng Li, the author of the format, GFA only aims to be an assembly format \citep{specGFA3}.
+% "GFA is not limited to an assembly format. It can represent arbitrary relationship between sequences and is thus suitable for a population graph format in theory. However, I would not take applications on population graphs, such as graph mapping, as a killer application of GFA. There are many open questions on population graphs. I cannot design a format for unsolved questions. GFA aims to be an assembly format only, at least for now."
+This means that it can represent a graph based on one particular read assembly. \\
+It has not, however, been designed to represent population graphs---which are exactly 
+the reference graphs for which it would be helpful to have a useful format.
+
+Finally, this format is very broad and allows for a lot of complicated 
+graph behaviour, especially considering its elaborate CIGAR strings. 
+This seems to introduce complexity that is, at least for now, 
+unnecessary for the purposes of creating a simple 
+implementation of a graph reference based alignment tool.
+
+% TODO :: completely overwork this, as apparently the standard came a lot further and now what we wrote here
+% a year ago is not correct anymore... oops!
+
+\subsection{Bubble Format}
+
 Surprisingly, implementing an algorithm to open a file in the seemingly simple bubble format was actually 
 not easier than implementing more advanced formats like FASTG, GFA and GML.
 
-We also noticed that none of the considered formats currently offer inbuilt compression techniques. 
+% TODO :: a bit more text please
+
+\subsection{GML Format}
+
+% TODO :: more
+
+\subsection{FFX Format}
+
+% TODO :: nicer introduction, and maybe also a bit more focus on FFX and what it can / cannot achieve (especially with fused data?)
+
+We noticed that none of the considered formats currently offer inbuilt compression techniques. 
 Changing this however would not be very difficult. Especially in the FFX format, 
 which mainly contains a BWT and two bit-vectors for each data block, 
 a rather simple compression method would be to save both the BWT and the bit-vectors 
