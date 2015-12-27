@@ -187,7 +187,7 @@
 % genutzt
 @online{specFASTG,
     author =       "David Jaffe and Iain MacCallum and Daniel Rokhsar and Michael Schatz",
-    title =        "The FASTG Format Specification",
+    title =        "The {FASTG} Format Specification",
     version =      "1.00",
     year =         "2012",
 	URL =          "http://fastg.sourceforge.net/FASTG_Spec_v1.00.pdf",
@@ -197,7 +197,7 @@
 % genutzt
 @online{specGFA1,
     author =       "Heng Li",
-	title =        "A proposal of the Grapical Fragment Assembly format",
+	title =        "A proposal of the {Grapical Fragment Assembly} format",
     year =         "2014",
     URL =          "http://lh3.github.io/2014/07/19/a-proposal-of-the-grapical-fragment-assembly-format/",
 	note =         "Accessed: 4th of April 2015"
@@ -206,7 +206,7 @@
 % genutzt
 @online{specGFA2,
     author =       "Heng Li",
-	title =        "First update on GFA",
+	title =        "First update on {GFA}",
     year =         "2014",
     URL =          "http://lh3.github.io/2014/07/23/first-update-on-gfa/",
 	note =         "Accessed: 4th of April 2015"
@@ -253,7 +253,7 @@
 % SAM2009 is reference [4] from the grant proposal.
 @article{SAM2009,
     author =       "Heng Li and Bob Handsaker and Alec Wysoker and Tim Fennell and Jue Ruan and Nils Homer and Gabor Marth and Goncalo Abecasis and Richard Durbin and 1000 Genome Project Data Processing Subgroup",
-    title =        "The Sequence Alignment/Map format and SAMtools",
+    title =        "The Sequence Alignment/Map format and {SAMtools}",
     journal =      "Bioinformatics",
     volume =       "25",
     number =       "16",
@@ -266,7 +266,7 @@
 % in this paper, BWA is explained
 @article{Li2009,
     author =       "Heng Li and Richard Durbin",
-    title =        "Fast and accurate short read alignment with Burrows--Wheeler transform",
+    title =        "Fast and accurate short read alignment with {Burrows--Wheeler transform}",
     journal =      "Bioinformatics",
     volume =       "25",
     number =       "14",
@@ -279,7 +279,7 @@
 % in this paper, BWA-MEM is explained
 @article{Li2013,
     author =       "Heng Li",
-    title =        "Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM",
+    title =        "Aligning sequence reads, clone sequences and assembly contigs with {BWA-MEM}",
     year =         "2013",
     note =         "arXiv:1303.3997 [q-bio.GN]"
 }
@@ -364,7 +364,7 @@
 % genutzt
 @article{Holt2014,
     author =       "James Holt and Leonard McMillan",
-    title =        "Constructing Burrows--Wheeler Transforms of Large String Collections via Merging",
+    title =        "Constructing {Burrows--Wheeler} Transforms of Large String Collections via Merging",
     journal =      "BCB '14, Proceedings of the 5th ACM Conference on Bioinformatics, Computational Biology, and Health Informatics",
     pages =        "464--471",
     year =         "2014",
@@ -389,7 +389,7 @@
 % genutzt
 @online{Li2014,
     author =       "Heng Li",
-	title =        "Experimenting FM-index for multiple human samples",
+	title =        "Experimenting {FM-index} for multiple human samples",
     year =         "2014",
     URL =          "http://files.figshare.com/1614096/HengLi_20140717.pdf",
 	note =         "Accessed: 6th of April 2015"
@@ -438,7 +438,7 @@
 % Langmead2009 is reference [2] from the grant proposal.
 @article{Langmead2009,
     author =       "Ben Langmead and Cole Trapnell and Mihai Pop and Steven L. Salzberg",
-    title =        "Ultrafast and memory-efficient alignment of short DNA sequences to the human genome",
+    title =        "Ultrafast and memory-efficient alignment of short {DNA} sequences to the human genome",
     journal =      "Genome Biology",
     volume =       "10",
     number =       "3",
@@ -451,7 +451,7 @@
 % McKenna2010 is reference [3] from the grant proposal.
 @article{McKenna2010,
     author =       "Aaron McKenna and Matthew Hanna and Eric Banks and Andrey Sivachenko and Kristian Cibulskis and Andrew Kernytsky and Kiran Garimella and David Altshuler and Stacey Gabriel and Mark Daly and Mark A. DePristo",
-    title =        "The Genome Analysis Toolkit: A MapReduce framework for analyzing next-generation DNA sequencing data",
+    title =        "The {Genome Analysis Toolkit}: A MapReduce framework for analyzing next-generation {DNA} sequencing data",
     journal =      "Genome Research",
     volume =       "20",
     number =       "9",
@@ -506,6 +506,7 @@
     year =         "1967",
     journal =      "Western Union Technical Review"
 }
+%
 % genutzt
 @article{Siren2009,
     author =       "Jouni Sirén",
@@ -515,6 +516,16 @@
     pages =        "63--74",
     year =         "2009",
     DOI =          "10.1007/978-3-642-03784-9_7"
+}
+%
+% genutzt
+% quote this for primary index in BWT (instead of dollar sign)
+@article{Nelson1996,
+    author =       "Mark Nelson",
+    title =        "Data Compression with the {Burrows--Wheeler} Transform",
+    journal =      "Dr. Dobb's Journal",
+	month =        "September",
+    year =         "1996"
 }
 \end{filecontents*}
 
@@ -927,7 +938,7 @@ within the reference, and are often given together with confidence estimates.
 % Thank you.
 
 I would like to thank my tutor, Páll Melsted, for his guidance, support and advice. 
-I also would like to thank Mareva Nardelli, Kristinn Ólafsson and Rosemary Milton 
+I also would like to thank Mareva Nardelli, Kristinn Ólafsson, Rosemary Milton and Karl Helgason 
 for inspiring me to continue working even when facing difficult problems. 
 Finally I would like to thank my family for their ongoing support and curiosity.
 
@@ -1112,9 +1123,9 @@ Nowadays there are many approaches for aligning short reads to a reference strin
 and even some work into the alignment of reads to a reference graph has already been 
 undertaken. 
 We will first focus on the BWT for strings, which is the basis for the more advanced 
-XBW approaches for genomic graphs which will be considered later on.
+XBW approaches for genomic graphs considered later on.
 
-\section{Burrows--Wheeler Transform Without Graphs}
+\section{Burrows--Wheeler Transform for Strings}
 
 The core problem of read alignment to a reference string is simply that a 
 lot of data needs to be worked on, as both the reference itself is very big 
@@ -1122,16 +1133,22 @@ and the amount of reads is enormous. \\
 This actually leads to two distinct problems, the first being that the 
 memory requirements for storing any of the required data are huge, 
 and the second being that the time that is spend aligning reads for 
-even just a single individual is quite long.
+even just a single individual is very long.
 
 To counteract the first problem, the data that is worked on is usually compressed, 
 which means mostly that the string reference is being compressed in a certain way. 
-A method that has been applied very often is the utilization of the 
+Compressing the reads is not as helpful as compressing the reference, 
+due to the fact that we can re-use the same compressed reference for aligning the 
+reads of another individual later on, without having to execute the lengthy 
+process of compressing the reference twice, while the reads will be different 
+each time and therefore compressing them would mean that they have to be compressed again the next time around. \\
+A method that has been applied very often to enable such a compression is the utilization of the 
 Burrows--Wheeler Transform \citep{Burrows1994}, which 
-in its original form consists of reordering a 
+is a reversible reordering of a 
 repetitive text with few runs into a text of the same length that contains more runs 
-and can therefore be easily compressed by run-length encoding. 
-A simple example of this behaviour can be seen in table~\ref{table:evo_background_bwt_run_enc}. 
+and can therefore be easily compressed by run-length encoding or other encoding schemes. 
+A simple example of this behaviour of achieving more easily compressable strings through the application of the BWT 
+can be seen in table~\ref{table:evo_background_bwt_run_enc}. 
 \begin{table}[htb]
 \centering
 \caption[Run-length encoding comparison between a repetitive string and its BWT]{Run-length encoding comparison between a highly repetitive string and its BWT. In this example, the run-length encoding of the string itself does not reduce the size, while the run-length encoding of the BWT reduces the size by 29\%.}
@@ -1149,11 +1166,62 @@ A simple example of this behaviour can be seen in table~\ref{table:evo_backgroun
 As the transformed text contains all the information necessary to recreate the 
 original text, it is not necessary to store the original text at all.
 
-% ... :: formal BWT definition
+A simple algorithm to generate the BWT of a string uses 
+the concept of \textit{cyclic rotations}. 
+The $ n $th cyclic rotation of a string is a reordering of the string in which its first $ n $ characters 
+are taken away from the beginning of the string and are instead inserted at its end. \\
+To generate the BWT of a string $ s = c_1 c_2 ... c_k $ of characters $ c_i $, 
+we can generate all the cyclic rotations from $ n = 0 $ up to $ n = k - 1 $, and 
+put the resulting strings on a list. 
+We then sort this list alphabetically, and write out the resulting list of strings 
+in such a fashion as to have each of the strings on its own row, exactly underneath each other. 
+This creates a matrix of characters, of which we take the last column. 
+Read from the top to the bottom, this last column is the BWT of string $ s $. 
+This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
 
-Many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} use 
-the BWT to compress the reference 
-and even work on the reference in this compressed form directly, without having 
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_bwt_with_cyclic_rotations.png}
+\caption[Generating the BWT of a string]{Generating the BWT of the string $ s = \textrm{AGCAGCCTTAGC\$} $. After generating a list of cyclic rotations, the list is sorted, and the last column of the matrix formed by this sorted list reveals the BWT of $ s $ to be CT\$CGGGCAAATC.} \label{fig:evo_fig_bwt_with_cyclic_rotations}
+\end{figure}
+
+It is customary to append a certain character to the end of the string before generating its BWT, 
+with that character being different from all other characters in the string. 
+A usual choice for this character is the dollar sign “\$”. \\
+The reason for appending such a character is the requirement of being able to reconstruct the original string 
+from the BWT, which allows us to discard the original string after encoding it using the BWT 
+and compressing it with run-length encoding. 
+Without a dedicated character telling us where the end of the string is located, 
+the matrix of alphabetically sorted cyclic rotations could be reconstructed from the BWT, 
+but it would be impossible to decide which one of the rows in that matrix represented the original 
+string, as cyclic rotations based on each row would alphabetically sorted to the exact same matrix. 
+Instead of adding a distinctly different character to the end of the string, 
+it is therefore also possible, although not customary, to simply store an integer with the BWT containing 
+the number of the row within the matrix which contains the original string \citep{Nelson1996}.
+
+As mentioned before, it is crucial that the BWT is a reversible reordering of a string, 
+such that the original string can be obtained from the BWT. 
+A simple algorithm for recreating the original string given its BWT starts by reconstructing the alphabetically sorted 
+matrix of cyclic rotations as empty $ n {\times} n $ matrix, where $ n $ is the length of the BWT. 
+The last column of the matrix is then filled with the BWT, spelled out vertically. 
+All the rows in the matrix are then sorted alphabetically. 
+Now, the second-to-last column of the matrix is filled with the BWT, 
+and again all the rows in the matrix are sorted alphabetically. \\
+This inserting of the BWT in the right-most empty column and subsequent alphabetical sorting of all rows 
+is continued until the matrix has been filled entirely. 
+The original string now consists of the first $ n - 1 $ characters in the row in the matrix which 
+ends with the special character, 
+usually the dollar sign.
+
+% TODO :: add figure to the BWT reverting?
+
+As noted before, the given algorithm for the creation of the BWT is rather simple, 
+and more efficient algorithms exist which do not require building up the entire matrix of cyclic rotations. 
+Likewise, the algorithm for regaining the original string from the BWT is not customarily 
+used in its form here in practice. \\
+Actually, many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} which use 
+the BWT to compress the reference actually 
+work on the reference in this compressed form directly, without having 
 to recreate the original text in its entirety in memory.
 
 As memory has gotten cheaper over time and machines have become more 
@@ -2116,15 +2184,15 @@ automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of t
 \label{alg:checkAutomatonForIncorrectChars}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
-	\If {( node.label \boldmath$ = $ \$ ) \textbf{and} ( \textbf{length of} node.successors \boldmath$ = $ 0 ) }
+	\If {( node.label {\boldmath$ = $} \$ ) \textbf{and} ( \textbf{length of} node.successors {\boldmath$ = $} 0 ) }
 		\State \textbf{continue}
 	\EndIf
 	
-	\If {( node.label \boldmath$ = $ \textbf{\#} ) \textbf{and} ( \textbf{length of} node.predecessors \boldmath$ = $ 0 ) }
+	\If {( node.label {\boldmath$ = $} \textbf{\#} ) \textbf{and} ( \textbf{length of} node.predecessors {\boldmath$ = $} 0 ) }
 		\State \textbf{continue}
 	\EndIf
 	
-	\If {( $ \textrm{node.label \textbf{in}} \, [ \textrm{A \textbf{to} Z} ] $ ) and ( \textbf{length of} node.label \boldmath$ = $ 1 )}
+	\If {( $ \textrm{node.label \textbf{in}} \, [ \textrm{A \textbf{to} Z} ] $ ) and ( \textbf{length of} node.label {\boldmath$ = $} 1 )}
 		\State \textbf{continue}
 	\EndIf
 	
@@ -2392,7 +2460,7 @@ prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:w
 		\State $ \textrm{same\_as} \gets [ \, ] $
 		\ForAll {that\_node \textbf{in} graph}
 		\Comment {... if any node has the same prefix}
-			\If {this\_node.prefix \boldmath$ = $ that\_node.prefix}
+			\If {this\_node.prefix {\boldmath$ = $} that\_node.prefix}
 				\State \textbf{append} $ [\textrm{that\_node}] $ \textbf{to} same\_as
 			\EndIf
 		\EndFor
@@ -2493,22 +2561,53 @@ is to use navigation functions to traverse the graph from $ v_i $ to the succeed
 or preceding node that we are interested in, and to then read out the label of that 
 node as first letter of its prefix. \\
 To navigate the graph in the forward direction, that is, to find the immediate successors 
-of $ v_i $, we can use the \texttt{nextNodes} function. Algorithm~\ref{??} shows how this 
+of a node $ v_i $, we can use the \texttt{nextNodes} function. Algorithm~\ref{alg:nextNodes} shows how this 
 function works. 
+\begin{algorithm}
+\caption[Find succeeding nodes in a node table]{Given a column $ i $ in an XBW node table, find the indices of the columns corresponding to the succeeding nodes.}
+\label{alg:nextNodes}
+\begin{algorithmic}[1]
+\State $ \textrm{label} \gets \textrm{prefix} [ \, i \, ] [ \, 0 \, ] $
+\State $ \textrm{jump\_over} \gets 0 $
+
+\For {$ j $ \textbf{from} 0 \textbf{to} $ i $}
+	\If {label {\boldmath$ = $} $ \textrm{prefix} [ \, j \, ] [ \, 0 \, ] $ }
+		\State \textbf{increase} jump\_over
+	\EndIf
+\EndFor
+
+\State $ \textrm{outdegree} \gets \textbf{length of} \, M [ \, i \, ] $
+\State $ \textrm{nodes\_found} \gets [ \, ] $
+
+\For {$ k $ \textbf{from} 0 \textbf{to length of} BWT}
+	\If {$ \textrm{BWT} [ \, k \, ] $ \textbf{contains} label}
+		\If {$ \textrm{jump\_over} > 0 $}
+			\State \textbf{decrease} jump\_over
+		\Else
+			\State \textbf{decrease} outdegree
+			\State \textbf{append} $ k $ \textbf{to} nodes\_found
+			
+			\If {$ \textrm{outdegree} < 1 $}
+				\State \Return nodes\_found
+			\EndIf
+		\EndIf
+	\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
 The main idea behind this function is to add up all the lengths of the $ M $ values of 
 the columns in the node table to the left of $ i $ which have the same label as $ v_i $ does. 
-The resulting integer is stored in the variable jump\_over, we intend to jump over that many 
+The resulting integer is stored in the variable jump\_over, as we intend to jump over that many 
 nodes in the next step. 
 We then iterate over the node table once more, this time reducing the amount of jump\_over by one for 
 each column which contains the label of $ v_i $ in its BWT cell. 
-When jump\_over reaches zero, we start adding the indices of the columns which we find with $ l ( v_i ) $ in their BWT to 
-the output, until we have added as many indices as the outdegree of $ v_i $. 
+When jump\_over reaches zero, we start adding the indices of the columns which we find to 
+the output, until we have added as many indices as the outdegree of $ v_i $. \\
 This approach works based on the fact that the left-most occurrence of a letter in the labels of the nodes corresponds 
 to the left-most occurrence of this letter in the BWT, the second occurrence of a letter in the labels of the nodes 
 corresponds to the second occurrence of this letter in the BWT, and so on.
 
-% ... - actually write down this algo!
-% ... - also illustrate nextNodes!
+% ... - also write something about nextNodes! (maybe not quiiite so much though? who knows!)
 
 \subsection{Constructing Prefixes}
 
@@ -2528,9 +2627,9 @@ but instead we append the entire prefixes of succeeding nodes.
 % TODO :: more? algorithm? At least some sort of figure illustrating this?
 % (I guess a very very simple fake algorithm would actually do it here ^^)
 
-\subsection{Locating Strings in the Graph}
-
-% ...
+% \subsection{Locating Strings in the Graph}
+% 
+% ... - add this section about how strings in the graph can be located!
 
 \section{Merging Node Tables}
 %
@@ -2598,6 +2697,7 @@ G & T & G & G & G & A & T & T & \textbf{\#} & A & A & G & A & G & A & C & \$ & \
 \end{tabular}
 \label{table:evo_node_to_flat_flat}
 \end{table}
+% TODO :: make certain that the previous two figures end up on the same page!
 For the BWT, $ M $ and $ F $ rows, the process of achieving this conversion is exactly the same. 
 We join all the cells together to achieve one string containing the entire 
 row, and then split this row in between every character. 
