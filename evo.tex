@@ -40,6 +40,10 @@
 % In other words, something that is believed to be always true."
 % http://cgi.stanford.edu/~dept-ctl/tomprof/posting.php?ID=1009
 %
+% TODO :: auch nochmal die algorithm captions durchgehen (am besten im Inhaltsverzeichnis),
+% und schauen, ob jeweils das Gerundium mit -ing genutzt wurde, oder nie - beides wäre okay
+% - oder ob mal so mal so - was verwerflich wäre!
+%
 % TODO :: nochmal durchschauen, ob wir die folgenden Regeln alle so richtig eingehalten haben:
 %
 % alle Texte sollen schwarz sein (mit Ausnahme von Bildern, in denen auch Farben erlaubt sind)
@@ -151,6 +155,10 @@
 
 % make table of contents clickable (in electronic devices, of course... not on paper ^^)
 \usepackage{hyperref}
+
+% listing with linebreaks for tests in the appendix
+\usepackage{listings}
+\lstset{breaklines=true}
 
 % BTW, for example reference types, see https://www.sharelatex.com/learn/Bibliography_management_with_natbib
 
@@ -1182,7 +1190,7 @@ This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_ro
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_bwt_with_cyclic_rotations.png}
-\caption[Generating the BWT of a string]{Generating the BWT of the string $ s = \textrm{AGCAGCCTTAGC\$} $. After generating a list of cyclic rotations, the list is sorted, and the last column of the matrix formed by this sorted list reveals the BWT of $ s $ to be CT\$CGGGCAAATC.} \label{fig:evo_fig_bwt_with_cyclic_rotations}
+\caption[Generating the BWT of a string]{Generating the BWT of the string $ s = \textup{AGCAGCCTTAGC\$} $. After generating a list of cyclic rotations, the list is sorted, and the last column of the matrix formed by this sorted list reveals the BWT of $ s $ to be \textup{CT\$CGGGCAAATC}.} \label{fig:evo_fig_bwt_with_cyclic_rotations}
 \end{figure}
 
 It is customary to append a certain character to the end of the string before generating its BWT, 
@@ -1533,10 +1541,29 @@ for the BWT and the node labels, and such that each cell contains exactly
 one bit for the bit vectors $ M $ and $ F $.
 
 We here often refer to the row containing the node labels as first column row, or short “FC”. 
-The reasoning behind this name is that the node labels of the graph relate to this BWT as the first column 
-does to the traditional BWT. 
-That is, the node labels are also alphabetically sorted, and in fact the columns are sorted in such a 
+The reasoning behind this name is that the row of node labels of the graph relate to the BWT row, 
+as the first column in the matrix of sorted cyclic rotations does to the last row, which is the traditional BWT. 
+That is, the node labels are also the alphabetically sorted BWT, and in fact the columns are sorted in such a 
 way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well. \\
+As the FC row simply corresponds to the BWT sorted alphabetically, it can easily be calculated 
+when the BWT row is known. The BWT however, while being potentially very 
+long, only consists of characters from a limited alphabet $ \Sigma $. 
+Therefore, storing the FC both in a file and in memory does not take up a lot of storage space. 
+This means that we usually accept the small space taken up by keeping it stored in memory, 
+instead of recalculating it based on the BWT again and again. 
+We can achieve this storage of FC using the array $ C $, which is another structure that can be generated 
+from the BWT. \\
+In fact, we usually calculate several structures from the BWT, $ M $ and $ F $ which 
+can be used in conjunction with the flat XBW table. 
+The additionally calculated information includes 
+the alphabet $ \Sigma $, a set of all distinct characters encountered in the BWT. \\
+We also keep track of the array “ord”, which has the characters of the alphabet as keys as their 
+positions in the alphabetically sorted $ \Sigma $ as indices. \\
+We finally generate the array $ C $, which also has the characters of the alphabet as keys, 
+and whose values are the indices of the first occurrences of these characters within FC. 
+The array $ C $ completely encodes FC, so that we do not need to explicitly store FC in any other way. 
+Of course, we can do so anyway for a particularly simple implementation.
+
 The bit vectors $ M $ and $ F $ are exactly the same as the corresponding bit vectors in the node table, 
 and are each strongly related to one of the other rows. 
 In particular, each cell in the $ M $ vector corresponds to a cell, or character, in the FC row, 
@@ -1582,7 +1609,7 @@ in figure~\ref{fig:evo_fig_flat_table_with_ct}. \\
 % GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
 \begin{table}[htb]
 \centering
-\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table.}
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, \textbf{\#}} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{\#} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{\#} {\, \Rightarrow \,} 17 ] $.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & \textbf{\#} & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline 
@@ -1752,13 +1779,13 @@ Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 % \begin{figure}[!htb]
 % \centering
 % \includegraphics[width=0.47\textwidth]{evo_fig_STPUcycle_f.png}
-% \caption[Cycle in STPU format]{Cycle, which cannot be fully represented in STPU, but can be approximated to any wanted length as \textup{ACGTAG(\pipe AG(\pipe AG(\pipe AG(\pipe ...))))ATTTC}.} \label{fig:STPUcycle}
+% \caption[Cycle in STPU format]{Cycle which cannot be fully represented in STPU, but can be approximated to any wanted length as \textup{ACGTAG(\pipe AG(\pipe AG(\pipe AG(\pipe ...))))ATTTC}.} \label{fig:STPUcycle}
 % \end{figure}
 % CGTAGATTC|,7,,4 (without $ and #)
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_STPUcycle_f.pdf}
-\caption[Cycle in bubble format]{Cycle, which cannot be fully represented in bubble format, but can be approximated to any wanted length as \textup{CGTAGAT(\pipe AGAT(\pipe AGAT(\pipe AGAT(\pipe ...))))TC}.} \label{fig:evo_fig_STPUcycle_f}
+\caption[Cycle in bubble format]{Cycle which cannot be fully represented in bubble format, but can be approximated to any wanted length as \textup{CGTAGAT(\pipe AGAT(\pipe AGAT(\pipe AGAT(\pipe ...))))TC}.} \label{fig:evo_fig_STPUcycle_f}
 \end{figure}
 
 \subsection{GML Format}
@@ -2057,6 +2084,7 @@ and how likely it is to add more infoblocks after adding the first.
 % TODO :: add more text
 
 \subsection{Internal Graph Format}
+\label{sec:internal_graph_format}
 
 When a GML file is being opened, then some work still needs to be undertaken 
 to convert the opened graph into the extended XBW format, and the graph is stored 
@@ -2080,13 +2108,14 @@ also would need to be updated accordingly.
 Therefore, every loop iterating over the nodes of the graph needs to check for the 
 current node to actually exist before performing any work on it.
 
-As the extended XBW format requires for each graph for start with a node labelled with a 
+The extended XBW format requires for each graph for start with a node labelled with a 
 hash tag sign and to end with a node labelled with a dollar sign, 
-while these nodes are not explicitly encoded in the GML format, 
-these extra nodes are created first, when opening a GML file. 
-The main row as specified in the GML file is then added between them as one possible way 
-of traversing the graph from the \textbf{\#} node to the \$ node. \\
-Finally, the info blocks are iterated over, and their contents are added as edges and nodes.
+but these nodes are not explicitly encoded in the GML format.
+Therefore, the extra node with the \textbf{\#} label is created first when opening a GML file. 
+The main row as specified in the GML file is then added as one possible way 
+of traversing the graph from the \textbf{\#} node to the \$ node, which is added at the end of the main row. \\
+Finally, the info blocks are iterated over, and their contents are added as edges and nodes which are part 
+of paths off the main row.
 % TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
 
 \section{Sanitizing the Graph}
@@ -2308,11 +2337,12 @@ where exactly to put the nodes on the display when drawing them, as they can sim
 be arranged next to each other.
 
 \section{Direct Graph Merging}
+\label{sec:direct_graph_merging}
 
 The aim of the Graph Merging Library is to provide advanced algorithms 
 for the direct merging of flat XBW tables. 
-We therefore developed a very simple method to merge two input graphs 
-which are not compressed, so that the results of the advanced merging 
+We therefore developed the function \texttt{mergeAutomata} to merge two uncompressed input graphs, 
+so that the results of the advanced merging 
 algorithms can be checked against the results of this robust and simple method.
 
 % ...
@@ -2433,7 +2463,7 @@ with the same prefixes can be seen in figure~\ref{fig:evo_gml_rev_det_but_not_pr
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_gml_rev_det_but_not_prev_sort.pdf}
-\caption[Reverse deterministic graph that is not prefix sorted]{Reverse deterministic graph that is not prefix sorted. Among others, the two nodes with label “C” share the same prefix.} \label{fig:evo_gml_rev_det_but_not_prev_sort}
+\caption[Reverse deterministic graph that is not prefix sorted]{Reverse deterministic graph that is not prefix sorted. Among others, the two nodes with label \textup{“C”} share the same prefix.} \label{fig:evo_gml_rev_det_but_not_prev_sort}
 \end{figure}
 If none of the nodes in the graph had more than one outgoing edge, then the graph 
 would already be prefix sorted, as every prefix would end with the dollar sign 
@@ -2446,7 +2476,7 @@ The process of achieving a prefix sorted graph is therefore based on iterating t
 the nodes and reducing the amount of 
 prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:workOnAutomatonPrefixes}. 
 \begin{algorithm}
-\caption[Prefix sorting a graph]{Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
+\caption[Prefix sort a graph]{Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
 \label{alg:workOnAutomatonPrefixes}
 \begin{algorithmic}[1]
 \State $ \textrm{graph\_is\_not\_prefix\_sorted} \gets \texttt{true} $
@@ -2499,7 +2529,7 @@ The process of splitting a node is shown in figure~\ref{fig:evo_fig_node_splitti
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_node_splitting.pdf}
-\caption[Node splitting example]{Node splitting example. On the top, the graph is visualized before the splitting of the central node with label “T” and prefix “T!”. On the bottom, the same graph can be seen after node splitting occurred. The node has been replaced with one node with prefix “TC” and one node with prefix “TA”. Both nodes have all the incoming edges that the original node had.} \label{fig:evo_fig_node_splitting}
+\caption[Node splitting example]{Node splitting example. On the top, the graph is visualized before the splitting of the central node with label \textup{“T”} and prefix \textup{“T!”}. On the bottom, the same graph can be seen after node splitting occurred. The node has been replaced with one node with prefix \textup{“TC”} and one node with prefix \textup{“TA”}. Both nodes have all the incoming edges that the original node had.} \label{fig:evo_fig_node_splitting}
 \end{figure}
 It should be noted that we do not wish to remove all exclamation points entirely, 
 as it is enough for a prefix to be so long as to be unambiguously sortable against all 
@@ -2624,7 +2654,7 @@ idea of \textit{prefix doubling}.
 Hereby we do not append one character to the prefix at a time by iterating over the labels of succeeding nodes, 
 but instead we append the entire prefixes of succeeding nodes.
 
-% TODO :: more? algorithm? At least some sort of figure illustrating this?
+% ... TODO :: more? algorithm? At least some sort of figure illustrating this?
 % (I guess a very very simple fake algorithm would actually do it here ^^)
 
 % \subsection{Locating Strings in the Graph}
@@ -2653,6 +2683,8 @@ of merging two node tables.
 % concatenate H_1 and H_2 as H_12
 % replace $ having origin 0 with $#firstLetterH_2 within prefixes
 % and more
+
+% ...
 
 \section{Creating a Flat Table}
 %
@@ -2734,6 +2766,8 @@ we should first investigate how work within such flat tables can be performed in
 In particular, it is helpful to understand how 
 the functions LF and $ \Psi $ can be used to find the predecessors and successors 
 of nodes, respectively.
+
+% ...
 
 \section{Merging Flat Tables}
 %
@@ -2908,6 +2942,16 @@ not easier than implementing more advanced formats like FASTG, GFA and GML.
 
 \subsection{GML Format}
 
+While using the GML format within the Graph Merging Library, 
+it turned out that although it is a simple format for easy graphs, 
+modifying graphs with it by hand is rather cumbersome. 
+Especially deleting nodes on the main row is a quite elaborate process, 
+in which the pointers of all paths leaving or entering the main row 
+need to be updated. \\
+This problem however could be mitigated by implementing a special text editor 
+for the GML format, which would be able to handle common functionalities such as 
+removing a node and inserting a node, while automatically updating the relevant pointers.
+
 % TODO :: more
 
 \subsection{FFX Format}
@@ -2962,12 +3006,19 @@ Finally, the label \textit{crash} is associated with a test which causes the
 entire program to crash completely, without generating any useful results whatsoever. 
 Ideally, no input data should ever be able to cause this to happen, 
 but if it should happen, then a crash would be reported to alarm the user to it. \\
-The representations of all these result types in the GML interface can be seen in figure~\ref{fig:evo_gml_different_test_results}.
+The representations of all these result types in the GML interface can be seen in figure~\ref{fig:evo_gml_different_test_results}. 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.95\textwidth]{evo_gml_different_test_results.png}
 \caption[GML Test Results]{Different test results in the GUI of the Graph Merging Library.} \label{fig:evo_gml_different_test_results}
 \end{figure}
+A list of all predefined tests for the construction of XBW node tables can be found 
+in section~\ref{sec:appendix_graph_const_tests} in the appendix. 
+Section~\ref{sec:appendix_graph_merge_tests} contains the predefined tests for 
+the merging of XBW node tables and flat XBW tables. 
+Each of these lists also contains a smaller optional section at its end, 
+which contains graph inputs which are intentionally invalid. These are used 
+to ensure that GML reports an input as invalid when incorrect graphs are entered. 
 
 \subsection{Randomized Tests}
 
@@ -2996,45 +3047,95 @@ That is why another possible test result with the label \textit{invalid input} c
 This occurs when the program determines that the input does not conform 
 to the previously formulated core assumptions. 
 
-\subsection{General Note on Testability}
+\subsection{Test Analysis}
 
-The idea behind the automated tests and especially behind the randomized tests 
-is to let the Graph Merging Library test itself,
-so that it can easily be seem whether the algorithms provided within it 
-function well or badly. \\
-However, considering a merge test with several randomized inputs shows a mismatch 
-between the expected result and the actual result, 
-it can be reported as a failure because the actual result of the algorithm 
-failed to be the expected result. 
+For the Graph Merging Library to be able to report whether a test is a success or 
+a failure, the more robust graph merging from section~\ref{sec:direct_graph_merging} 
+is used to generate the result that we 
+wish to see. Then, a more advanced algorithm is used for the direct merging 
+of XBW node tables or flat XBW tables. 
+The resulting flat tables are then compared. 
+% GAC|,1,T,3 and AC, on 150%, with tables on 300%
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_test_comparison.png}
+\caption[Test analysis]{Test analysis by comparison of flat XBW table generated after robust merging of graphs and flat XBW table generated through advanced merging of several flat XBW tables.} \label{fig:evo_test_comparison}
+\end{figure}
+This approach is illustrated in figure~\ref{fig:evo_test_comparison}. \\
+It is however entirely possible for the two tables to be different, but for the result to 
+still be a success. That is, the flat XBW table generated through one method and the 
+flat XBW table generated through another method can be different if the order in which BWT 
+entries within a node are listed is different, as it does not make a difference in which order 
+this listing is reported. Also, the tables can be different in case of nodes having been split 
+by a method which are not entirely necessary to be split. 
+This needs to be considered especially when prefix doubling is used for XBW node table merging, 
+as the prefix doubling by design propagates node splits which are not strictly necessary, 
+in order to more quickly build prefixes. \\
+To be able to compare the results of different methods anyway, and call a test 
+a success even if not the exact same flat table has been generated, but a nevertheless 
+equally acceptable table has been constructed, we convert the tables in question to the 
+primitive automatons described in section~\ref{sec:internal_graph_format}. \\
+We further introduced the function \texttt{automatonsAreEquivalent}, which 
+takes in two automatons to give out \texttt{true} if both are equivalent, 
+and \texttt{false} if they are not. We here define two automatons to be 
+equivalent if they generate the same language, even though they may differ 
+in the amount and layout of nodes that they use to construct this language. \\
+We can therefore check if both methods that are compared produce flat tables 
+which correspond to automata generating the same languages, which means 
+that graphs are generated which contain the exact same paths.
+
+Even with the ability to compare the languages generated by automatons, 
+the automated tests still have to be analysed carefully instead of 
+simply being taken at face value. \\
+Consider a merge test with several randomized inputs showing a mismatch 
+between the expected result and the actual result. 
+Usually, this should be reported as a failure because the actual result of the algorithm 
+failed to be the expected result. \\
 On the other hand, the same behaviour can also occur if the randomized input 
-does not conform to the basic assumptions. \\
+does not conform to the basic assumptions. If the program worked correctly, 
+this would be recognized automatically and the input would be flagged as invalid. 
+However, if we would report this as a failure then there would be a bug somewhere 
+in the program, so that bug could just as well be in the part of the source code 
+which detects whether inputs are invalid or not. \\
 In general, it is not always entirely clear whether the program failed to provide the correct answer 
 because the input was invalid, or because a bug prevented the generation of the correct output. 
 The reason for this is that determining whether the input is invalid or not is part of that 
-very same source code, and if a bug prevents it from correctly working, then the this may be determined 
+very same source code, and if a bug prevents it from correctly working, then this may be determined 
 wrongly. In the opposite way, a bug might also prevent an actually invalid input from being 
 flagged that way, resulting in a reported error which actually is no error at all. \\
-Overall, this means that tests which are reported as failures should be manually investigated more clearly to 
-better understand the underlying cause of the categorization, and to make sure that it is not simply a case 
-of the input not honouring the core assumptions.
+Overall, this means that both tests which are reported as failures as well as tests which are reported as invalid input 
+should be manually investigated more closely to 
+better understand the underlying cause of the categorization. 
+Having said this, in several thousand testing rounds the categorizations have held up completely, 
+and the reported outcome was indeed correct. A more detailed description of the tests which have been performed 
+and analysed can be found in the next section.
 
 \subsection{Test Results}
 
 Running the over 100 predefined tests for the XBW creation, node table merging 
 and flat table merging in Mozilla Firefox under Microsoft Windows 7 on a 2.40 GHz machine with 4 GB RAM 
-results in successes for each of them, 
+resulted in successes for each of them, 
 with no failures or crashes being reported. 
 As the tests have been picked to include various challenging situations 
 in which complicated node splitting behaviours arise and in which 
 special sorting mechanisms need to be used to ensure the correct outcomes, 
-it can be seen that the algorithms appear to be working fine. \\
+it can be seen that the algorithms appear to be working fine.
+
+In addition to the predefined tests, we also executed 4,000 tests with randomized data, 
+testing the merging results of the flat XBW table merging algorithm. \\
+280 of these randomized tests were reported to contain invalid input, 
+while the remaining 3720 tests were all reported as successes, 
+either generating the exact expected flat XBW tables, or at least 
+generating XBW tables which corresponded to graphs which contained exactly the 
+correct paths.
+
+% TODO :: add information about node table merging test runs
+
 It should of course be noted here that no amount of tests can ever 
-truly prove these algorithms to truly be working correctly, 
+truly prove the Graph Merging Library to truly be working correctly, 
 as any amount of tests performed is necessarily finite, while there are 
 infinitely many inputs that could theoretically be specified, 
 such that it will never be possible to check every single input that there is.
-
-% TODO :: add some text about usual randomized test runs (after further improvement of GML)
 
 \section{Merging XBWs}
 %
@@ -3166,7 +3267,313 @@ more and more of the existing tools.
 %                                                                                                                             APPENDIX
 % ====================================================================================================================================
 
+\section{Predefined Graph Construction Tests}
+\label{sec:appendix_graph_const_tests}
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%                                                                                        APPENDIX: Predefined Graph Construction Tests
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% TODO :: keep these lists up to date!
+
+The following tests are run to ensure that the Graph Merging Library does not throw errors 
+while constructing flat XBW tables for input graphs:
+
+\begin{lstlisting}
+ACEG
+ACEG|,1,,3;,2,TB,4
+GACGTACCTG|,2,T,4;,3,,5;,6,,10;,6,,8
+GACGTACCTG|,2,,4
+ACGTAGATTTC|,4,,7
+TAATACGCGGGTC|,8,,9
+GACGTACTG|,5,C,8;,2,G,5;,5,GT,9
+GCTGGCGAGCAG|,3,T,6;,5,TC,12;,5,,7
+GCTGGCGAGCAG|,3,T,5;,5,GCTC,12
+GACGTACCTG|a,2,TAT,6;,a:0,C,a:2
+GACCTAATG|,5,C,8;,2,G,5
+ATTCACCACCAACCCGACATA|,4,CACG,9;,9,TCG,12
+CCACGCGCCATGGC|,1,CTG,14
+GCTGGCGAGCAG|,3,T,5;,5,,7
+GCTGGCGAATGTGGCAAGAATGTGGCAAGAGCAG|,3,T,5;,5,,7;,4,CACG,9;,9,TCG,12
+GCCGT|,3,,5
+ATCT|,2,A,3
+ATCGAT|,2,,5;,4,CG,6
+TGATGAG|,6,,7
+GTTAATGTGGCAAGT
+TCCCTGT
+CTACCAGGTGCTGTTATTCCAC|,16,A,22
+CTATGTTATTCCA|,8,A,13
+TATA|,2,A,4
+CCA|,1,A,2
+TTCGCAAGA
+CCTGCGTGTGGT|,3,,6
+CCGAGCTTATCGCAA
+ATGCGAGTTCGGGAC|,9,CCCG,14
+GCAGGGAGCTCCAGCCGTTAG|,4,CC,13;,1,A,18;,17,,19
+ATTGGAGAAGTCACGCTTGAC|,6,CTA,14
+CACTC
+TGCAAGTATGGCGCTT|,2,,8
+AACCAT|,4,GGG,6
+AACCAT|,4,GGG,6
+AGAGCACGCCGGT
+AGAGCACGCCGGT
+CGGCAATAGACGCTGTCCAATGC|,15,,18
+AGAGCAT
+ACTGGCATGATTTATCCCTTGG|,11,,12
+GGGCCCAGGGCGATCGACGTTC|,7,,19
+CCCAGCC|,4,,6
+CAGCC|,2,,4
+CACT
+CACT
+TC|,1,C,2
+ATCAACTTTCC|,6,CA,7
+GCGGTGAAGAGAAA|,2,CGG,7
+CCACGCTAAGTTATCGTGT
+ATCCAATCGTAAT|,7,T,8
+TAGCTTGGAC|,2,AG,9
+GACAAACACAAACATCACCCTGT
+CGTCGCC|,6,T,7
+AAAGTAT
+TACTTGTC
+GCAGAATTCCGCAGGAAAGC
+CGCGACAGTGGCCAATCT
+GGTACATGGGAT
+TCTGGTACGCTG|,1,,11
+GGGAACAGATGTCTGTGATCC|,13,CAT,14
+CGAGTTACGTGGCCGCCTCAT
+TGTCTGTTACAGATTGC
+CGAAGCCTA
+CGAAAGAGTGTGTCTAGGC|,11,TC,19
+TTTAGGTTAGTACCAC|,8,CTG,11
+TACTTCCCCAGGACGGGACGCTA
+AAAGGAGGT|,7,,8;,2,A,6
+GGTGGCCGAGTGC|,10,CTGC,12
+CGAATACCGTACTGAA|,12,AAAA,15;,14,GGTC,15
+TTCCAATGGTGAGTCTC
+AAGAT|,2,CTC,3;,1,C,4
+AACAAATT|,4,TCCT,8
+AAAAGAAGCTGAT|,4,,6
+ACGTGCCCACCCG|,2,A,8
+TAGGCGCGGT
+TTTGCATCATATC
+TTGTAG|,5,A,6
+CTATATAGCGGC|,4,CTA,7
+ATTAATACG|,2,G,5
+CGGCCT|,1,A,6;,2,TT,4
+CATCTTTC|,5,CA,7
+AGGCAGCTATCGACCATCTTGCG|,22,,23;,2,TT,9;,9,C,10;,22,,23
+AAGAGTCCAGAG|,7,,11;,5,TATA,9
+GCCACGACACCCTCAAGCT|,17,CA,18
+TTAAA|,4,GAT,5
+TACCAGGGCTTTTTTACTGGCT|,8,,19;,20,GCT,21
+TGAAGCGCATTCT|,9,,11;,3,,11
+CGGATAGCACTCTA|,9,TT,11
+TCCCTGGGC
+CAAGGTATTGTTAA
+CTCGGCTCT|,1,AAGG,2;,4,,6;,8,TG,9
+AGGGAGCCTTAACATTTTCG|,13,T,19;,11,AGCG,15;,10,A,12
+TCAGGGCGAGC|,6,G,9
+GGAGCCAGGCTTGCCC|,7,,11
+TGGCCCTCCCCCTACAT
+AGGCCATTGATGAAAA|,7,AT,9;,5,CCT,12
+GTATGCT|,6,TACC,7
+ATTATCGATCA|,3,TCT,7;,10,CGCT,11;,8,TTCA,11
+GTAACCTTGAGGAAGG
+GTCGAATGATTCGCC|,8,ATT,15
+CTATA
+GGAAGG
+\end{lstlisting}
+
+The following tests are run to ensure that GML correctly recognizes whether a dataset is an invalid input:
+
+\begin{lstlisting}
+GACGTACCTG|,2,T,12;,3,,5;,6,,10;,6,,8
+GACGTACCTG|,4,T,2;,3,,5;,6,,10;,6,,8
+GACGTACCTG|,2,T,4;,a:3,,5;,6,,10;,6,,8
+ATCTCAG|,1,GG,4;a,2,C,6;,a:1,G,7
+\end{lstlisting}
+
+\section{Predefined Graph Merge Tests}
+\label{sec:appendix_graph_merge_tests}
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%                                                                                               APPENDIX: Predefined Graph Merge Tests
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+% TODO :: keep these lists up to date!
+
+The following tests are run to ensure that the Graph Merging Library does not throw errors 
+while merging XBW tables for input graphs:
+
+\begin{lstlisting}
+ACEG and BDFK
+ACEG|,1,,3 and BDFK
+ACEG|,1,,3;,2,TB,4 and BDFK|,2,,4
+C and ACTG|,2,,4
+C and ACATG
+GACGT|,2,T,4;,3,,5 and ACCTG|,1,,5;,1,,3
+C and ACTG|,2,T,4
+GACGT|,2,C,4;,2,T,4;,3,,5 and ACCTG|,1,,5;,1,,3
+GACGT|,2,T,4;,1,C,4;,3,,5 and ACCTG|,1,,5;,1,,3
+TAT and C
+TT|,1,A,2 and C
+TCGTGCGAGG|,1,ACAA,10 and C
+TAATACGCGGGTC|,8,,9 and ACCTG|,1,,5;,1,,3
+AAGTTTCTTTCGTGCGAGGCCGT|,10,ACAA,19;,16,CGT,20 and ACCTG
+ATAGTCAATTGACTGCCGACG and CGGGGTAAAAAAGCGCC
+GCCG and GCGC
+GCCG and BDFK
+GG and CGG
+ATCT|,2,A,3 and CC
+ATCGAT|,2,,5;,4,CG,6 and C
+TGATGAG|,6,,7 and GCCAGGTCAGCCTAGTCCCTG
+GTTAATGTGGCAAGT and CTCGCGACGACTAAAGCTGGCC
+TCCCTGT and CTCAGCAGAGGCCCAGGCAAA|,13,TA,15
+CTACCAGGTGCTGTTATTCCAC|,16,A,22 and CATCGATTT|,3,CGAT,9
+CTATGTTATTCCA|,8,A,13 and C
+TATA|,2,A,4 and C
+CCA|,1,A,2 and CA
+TTCGCAAGA and TCCCCAAG
+CCTGCGTGTGGT|,3,,6 and CTCTTA|,3,TCG,5
+CCGAGCTTATCGCAA and GAGAGAGCAAC
+ATGCGAGTTCGGGAC|,9,CCCG,14 and TCCAA
+GCAGGGAGCTCCAGCCGTTAG|,4,CC,13;,1,A,18;,17,,19 and CGGAT
+ATTGGAGAAGTCACGCTTGAC|,6,CTA,14 and GTTAAAACAC|,6,TC,10
+CACTC and GGGCAGTACGTGG|,9,,11;,7,CGCG,8
+TGCAAGTATGGCGCTT|,2,,8 and GTGTAATTATGAAC|,13,GATG,14
+AACCAT|,4,GGG,6 and GTGCAGCTTTTGG
+AACCAT|,4,GGG,6 and TTAAGGTTATGGACCCCCC|,4,GGAT,8;,6,C,12
+AGAGCACGCCGGT and TTAAGGTTATGGACCCCCC|,4,GGAT,8;,6,C,12
+AGAGCACGCCGGT and CGTAAATAGAG|,7,G,9
+CGGCAATAGACGCTGTCCAATGC|,15,,18 and CGTAAATAGAG|,7,G,9
+AGAGCAT and AGTGAACACAC
+ACTGGCATGATTTATCCCTTGG|,11,,12 and TTTGTTTGACACGCTGC|,16,,17;,11,AGGG,14
+GGGCCCAGGGCGATCGACGTTC|,7,,19 and TTTGTTTGACACGCTGC|,16,,17;,11,AGGG,14
+CACT and GCGTACG|,5,,7;,1,C,5
+CACT and GCGTACG|,4,,7;,1,C,5
+TC|,1,C,2 and TC
+ATCAACTTTCC|,6,CA,7 and TACCGAACGCCGGTGTGATAA|,6,,8
+GCGGTGAAGAGAAA|,2,CGG,7 and GACTC
+CCACGCTAAGTTATCGTGT and GCTTTATACGTAAT|,10,CC,13
+ATCCAATCGTAAT|,7,T,8 and TCGAATTATCACGATAT|,13,AAA,17;,12,CG,15;,7,,15;,7,GAG,16
+TAGCTTGGAC|,2,AG,9 and GTGATGT|,5,,7
+GACAAACACAAACATCACCCTGT and TGAAATAGT|,4,T,6
+CGTCGCC|,6,T,7 and TCAATGTATAGTCGTGTCTGAAAT|,8,TGCA,23
+AAAGTAT and AAAGCGAGCAAAAGATTGACGAA
+TACTTGTC and CTCAACT|,6,,7
+GCAGAATTCCGCAGGAAAGC and CATGGCGTCTAGGA|,10,GC,12
+CGCGACAGTGGCCAATCT and TCGTCTGATGATCTTTGCTCTC|,19,,20
+GGTACATGGGAT and ATGCGCTCGAAGCACGAAGG|,6,AT,15
+TCTGGTACGCTG|,1,,11 and ATGCAAAAGTTTAAAGTTGTCCGT|,3,CGCT,18
+GGGAACAGATGTCTGTGATCC|,13,CAT,14 and TGAAAAAAACTCAGCGGGGAGT
+CGAGTTACGTGGCCGCCTCAT and CCGTA|,3,TGT,5
+TGTCTGTTACAGATTGC and AGACATCCATC|,4,,11;,10,TC,11
+CGAAGCCTA and TTGTGAATATCG|,6,CTG,9
+CGAAAGAGTGTGTCTAGGC|,11,TC,19 and AGAGCT
+TTTAGGTTAGTACCAC|,8,CTG,11 and CATAGCTTAGCC|,11,,12
+TACTTCCCCAGGACGGGACGCTA and GGTCAG
+AAAGGAGGT|,7,,8;,2,A,6 and GAGTTATGACG
+GGTGGCCGAGTGC|,10,CTGC,12 and CATTTGTGGCGCGCTTGATCTCTG|,10,,20
+CGAATACCGTACTGAA|,12,AAAA,15;,14,GGTC,15 and ACAGCGAGAGCAGACG|,14,TC,15;,8,,16
+TTCCAATGGTGAGTCTC and ATAAAG|,3,AG,5
+AAGAT|,2,CTC,3;,1,C,4 and ACGCTCCTTTGTGG
+AACAAATT|,4,TCCT,8 and GAGCGGAGAATCATACGGGC|,16,GAG,20;,1,CGC,17
+AAAAGAAGCTGAT|,4,,6 and CTTGAA
+ACGTGCCCACCCG|,2,A,8 and CCCCAACTGGGAATTC|,13,TCC,16;,4,TTT,14
+TAGGCGCGGT and CTGGGACGG|,4,GTG,7;,2,C,6;,4,TGA,7;,6,C,9
+TTTGCATCATATC and GAAACATTTATGACATTA|,4,,12
+TTGTAG|,5,A,6 and AACGCGT|,3,,6
+CTATATAGCGGC|,4,CTA,7 and ACGCATATTGGTTC
+ATTAATACG|,2,G,5 and TTTTTATGGTCCGACTAA
+CGGCCT|,1,A,6;,2,TT,4 and TTAATCT
+CATCTTTC|,5,CA,7 and GTTGGTGGCCATCGG|,11,,15;,4,GG,14
+AGGCAGCTATCGACCATCTTGCG|,22,,23;,2,TT,9;,9,C,10;,22,,23 and AGCTGGGAAAC
+AAGAGTCCAGAG|,7,,11;,5,TATA,9 and AGTGGCTGATTGGT
+GCCACGACACCCTCAAGCT|,17,CA,18 and TCAATTGCCGGTA
+TTAAA|,4,GAT,5 and GAACTCGGGGC|,3,TTGT,5
+TACCAGGGCTTTTTTACTGGCT|,8,,19;,20,GCT,21 and CCGGCGGATTGATAGTGC
+TGAAGCGCATTCT|,9,,11;,3,,11 and GGATGCGAGCAGTACGTCTCCTTC
+CGGATAGCACTCTA|,9,TT,11 and ATGTTGGGCCCTAA|,7,A,12;,8,T,11
+TCCCTGGGC and ACGATTCCCTAACCACCCGT|,17,ATG,19;,7,TT,16
+CAAGGTATTGTTAA and AGTCTAAGGCTTCGTGTTGGATC|,9,GTA,22
+CTCGGCTCT|,1,AAGG,2;,4,,6;,8,TG,9 and AAAGTCTTCAATGT
+AGGGAGCCTTAACATTTTCG|,13,T,19;,11,AGCG,15;,10,A,12 and CATGTTGGTTGT
+TCAGGGCGAGC|,6,G,9 and GACAACCCAGATTTTCCCGCATT|,10,,18;,15,TAA,17
+GGAGCCAGGCTTGCCC|,7,,11 and ACAGGATAGGTCATTGAGTGGGG|,11,CAAC,16
+TGGCCCTCCCCCTACAT and TAGGCCGAAGTTTCTCTATCTTG|,13,CAAA,18;,16,AAC,19
+AGGCCATTGATGAAAA|,7,AT,9;,5,CCT,12 and GACTG|,2,,3
+GTATGCT|,6,TACC,7 and GGACCTACGGCGGTTTAAAA|,8,A,14;,2,GCGA,12
+ATTATCGATCA|,3,TCT,7;,10,CGCT,11;,8,TTCA,11 and TGACAAGGTGCTCAGGTGAAA
+GTAACCTTGAGGAAGG and GGGATTCAGTAGTTC
+GGAAGG and GG
+AATTCGGTAATACCGAAG|,15,AT,17 and TAAGATAAGGCAAA|,7,TA,11
+CAGAGTATGCTCCGAG and CGATTACGCAT|,8,,10;,3,TA,9
+GACGCCGACAAGAGACAAG|,2,CCA,11;,17,TC,18 and AGGTAGT
+GTATAAATACAAGCTAAG|,17,CCA,18 and GATGA|,3,TCTC,4
+CTAGA|,2,CC,3 and AAGATGAAAGGACCCCCA|,16,,18
+GGGGAAAGCAAGATATCAGCCGT and CAAAAAGA|,4,,5;,3,C,5
+ATGATG|,4,TC,6 and AAATGAGAT|,7,TGC,9;,5,AG,8
+GCCAGA|,3,TAC,5 and CAACTCCAGGTTCCCTTATTG|,11,GTCA,13
+GATATGGCGT|,3,A,9;,7,GTCA,10 and AAGACTTATACGC|,11,,13;,3,G,10
+GCGGATATTTGGCGGCT|,6,A,14;,12,GTCA,15 and AAGGAAGAAGACTTATACGCC|,18,,20;,10,G,17
+TGGAAGCACACCC and TAGGGCGGAAGGG|,5,A,11;,5,TCCT,11;,8,GCCC,12
+GTGCCCTAGACCTCCTTAT|,5,,10;,13,CCA,14;,7,GT,11;,3,G,8;,12,TGGG,18 and GTGCA
+TGTACTGGCTCCTATAT and TAACACATTAGTCAACCACA|,13,,16;,5,,12
+CGACAG|,5,TTCC,6;,3,T,5 and GACCCACGCAAGAAACCGTGA|,10,TAAC,19
+CGTTTGCATGAATTTGTTT and AACGTACCATTAAAATAGCGA|,6,,9;,4,TG,20
+TACGATCGGA|,2,ATCG,6 and TAAGTTA|,2,CTG,3
+GAGTATAAGCCA|,9,,10 and GGCGCGGTCAGTT|,12,GC,13;,2,GAT,6
+AACCA|,4,CTTT,5;,4,CA,5;,4,ACG,5 and AGGTTATAGAT|,7,CAT,9;,2,,11
+TCCGCTT|,2,TTTG,6;,4,ACT,6;,3,GGTG,6;,5,AACG,7;,2,ATC,5;,4,,5;,3,AA,6;,3,GGA,7 and TCGACATTGCTGCAGGTT|,14,CT,18
+CCCAGCC|,4,,6 and TT|,1,AGG,2
+CAGCC|,2,,4 and TT|,1,AGG,2
+TTCCGCGGCTCCATG|,14,CGTA,15 and ACCGTCCTCA|,8,CCGT,9;,8,C,10;,4,,10
+ACTCTGAATGCTGTACACTCA|,5,,19;,13,C,14;,17,AGA,21 and GTTTGGGGA|,6,,9
+ACCTG|,3,AAC,5;,1,C,2;,1,C,2 and ACGATGAAACGGATTGTA
+TACACG|,4,AAT,6;,1,CCGA,5 and TGGTGTATTATTGCCCTTGGACGC|,20,GA,22;,5,G,17;,8,AATA,10
+TGTAGATGAGCATACCCCGA|,4,ACGA,20;,11,,19;,15,TT,19;,6,,11;,13,AA,20 and AAATATCTTTGTTG
+CTCATACGAGCGAA|,12,CG,13 and GTGCCCGGGTGCA|,1,TTTC,11
+TTTTAATAGTCACCGATCCGG|,17,CGTT,21;,19,TTT,20 and TCGGCATT|,4,ACGA,7;,6,GGA,8;,3,TGA,8
+CCCAATGACAATG|,7,TAGA,10;,5,ACCC,10;,4,C,11;,4,,8;,8,C,11;,7,AGGT,9 and GTGTC
+GCTAGTTACAACT and GCAAGCGAA|,3,TCG,4;,5,T,8
+CAGTTTACAACTGCAGCCGTTA|,7,,12 and TCGCCCGTAACTCAACGTTTAA|,16,CTGG,17;,19,A,20;,19,GC,20
+AACCCT|,1,ATCA,3;,2,C,4;,3,,5;,4,TCAT,6 and CCTTCGTACTAGCACAAACT|,5,GGTT,11
+TTGCTAACCAGC|,4,TC,5 and GGTGTTTGGGGCCCATACAAAT|,15,A,18;,1,GA,11;,5,CCGC,14;,10,,19;,5,,13
+\end{lstlisting}
+
+The following tests are run to ensure that GML correctly recognizes whether a dataset 
+consisting of two graphs which are supposed to be merged contains an invalid input:
+
+\begin{lstlisting}
+CTATA and AAATATG|,3,AGTT,6
+GTCGAATGATTCGCC|,8,ATT,15 and GCTTGTGCCTAA|,8,GT,12;,7,TGT,10;,2,A,12
+TGGCC|,1,TA,2 and ACGCAGCTGCGAGAATA|,1,ACCC,5
+GTAGCAAAGCGGTTTGGGATTG and GGTACCTATAGGGAA|,2,C,5
+GAGTGGCCAAGTAGCCGGGTCACA|,23,GTC,24 and CGTACTG|,3,GAGC,7
+GGTGGGATGGACTCTGTTGTG|,12,CACA,18 and CTGACTGTCAGGAGCTGA|,3,,9
+GGTACGCGTTATCGT and CTGTCTATCTCTAACCC|,12,,16;,2,T,6;,11,GA,12
+GTAAC and TTTCACGCGT|,5,C,10;,5,CTC,6;,1,CG,3;,8,A,9
+GTAATGACGTAGCCC and ATCATCGCA|,3,CT,8
+GGGTTAGCTGTCTAAG|,6,C,9 and ATGATGATA|,5,ATAT,6;,1,TA,2
+GTAGAGAATGGACTACTG and TGTGTGTTC|,2,ACG,4
+ACGCAAGATGTATC|,3,GGAC,9;,10,G,11 and CCCCT|,2,CTT,5
+TCGTCGTGAG|,5,G,6 and GAACCCGGAATCTTA|,2,T,15
+ACTCGTGAAG and GGGCA|,1,CTCA,5
+ATACGTAATCGGTGGCTCGA|,14,TCG,20 and AGATCGAGCTG|,4,,10;,8,,10;,2,CTA,7
+ATGTACACTTCTGAGTTGTCC and GCGTTGCG|,1,G,4
+CGGAGACTATCCTATCC|,9,CAG,15;,11,,16 and CAGTCATCGATTAAACCACTCTG|,1,GG,5
+TGCTGCTTTGGAAAT|,1,ATTA,14 and GTCCGTAGCAA|,5,GG,7;,1,,7
+GCTCTCATGCAGCCCAA and TTTCAGCCTAACAGTACACGGGT|,1,GA,19
+CGCCC|,4,GAC,5;,4,,5;,3,ATG,4 and CAAGCTG|,1,GTTA,5;,5,GA,6
+ACTCCTACTCCAACTA|,9,GTT,13 and ACTACC|,4,ATG,6
+AACTAGGCGCATGTC|,3,CAG,8;,3,GTT,15 and CTTGGC|,3,AGA,6;,2,T,4;,2,CTAT,4;,1,AT,2
+\end{lstlisting}
+
 \section{Resources and Licensing}
+%
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%                                                                                                    APPENDIX: Resources and Licensing
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Publicly available genomic datasets as well as automatically generated data were used 
 to implement the new graph reference approaches and to analyse the results of the implementations.
