@@ -96,6 +96,7 @@
 % Ingibjörg Axelsdóttir og Þórunn Blöndal (2006).  \textit{Handbók um ritun og frágang},  Mál og menning, Reykjavík.
  
 % Packages
+% not explicitly in use here, but installed anyway (and used by pdflatex): cm-super for nicer font
 \usepackage{ucs}
 \usepackage[utf8x]{inputenc}
 \usepackage[icelandic, english]{babel}
@@ -163,7 +164,7 @@
 
 % listing with linebreaks for tests in the appendix
 \usepackage{listings}
-\lstset{breaklines=true}
+\lstset{breaklines=true, columns=fullflexible}
 
 % gives us textquotesingle for non-curly apostrophes
 \usepackage{textcomp}
@@ -616,6 +617,7 @@ keepaspectratio]{evo_hi_footer.png}
 \setlength{\unitlength}{\paperwidth}
 \hspace*{-0.3cm}
 \begin{picture}(0,0)(0.002,-0.15)
+\hspace*{-0.01cm}
 \put(0,0){\color{white}\parbox{1\paperwidth}{\centering\bfseries\sffamily \Large Faculty of \thesisfacultybroken \\
 University of Iceland\\
 \thesisyear}}
@@ -786,6 +788,7 @@ within the field of DNA analysis.
 \listoffigures
 \listoftables
 \listofalgorithms
+\addtocontents{loa}{\vskip 15pt}
 \addcontentsline{toc}{chapter}{List of Algorithms}
 % TODO :: check if the previous line still works (it add the "List of Algorithms" as entry to the main tableofcontents, 
 % but it does it AFTER that page, so basically as long as the list of algorithms fills less than one whole page everything is peachy,
@@ -827,58 +830,77 @@ within the field of DNA analysis.
 % FASTA / FASTQ / GFA / STPU; for each of these, send the reader to the Implementation chapter, Data Formats section
 % de novo assembly :: assembly without a reference https://en.wikipedia.org/wiki/De_novo_transcriptome_assembly
 % lf-mapping :: last-to-front-mapping or last-to-first-mapping (meaning that the relative positions in the BWT column and in the first column conincide)
+% lf and psi as navigation functions
 
-\textbf{bps: } &
+\begin{tabular}[t]{@{}r@{}}\textbf{absolute}\\\textbf{indexing:}\end{tabular}
+%\textbf{absolute indexing:}
+ & Method of indexing in flat XBW tables. 
+Its value does not depend on a choice between the FC or BWT row. 
+See page \pageref{def:absolute_indexing}.
+\\ \\
+
+\textbf{bps:} &
 The pairwise occurring essential building blocks of DNA are referred to as \textit{basepairs.}
 % TODO :: actually use this abbreviation somewhere in the text... I think the text that used it has been taken out lol ^^ roflderhatlolgesagt
 \\ \\
 
-\textbf{bubble: } &
-A \textit{bubble} refers to short alternative paths in a genomic graph, such as 
-A[C,G]T, which refers to both ACT and AGT. 
-We sometimes wish for data formats to enable a simple inclusion of small \textit{bubbles} without 
-the explicit generation of nodes and edges for them, 
-as that would lead to a lot of overhead and decrease human-readability, 
-while the opposite is also often wished for,
-to simplify algorithmically working with the format \citep{specGFA1}.
+\textbf{bubble:} &
+Simple encoding of short alternative paths in a genomic graph, such as 
+A[C,G]T, which refers to both ACT and AGT.
 \\ \\
 
-\textbf{BWT: } &
+\textbf{BWT:} &
 The \textit{Burrows--Wheeler Transform} is a string compression technique \citep{Burrows1994} 
 which is used during the read alignment. For a good introduction to the usage of the BWT 
 in bioinformatics, see \citet[chapter 7]{bioinfoalgorithms}.
 \\ \\
 
-\textbf{CIGAR: } & 
-The \textit{CIGAR string} is a sequence of lengths and operations 
-associated with these lengths that is used when aligning one string to another. 
-Commonly, they contain the operations \texttt{M} for direct match/mismatch, 
-\texttt{I} for insertions and \texttt{D} for deletions. 
-However, many additional operations for skipping bases, 
-clipping, padding and much more have been proposed 
-for various projects \citep{specGFA1,SAM2009,specSAM}.
+\textbf{BWT-indexing:} & Method of indexing in flat XBW tables. 
+Its value is based on an index in the BWT row. 
+See page \pageref{def:bwt_indexing}.
 \\ \\
-% a really, REALLY good explanation for CIGAR strings (that I can sadly not quote as it is "just some random wiki":
-% http://genome.sph.umich.edu/wiki/SAM#What_is_a_CIGAR.3F
-% however, the thing that I actually am citing here (the SAM specification) is at least not too bad either,
-% as it nicely defines how the CIGAR is built up
 
-\textbf{indel: } & 
+\textbf{end node:} & If a graph has a node with label “\$” 
+having no outgoing edges, then we call this the \textit{end node} $ v_e $ of the graph. 
+See page \pageref{def:end_node}.
+\\ \\
+
+\textbf{FC-indexing:} & Method of indexing in flat XBW tables. 
+Its value is based on an index in the FC row. 
+See page \pageref{def:fc_indexing}.
+\\ \\
+
+\textbf{flat table:} & A \textit{flat XBW table} is a data structure consisting of a BWT string, 
+two bit vectors and some additional information. This structure completely represents a graph 
+and can be used to store the graph in a file or to perform work on it, such as navigating between 
+nodes and finding texts within the graph. 
+See page \pageref{def:flat_table}.
+\\ \\
+
+\textbf{indel:} & 
 \textit{Insertions} and \textit{deletions} are referred to as \textit{indels}. While 
 edit operations merely locally change a character within a string, an insertion or 
 deletion affects the index of all the following characters, which is why indels 
 usually require more effort to be accurately taken into account.
 \\ \\
 
-$k$\textbf{-mer:} &
-A nucleotide sequence of length $ k $.
-\\ \\
-
 \end{tabular}
 
 \begin{tabular}{r p{12cm}}
 
-\textbf{pipeline: } & 
+$k$\textbf{-mer:} &
+A nucleotide sequence of length $ k $.
+\\ \\
+
+\textbf{node table:} & An \textit{XBW node table} is a data structure consisting of a BWT row, 
+a prefix row and one or two bit vector rows. Hereby the cells within each column do not need to have the same lengths. 
+This structure completely represents a graph 
+and can be used to store the graph in a file or to perform work on it, such as navigating between 
+nodes and finding texts within the graph. 
+See page \pageref{def:node_table}.
+\\ \\
+
+\textbf{pipeline:} & 
 The \textit{analysis pipeline} refers to any set of programs 
 that are used sequentially to reconstruct the full genetic information 
 of the individual whose DNA was read out based on a vast amount of short reads and a 
@@ -886,23 +908,25 @@ known reference, or to create a list of differences between the individual's DNA
 and the reference.
 \\ \\
 
-\textbf{rank: } & The \textit{rank} operation counts how often a given character occurs 
+\textbf{rank:} & The \textit{rank} operation counts how often a given character occurs 
 in a sequence before a certain index. See page \pageref{def:rank}.
 \\ \\
 
-\textbf{read: } & 
+\textbf{read:} & 
 An individual's DNA is often not read out as one continuous string, 
 but as large amount of short pieces of DNA. 
 These short pieces are referred to as individual \textit{reads.}
 \\ \\
 
-\textbf{run-length encoding:} &
+\begin{tabular}[t]{@{}r@{}}\textbf{run-length}\\\textbf{encoding:}\end{tabular}
+% \textbf{run-length\\encoding:}
+ &
 A simple method for encoding sequential data by replacing any runs of several 
 identical elements with an integer counting the amount of identical elements and 
 just one of the elements.
 \\ \\
 
-\textbf{select: } & The \textit{select} operation returns the index in a sequence 
+\textbf{select:} & The \textit{select} operation returns the index in a sequence 
 at which a given character occurred a certain amount of times. See page \pageref{def:select}.
 \\ \\
 
@@ -916,6 +940,11 @@ and allows efficient pattern searches to be able to quickly perform typical work
 \textbf{snip:} &
 A \textit{single nucleotide polymorphisms} is a change of a single nucleotide. 
 Snips are rather straightforward to work with, as the location of the surrounding data is not affected.
+\\ \\
+
+\textbf{start node:} & If a graph has a node with label “\textbf{\#}” 
+having no incoming edges, then we call this the \textit{start node} $ v_s $ of the graph. 
+See page \pageref{def:start_node}.
 \\ \\
 
 \textbf{variant calling:} & 
@@ -1476,8 +1505,8 @@ table containing the extended XBW which contains exactly one column for each
 node of the graph represented by the extended XBW. \\
 More formally, we define:
 
-\textbf{Definition} An \textit{XBW node table} is a table with rows for the BWT, 
-the prefixes and the values of the bit vectors $ M $ and $ F $, 
+\textbf{Definition} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT, 
+the prefixes and the values of the bit vector $ M $, 
 representing a finite graph with each column of the table corresponding 
 to exactly one node of the graph.
 
@@ -1525,10 +1554,13 @@ The value of the cell $ M $ in column $ i $ is a sequence of bits whose length c
 the amount of successor nodes of $ v_i $, or equally the amount of outgoing edges of node $ v_i $. 
 This sequence always starts with the bit “1” and is then followed 
 by as many “0” bits as are necessary to achieve the desired length. 
-Similarly, the value of $ F $ in column $ i $ is a bit sequence whose length corresponds to 
+In addition to bit vector $ M $, a second bit vector designed as $ F $ can be used within a node table. 
+The value of $ F $ in column $ i $ is a bit sequence whose length corresponds to 
 the amount of predecessor nodes of node $ v_i $. 
-When implementing $ M $ and $ F $, they can instead be thought of as arrays of strings, 
-which each string containing the characters “1” and “0”, for ease of implementation.
+The reason why using the $ F $ bit vector is not strictly necessary is that its information 
+for any column $ i $ is already encoded in the length of the BWT cell of column $ i $. 
+When implementing $ M $ and $ F $, it is possible to think of them as arrays of strings, 
+with each string containing the characters “1” and “0”, for ease of implementation.
 
 \subsection{Flat Tables}
 \label{sec:flat_table_definition}
@@ -1541,7 +1573,7 @@ but instead as flat sequence of characters which can be encoded as string
 or as array with elements of fixed size. \\
 The definition shows that a flat table consists of similar parts as a node table:
 
-\textbf{Definition} A \textit{flat XBW table} is a table with rows for the BWT, 
+\textbf{Definition} A \textit{flat XBW table}\label{def:flat_table} is a table with rows for the BWT, 
 the node labels and the values of $ M $ and $ F $, 
 representing a finite graph. 
 The table is arranged such that each cell contains exactly one character 
@@ -1617,7 +1649,7 @@ in figure~\ref{fig:evo_fig_flat_table_with_ct}. \\
 % GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
 \begin{table}[htb]
 \centering
-\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, \textbf{\#}} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{\#} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{\#} {\, \Rightarrow \,} 17 ] $.}
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, \textbf{\#}} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{\textbf{\#}} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{\textbf{\#}} {\, \Rightarrow \,} 17 ] $.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & \textbf{\#} & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline 
@@ -1661,6 +1693,60 @@ and finally know that the node which we were interested in corresponds to the
 FC and $ M $ values in columns $ j $ until $ k - 1 $ and to the BWT and $ F $ values in columns $ h $ until $ g - 1 $. \\
 Similar operations can be performed to find the range in FC and $ M $ given an index into the BWT, 
 namely ranking the index in $ F $ and calling a select operation on $ M $ to find the corresponding start.
+
+The previous approach assumed that we were given the index $ i $ of a cell in the FC row, 
+and were interested in finding all other cells corresponding to the same node as that cell. 
+We also mentioned a second approach based on an index of a cell in the BWT row. 
+However, we can lastly introduce a more general indexing approach independent of whether we 
+are considering the FC row or the BWT row. \\
+The underlying insight for this third indexing method is that although the cells in the BWT 
+and FC rows corresponding to a node can lie far apart, the order of nodes in both rows is exactly the same. 
+More formally, if the cells corresponding to node $ u $ are sorted before the cells corresponding to node $ v $ in 
+the FC row, then the cells corresponding to node $ u $ are also sorted before the cells corresponding to node $ v $ in 
+the BWT, and vice versa. The reason for this to be true is that the shift in cell locations occurs due to zeroes in 
+the $ M $ and $ F $ vectors, which can expand the width of an area taken up by a node, but cannot change the order 
+in which the nodes are sorted. \\
+Therefore, a viable method for indexing a node $ v $ in a flat table 
+is to simply give an integer $ i $ corresponding to how many nodes $ u_j $ are encoded before, or to 
+the left of, node $ v $. 
+To find the cells in the FC row corresponding to node $ v $ we can then call $ \textrm{select}_1 ( F, i ) $ to 
+find the first column and append columns while $ F $ is zero. 
+To find the cells in the BWT row corresponding to node $ v $ we can call $ \textrm{select}_1 ( M, i ) $ to 
+find the first column and append columns while $ M $ is zero.
+
+Overall we now have three ways to address a node within a flat XBW table: 
+We can use an integer index corresponding to a column in the FC row, 
+which we will refer to as \textit{FC-indexing}\label{def:fc_indexing}, 
+we can use an integer index corresponding to a column in the BWT row, 
+which we will refer to as \textit{BWT-indexing}\label{def:bwt_indexing}, 
+and we can use an integer index corresponding to the position of a node in the table, 
+which we will refer to as \textit{absolute indexing}\label{def:absolute_indexing}. \\
+As an example, we can consider the node highlighted in green in table~\ref{table:flat_table_with_ct}. 
+Its FC-index is 8, as we start to count from 0 and the first green column in the FC row is in position 8. 
+Its BWT-index is 7, as the first green column in the BWT row is in position 7. 
+Finally, its absolute index is 6, as there are 6 nodes preceding it to the left, one 
+with label “\$”, one with label “A”, two with label “C” and two with label “G”. \\
+Calling $ \textrm{select}_1 ( M, 6 ) \boldsymbol{=} 8 $ gives us the FC-index from the absolute index and 
+calling $ \textrm{select}_1 ( F, 6 ) \boldsymbol{=} 7 $ gives us the BWT-index from the absolute index. 
+We can also call $ \textrm{rank}_1 ( M, 8 ) \boldsymbol{=} 6 $ to get the absolute index from the FC-index 
+and $ \textrm{rank}_1 ( F, 7 ) \boldsymbol{=} 6 $ to get the absolute index from the BWT-index. 
+Conversions from the FC-index to the BWT-index and vice versa can therefore simply be executed as conversions 
+to the absolute index and back. \\
+To find the FC-index at which the cells of the node end, 
+we can call $ \textrm{select}_1 ( M, 6 + 1 ) - 1 \boldsymbol{=} 8 $, which 
+is the same as the FC-index at which the cells of the node start, as the node 
+only occupies one column in the FC row. 
+To find the BWT-index at which the cells of the node end, 
+we can call $ \textrm{select}_1 ( F, 6 + 1 ) - 1 \boldsymbol{=} 8 $, which 
+is one more than the BWT-index at which the cells of the node start, 
+as the node occupies two columns in the BWT row.
+
+Each of the three indexing methods presented here 
+may be used in practice, and choosing one of them as standard to which 
+we always need to conform would create unnecessary computational effort for conversions 
+between them. 
+Therefore, whenever work within flat XBW tables is performed, great care must be taken 
+to make clear which kind of indexing is used at each step.
 
 We conclude the explanation of node tables and flat tables by remarking that while each column 
 in an XBW node table corresponds to a node in the graph, 
@@ -1738,13 +1824,35 @@ even if it complicates the format slightly.
 
 % TODO :: write more about GFA - as with FASTG, just a quick overview over the main commands and how they can be implemented
 
+The GFA format uses CIGAR strings. 
+In general, such a CIGAR string is a sequence of lengths and operations 
+associated with these lengths that is used when aligning one string to another \citep{specSAM}. 
+% a really, REALLY good explanation for CIGAR strings (that I can sadly not quote as it is "just some random wiki":
+% http://genome.sph.umich.edu/wiki/SAM#What_is_a_CIGAR.3F
+% however, the thing that I actually am citing here (the SAM specification) is at least not too bad either,
+% as it nicely defines how the CIGAR is built up
+Commonly, such a string can contain the operations \texttt{M} for direct match/mismatch, 
+\texttt{I} for insertions and \texttt{D} for deletions. 
+However, many additional operations for skipping bases, 
+clipping, padding and much more have been proposed 
+for various projects \citep{specGFA1,SAM2009}.
+
 \subsection{Bubble Format}
 
 Having explored the FASTG and GFA format, we decided to also look 
-at the bubble notation and base a data format on it. 
-It is not supposed to be used for production environments and indeed 
+at the bubble notation which is already partially in use within other formats, 
+and base a data format solely on it. 
+In other data formats, such as FASTG, bubbles are included as a way to encode very short graphs 
+without the explicit generation of nodes and edges for them, 
+as that would lead to a lot of overhead and decrease human-readability. 
+On the other hand, adding such bubbles as options to formats which otherwise 
+would already be able to contain said graphs through more complicated encoding mechanisms 
+does make it more complicated for programs to work with that format, which is why the inclusion 
+of such bubbles is not always seen positively \citep{specGFA1}. \\
+Our format based on these bubbles 
+is not supposed to be used for production environments and indeed 
 is not complex enough to describe any but the most trivial kinds of graphs. 
-However, we still decided to also have a look into this particular format, 
+However, we still decided to have a look into this particular format, 
 as implementing it in a software package might teach us valuable lessons 
 about problems to avoid when designing actual graph formats to be used for real world data.
 
@@ -1826,9 +1934,10 @@ then all the rows are simply interpreted as one contiguous data block.
 %
 
 Within a data block, a genomic graph is encoded in two different parts. \\
-The first part is referred to as the “main path.” 
-This is simply the sequence of labels on any one path from the start node 
-to the end node. The start and end nodes are labelled with a hashtag symbol and a dollarsign, respectively. 
+The first part is referred to as the \textit{main path}. 
+This is simply the sequence of labels on any one path from the \textit{start node}, 
+which has no incoming edges, to the \textit{end node}, which has no outgoing edges. 
+The start and end nodes are labelled with a hashtag symbol and a dollarsign, respectively. 
 These labels are not included in the main path within the file, as they are implicitly assumed 
 to exist for any such graph. \\
 The second part of a data block is optional. 
@@ -2013,30 +2122,31 @@ the directed edges which lead from a node onto itself, either directly or along 
 % TODO FIGFIGFIG :: inifinite loops
 The alphabet $ \Sigma $ is assumed to contain only upper case English letters for graphs within GML.
 
-Graphs are also assumed to have exactly one node with the label “\$” which 
+Graphs are also assumed to have exactly one \textit{start node}\label{def:start_node} $ v_s $ with the label “\textbf{\#}” which 
 is the start of each path traversing the entire graph. This means that there is only one node with no incoming 
-edges, this node has the label “\$”, and it is the only node in the graph with this label. 
+edges, this node has the label “\textbf{\#}”, and it is the only node in the graph with this label. 
+The lexicographic value of the character “\textbf{\#}” is supposed to be above the 
+lexicographic value of all characters in the alphabet $ \Sigma $, 
+which is however not the case for “\textbf{\#}” in ASCII \citep{ASCII}. 
+We therefore internally use the character “{\textasciicircum}”, whose lexicographic value encoded in ASCII 
+is above all English letters in upper case. 
+This is also the reason why we work with upper case letters as node labels instead of allowing lower case letters as well. 
+Before being displayed, the character “{\textasciicircum}” is replaced by “\textbf{\#}”. \\
+Furthermore, each graph is assumed to have exactly one \textit{end node}\label{def:end_node} $ v_e $ with the label “\$” in which 
+each path traversing the entire graph ends. This can be reformulated as there being only one node without any 
+outgoing edges, this node having the label “\$”, and no other node in the graph having this label. 
 The lexicographic value of the character “\$” is supposed to be below the 
 lexicographic value of all characters in the alphabet $ \Sigma $, 
 which is the case for “\$” if the alphabet only contains English letters and the encoding in 
-which string characters are compared is ASCII \citep{ASCII}. \\
-Furthermore, each graph is assumed to have exactly one node with the label “\textbf{\#}” in which 
-each path traversing the entire graph ends. This can be reformulated as there being only one node without any 
-outgoing edges, this node having the label “\textbf{\#}”, and no other node in the graph having this label. 
-The lexicographic value of the character “\textbf{\#}” is supposed to be above the 
-lexicographic value of all characters in the alphabet $ \Sigma $, 
-which is however not the case for “\textbf{\#}” in ASCII. 
-We therefore internally use the character “{\textasciicircum}”, whose lexicographic value encoded in ASCII 
-is above all English letters in upper case. 
-This is also the reason why we work with upper case letters as node labels. 
-Before being displayed, the character “{\textasciicircum}” is replaced by “\textbf{\#}”. \\
+which string characters are compared is ASCII. \\
 It should be noted that we use two different conventions concerning 
-an edge from the end node $ v_{\$} $ to the start node $ v_{\textbf{\#}} $. 
+an edge from the end node $ v_e $ to the start node $ v_s $. 
 When we are working with XBW node tables or with flat XBW tables, 
-we assume that there is an edge leading from the end node to the start node. 
-This makes working with these tables slightly easier, as the FC row corresponds 
-exactly to the alphabetically sorted BWT row. 
-If there was no such edge from $ v_{\$} $ to $ v_{\textbf{\#}} $, 
+we assume that there is an edge leading from the end node to the start node, 
+but that there still is no other incoming edge into the start node and no other outgoing edge out of the end node. 
+This simplifies working with these tables slightly, as the FC row then exactly corresponds 
+to the alphabetically sorted BWT row. 
+If there was no such edge from $ v_e $ to $ v_s $, 
 then the BWT would contain the symbol “\textbf{\#}”, but it would be missing the “\$” character. 
 Also, the FC row would contain the “\$” character, but it would be missing the “\textbf{\#}”. \\
 On the other hand, when we are considering graphs internally as arrays of nodes which 
@@ -2145,6 +2255,7 @@ The first one of these functions is called \texttt{eliminateMultipleEdgesInAutom
 Its underlying functionality can be found in algorithm~\ref{alg:eliminateMultipleEdgesInAutomaton}.
 \begin{algorithm}
 \caption[Unify multiple edges in a graph]{Unify multiple edges in a graph.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:eliminateMultipleEdgesInAutomaton}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
@@ -2180,6 +2291,7 @@ The next function is \texttt{checkAutomatonForLoops}.
 Its general approach is shown in algorithm~\ref{alg:checkAutomatonForLoops}.
 \begin{algorithm}
 \caption[Check if graph contains loops]{Check if a graph contains loops.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:checkAutomatonForLoops}
 \begin{algorithmic}[1]
 \State $ \textrm{paths} \gets [ \, [ \, 0 \, ] \, ] $
@@ -2218,6 +2330,7 @@ Finally, the function \texttt{checkAutomatonForIncorrectChars} as shown in
 automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of the automaton 
 \begin{algorithm}
 \caption[Check if graph labels contain invalid characters]{Check if graph labels contain invalid characters.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:checkAutomatonForIncorrectChars}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
@@ -2239,8 +2352,8 @@ automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of t
 \end{algorithmic}
 \end{algorithm}
 and checks if the labels conform to the assumptions, meaning that every node needs to have a 
-label with exactly one English upper case letter, except for the start node which has the label “\$” and 
-the end node which has the label “\textbf{\#}”. 
+label with exactly one English upper case letter, except for the start node which has the label “\textbf{\#}” and 
+the end node which has the label “\$”. 
 Again, if a node is encountered which does not conform to these assumptions, then the invalid input message 
 is shown to the user and the computation is stopped. \\
 We could also use some function to check if the graph is connected, 
@@ -2266,6 +2379,7 @@ Algorithm~\ref{alg:visualize} shows how this function works in general.
 \caption[Visualize a graph]{Visualize a graph by first displaying one path from 
 the starting node to the end node, referred to as main row, 
 and then adding alternative paths around the established core.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:visualize}
 \begin{algorithmic}[1]
 \State $ \textrm{current\_node} \gets \textrm{graph}[0] $
@@ -2355,6 +2469,7 @@ We therefore developed the function \texttt{mergeAutomata},
 the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}. 
 \begin{algorithm}
 \caption[Merge two graphs]{Merge two graphs in a simple manner. The input consists of graph\_1 and graph\_2, which are to be merged.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:mergeAutomata}
 \begin{algorithmic}[1]
 
@@ -2520,6 +2635,7 @@ in algorithm~\ref{alg:isAutomatonReverseDeterministic}.
 
 \begin{algorithm}
 \caption[Check if a graph is reverse deterministic]{Checks if a graph is reverse deterministic.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:isAutomatonReverseDeterministic}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
@@ -2585,6 +2701,7 @@ the nodes and reducing the amount of
 prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:workOnAutomatonPrefixes}. 
 \begin{algorithm}
 \caption[Prefix sort a graph]{Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:workOnAutomatonPrefixes}
 \begin{algorithmic}[1]
 \State $ \textrm{graph\_is\_not\_prefix\_sorted} \gets \texttt{true} $
@@ -2674,11 +2791,39 @@ This includes going from one node in the table to its successors or predecessors
 as well as reading out the prefix of a given node to a certain length.
 
 \subsection{Navigating Through the Graph and Reading Out Labels}
+\label{sec:gml_node_navigation}
 
-Assuming that we are interested in a certain column $ i $ of the node table, 
-which corresponds to a node $ v_i $ in the graph represented by the table, 
-then we can read out the label $ l ( v_i ) $ of that node by reading out the prefix 
-from the table and taking the first character of this prefix.
+To navigate through a graph represented by an XBW node table, 
+we should be able to find the start and end nodes within the graph  
+as well as being able to go from a node to a node connected to it through an edge.
+
+To find the index $ i_s $ of the column representing the start node in a node table, 
+we would usually search for all columns with a prefix starting with “\textbf{\#}”, 
+as we know that the start node has a hash tag sign as its label. \\
+As we assume there only to be one start node, there is only one such column in the node table. 
+Its prefix therefore usually consists of just the letter “\textbf{\#}”, as there is no reason 
+to build the prefix longer due to no other prefix starting with the same letter and an alphabetical 
+ordering of the nodes by the prefixes being already guaranteed from just the first letter. 
+However, a longer prefix would not be invalid, and therefore we would technically need to 
+search for such a prefix starting with a hash tag sign. \\
+Luckily, this entire search is unnecessary, as the single start node that is contained in the 
+table can always be found in the same position. This position is the last, or right-most, column of the table. 
+The reason why the column corresponding to the start node can always be found in this position is that 
+the columns are alphabetically sorted by their prefixes, and the prefix of the start node starts with its label. 
+The lexicographic value of this label is above the lexicographic value of all characters from the 
+considered alphabet $ \Sigma $. \\
+Equivalently, there is only one end node $ v_e $ in the graph, and the column with index $ i_e $ corresponding to it 
+can always be found in the very first, or left-most, column of the node table. 
+Therefore, we always have $ i_e \boldsymbol{=} 0 $.
+The reason is here that the lexicographic value of the label “\$” is lower than that of all characters from the 
+alphabet $ \Sigma $.
+
+The problem of advancing from a node $ v $ to the preceding or succeeding nodes can 
+be thought about in the context of reading out the labels of these preceding and succeeding nodes. 
+To that end, we can assume that we are interested in a certain column $ i $ of the node table, 
+which corresponds to a node $ v_i $ in the graph represented by the table. 
+Reading out the label $ l ( v_i ) $ of that node itself can be achieved by reading out the prefix 
+in column $ i $ of the table and taking the first character of this prefix.
 
 To read out the label of a succeeding node, we actually have several possibilities. 
 One way is to take the second character of the prefix of the current node, 
@@ -2689,7 +2834,7 @@ of $ v_i $ have the same label, as the prefix of $ v_i $ will otherwise have the
 error character “!” in the second position. \\
 A similar approach can be used to read out the labels of the preceding nodes of $ v_i $. 
 All these labels are different, as the graph has been made reverse deterministic, 
-and they are stored in the BWT row of the node table. So if we find $ \textrm{BWT} ( i ) = \textrm{A{\pipe}G} $, 
+and they are stored in the BWT row of the node table. So if we find $ \textrm{BWT} ( i ) \boldsymbol{=} \textrm{A{\pipe}G} $, 
 then we know that $ v_i $ has two preceding nodes with the labels A and G. 
 This however only allows us to read out the labels of the immediately preceding nodes, 
 while not enabling us to find the labels of nodes preceding the predecessors of $ v_i $.
@@ -2703,6 +2848,7 @@ of a node $ v_i $, we can use the \texttt{nextNodes} function. Algorithm~\ref{al
 function works. 
 \begin{algorithm}
 \caption[Find succeeding nodes in a node table]{Given a column $ i $ in an XBW node table, find the indices of the columns corresponding to the succeeding nodes.}
+\addtocontents{loa}{\vskip 15pt}
 \label{alg:nextNodes}
 \begin{algorithmic}[1]
 \State $ \textrm{label} \gets \textrm{prefix} [ \, i \, ] [ \, 0 \, ] $
@@ -2745,7 +2891,10 @@ This approach works based on the fact that the left-most occurrence of a letter 
 to the left-most occurrence of this letter in the BWT, the second occurrence of a letter in the labels of the nodes 
 corresponds to the second occurrence of this letter in the BWT, and so on.
 
-% ... - also write something about nextNodes! (maybe not quiiite so much though? who knows!)
+A similar approach can be used to find the preceding nodes of $ v_i $, 
+which has been implemented in the \texttt{prevNodes} function.
+
+% ... - also write something about prevNodes! (maybe not quiiite so much though? who knows!)
 
 \subsection{Constructing Prefixes}
 
@@ -2869,11 +3018,173 @@ by the original table.
 %                                                                                                     METHODS: Working on a Flat Table
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before considering the rather challenging problem of merging several flat XBW tables, 
-we should first investigate how work within such flat tables can be performed in general. 
-In particular, it is helpful to understand how 
+The next section is about the merging of several flat XBW tables. 
+Before considering this rather challenging problem, 
+it is helpful to first investigate how work within such flat tables can be performed in general. 
+In particular, we here look at how 
 the functions LF and $ \Psi $ can be used to find the predecessors and successors 
 of nodes, respectively.
+
+\subsection{Graph Navigation}
+
+As with the navigation through XBW node tables described in section~\ref{sec:gml_node_navigation}, 
+the navigation through a graph represented by a flat XBW table relies on 
+being able to find special nodes within the graph  
+as well as being able to advance from one node to another one. 
+In particular, we should to be able to find the start node and the end node in the flat table, 
+and given a node $ v $, we should be able to find the preceding and the succeeding nodes of $ v $.
+
+% find start node
+To find the cells corresponding to the start node $ v_s $, we can again look at the end of the table, 
+just as when finding the start node in a node table. 
+However, in this case it is not enough to look at the last column, as some other cells could belong 
+to the start node too. In particular, as the start node can have several outgoing edges, 
+there could be several cells in the FC and $ M $ rows corresponding to the start node. 
+Therefore, using FC-indexing or BWT-indexing complicates finding the start node slightly, 
+while finding this node with absolute indexing is as simple as for node tables. \\
+In absolute indexing, the index $ i_s $ of the start node is the highest index of all nodes. 
+It can be found as $ i_s \boldsymbol{=} \textrm{rank}_1 ( M, l ) \boldsymbol{=} \textrm{rank}_1 ( F, l ) $ where we 
+define $ l $ as the index of the last column in the table, 
+which is equal to one less than the amount of columns in the table. \\
+% find end node
+Finding the cells corresponding to the end node $ v_e $ is even simpler, as its label “\$” is 
+lexicographically smaller than all other labels and it is therefore sorted to the very front. 
+This means that the absolute index of the end node in a flat table is $ i_e \boldsymbol{=} 0 $. 
+As there can be no nodes preceding this one in the table, the index is also 0 when using 
+FC-indexing or BWT-indexing.
+
+% find preceding nodes
+To find the preceding nodes of a given node, 
+we can use the function LF. It performs last-to-first mapping to 
+map the last column in the matrix of sorted cyclic rotations, which is the BWT, 
+to the first column, which is the FC row. 
+How this function operates can be seen in algorithm~\ref{alg:lf}. 
+\begin{algorithm}
+\caption[LF function for flat table navigation]{LF function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It gives out an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:lf}
+\begin{algorithmic}[1]
+
+\State $ sp \gets \textrm{select}(1, F, sp) $
+\Comment{If do\_select: absolute indexing to BWT-indexing}
+\State $ ep \gets \textrm{select}(1, F, ep + 1) - 1 $
+
+\State \phantom{nl}
+
+\State $ sp \gets C [ c ] + \textrm{rank}(c, \textrm{BWT}, sp - 1) + 1 $
+\Comment{Perform last-to-first mapping}
+\State $ ep \gets C [ c ] + \textrm{rank}(c, \textrm{BWT}, ep) $
+
+\State \phantom{nl}
+
+\If {ep < sp}
+\Comment{Return empty range if nothing is found}
+	\State \Return [ \, ]
+\EndIf
+
+\State \phantom{nl}
+
+\State $ sp \gets \textrm{rank}(1, M, sp) $
+\Comment{If do\_rank: FC-indexing to absolute indexing}
+\State $ ep \gets \textrm{rank}(1, M, ep) $
+
+\State \phantom{nl}
+
+\State \Return $ [ sp, ep ] $
+
+\end{algorithmic}
+\end{algorithm}
+Its general approach is to take in a range $ [ sp, ep ] $ of absolute indices of 
+nodes $ v_{sp}, ..., v_{ep} $ and a character $ c $, 
+and return a range of absolute indices corresponding to the nodes 
+preceding the ones that were given as input which have character $ c $ as label. 
+Both ranges can represent one or several nodes. \\
+The LF function is more general than a function designed for just finding the 
+preceding nodes of a given node. The ability of taking in more than one node through 
+the input range combined with the ability to actively search for specific preceding 
+nodes through the character $ c $ means that it can actually be used when searching 
+for texts within the graph. 
+However, it can of course also be used to just find the preceding nodes of a given node $ v_i $, 
+by calling it once for each BWT entry corresponding to $ v_i $. \\
+E.g. if two BWT entries correspond to $ v_i $, then the function needs to be called twice, 
+with the character $ c $ set to a different one of these BWT entries each time. 
+The resulting ranges will describe one node each time, 
+giving us a total of two preceding nodes for the input node. \\
+We here made the select operations in the beginning and the rank operations in 
+the end optional by introducing the parameters do\_select and do\_rank, 
+so that the caller can set them to \texttt{false} after 
+deciding to use different indexing methods if that is more convenient.
+
+% find succeeding nodes
+Similar to the LF function for preceding nodes, there is also a second special function we can use 
+to find the succeeding nodes of a given node. 
+This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg:psi}. 
+\begin{algorithm}
+\caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ j $. It gives out the absolute index of the $ j $th node succeeding the node with index $ i $.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:psi}
+\begin{algorithmic}[1]
+
+\State $ i \gets \textrm{select}(1, M, i) $
+\Comment{If do\_select: absolute indexing to FC-indexing}
+
+\State \phantom{nl}
+
+\State $ i \gets i + j $
+\State $ c \gets \textrm{FC} [ i ] $
+\State $ i \gets \textrm{select}(c, \textrm{BWT}, i - C [ c ]) $
+\Comment{Get the next node}
+
+\State \phantom{nl}
+
+\State $ i \gets \textrm{rank}(1, F, i) $
+\Comment{If do\_rank: BWT-indexing to absolute indexing}
+
+\State \phantom{nl}
+
+\State \Return $ i $
+
+\end{algorithmic}
+\end{algorithm}
+It works slightly different than LF, 
+in that it does not work on a range of nodes, but instead focuses on a single node only. 
+Similarly to LF, we need to call $ \Psi $ several times to find all nodes succeeding a given one. 
+This functionality is provided through a second parameter which $ \Psi $ takes 
+in addition to the index of the node we are examining. 
+The second parameter determines which edge we take out of that node, 
+and the index of the single node which we reach upon using that edge is returned. \\
+More formally, when $ i $ is the absolute index of a node $ v_i $ in the flat XBW table, 
+and $ j $ is an integer, then $ \Psi (i, j) $ returns the absolute index of the $ j $th node 
+succeeding the node $ v_i $. So if the node $ v_i $ has two outgoing edges, 
+then $ \Psi (i, 0) $ returns the absolute index of the node reached when following 
+the first of these edges, while $ \Psi (i, 1) $ returns the absolute index of the node reached when 
+taking the second outgoing edge. \\
+The $ \Psi $ function described here differs slightly from the one proposed by \citet{Siren2014}. 
+One of the differences is that we convert from absolute indexing to FC-indexing first, 
+and then get the character $ c $, as we directly take $ c $ from the FC row instead 
+of using another structure which corresponds to the FC row without entries for which $ M $ is zero. 
+The second difference is that we use $ j \boldsymbol{=} 0 $ to indicate the first outgoing edge, 
+while their function starts with $ j \boldsymbol{=} 1 $. 
+Finally, in our version we actually made the select operation in the beginning and the rank operation in 
+the end optional by introducing the parameters do\_select and do\_rank, 
+just as we did with the LF function. 
+This in particular allows the caller to combine the parameters $ i $ and $ j $ into one value 
+when calling with FC-indexing by setting do\_select to \texttt{false}, 
+therefore preventing unnecessary indexing method conversions.
+
+% TODO :: maybe add a table or figure showing an example run of LF and Psi?
+
+\subsection{Constructing Prefixes}
+
+Prefixes can be constructed using $ \Psi $ function to advance from a node to the next ones, 
+while keeping track of the labels of these nodes.
+
+% ...
+
+\subsection{Finding Texts}
+
+Texts can be found using the LF function with a big initial range which gets diminished through 
+several applications, calling the function once for each letter in the text.
 
 % ...
 
@@ -3778,4 +4089,4 @@ The source codes together with the newest version of the thesis itself can be ac
 % hægri stillt við hægri brún töflu.
 % 
 % Dæmi um sjálfvirka tilvísun í töflu, bara nota Label and Number, 
-% ekki nota hyperlink eða caption text. T.d. Tafla 3.1 sýnir dæmi um töflu. }
+% ekki nota hyperlink eða caption text. T.d. Tafla 3.1 sýnir dæmi um töflu. }
