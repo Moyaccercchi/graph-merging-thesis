@@ -30,10 +30,15 @@
 %         und schließlich auch noch "\cite{" durch "\citep{" sowie "Javascript" durch "JavaScript" (CamelCase, yay! ^^)
 %
 % TODO :: decide whether to use SNPs or snips, and then stick with one ;) (just now I used "snips", but seriously, check that!)
+%         also decide whether to use automatons or automata - don't use both!
+%         also indices vs. indexes!
 %
 % TODO :: replace " - " with "---" (but case-to-case, nicht einfach so blanko!)
 %
 % TODO :: search for ?? in the PDF document, as that is what missing links will come out as, and link them up proper!
+%
+% TODO :: scroll through the whole document and see if texts stick out to the right
+%         (e.g. long function names that are not properly broken up automagically)
 %
 % TODO :: alles nochmal auf verb tenses überprüfen, also:
 % "Use present tense to express general truths or facts or conclusions supported by research results that are unlikely to change.
@@ -159,6 +164,9 @@
 % listing with linebreaks for tests in the appendix
 \usepackage{listings}
 \lstset{breaklines=true}
+
+% gives us textquotesingle for non-curly apostrophes
+\usepackage{textcomp}
 
 % BTW, for example reference types, see https://www.sharelatex.com/learn/Bibliography_management_with_natbib
 
@@ -2255,7 +2263,7 @@ We therefore included a small visualization function within the Graph Merging Li
 which is capable of displaying simple graphs nicely. 
 Algorithm~\ref{alg:visualize} shows how this function works in general. 
 \begin{algorithm}
-\caption[Visualize a graph]{Visualizes a graph by first displaying one path from 
+\caption[Visualize a graph]{Visualize a graph by first displaying one path from 
 the starting node to the end node, referred to as main row, 
 and then adding alternative paths around the established core.}
 \label{alg:visualize}
@@ -2341,11 +2349,111 @@ be arranged next to each other.
 
 The aim of the Graph Merging Library is to provide advanced algorithms 
 for the direct merging of flat XBW tables. 
-We therefore developed the function \texttt{mergeAutomata} to merge two uncompressed input graphs, 
-so that the results of the advanced merging 
-algorithms can be checked against the results of this robust and simple method.
+However, it is helpful to be able to quickly check whether this merging of tables 
+was successful. 
+We therefore developed the function \texttt{mergeAutomata}, 
+the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}. 
+\begin{algorithm}
+\caption[Merge two graphs]{Merge two graphs in a simple manner. The input consists of graph\_1 and graph\_2, which are to be merged.}
+\label{alg:mergeAutomata}
+\begin{algorithmic}[1]
 
-% ...
+\State {$ \textrm{graph} \gets [ \, ] $}
+\State {$ \textrm{offset} \gets ( \textrm{\textbf{length of} graph\_1} ) - 2 $}
+\State {$ \textrm{into\_2} \gets \textrm{graph\_2[ 0 ].n} $}
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} graph\_1}
+\Comment{Start to build graph as copy of graph\_1}
+	\If{graph\_1[$ i $].c {\boldmath$ = $} {\textquotesingle}\${\textquotesingle}}
+		\State {$ \textrm{del\_i} \gets i $}
+		\State {$ \textrm{out\_of\_1} \gets \textrm{graph\_1[$ i $].p} $}
+	\Else
+		\State \textbf{append} graph\_1[$ i $] \textbf{to} graph
+	\EndIf
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} out\_of\_1}
+\Comment{Take out link to \$}
+	\State {\textbf{delete} del\_i \textbf{from} graph[out\_of\_1[$ i $] \, ].n}
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} graph}
+\Comment{Update indices after deleting \$ node}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph[$ i $].p}
+		\If{graph[$ i $].p[$ j $] {\boldmath$ \geq $} del\_i}
+			\State {\textbf{decrease} graph[$ i $].p[$ j $]}
+		\EndIf
+	\EndFor
+	\State \textbf{Repeat previous five lines with} .n \textbf{instead of} .p
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 1 \textbf{to length of} graph\_2}
+\Comment{Add all nodes from graph\_2}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph\_2[$ i $].p}
+		\State {$ \textrm{graph\_2[$ i $].p} \gets \textrm{graph\_2[$ i $].p} + \textrm{offset} $}
+	\EndFor
+	\State \textbf{Repeat previous three lines with} .n \textbf{instead of} .p
+	\State \textbf{append} graph\_2[$ i $] \textbf{to} graph
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} into\_2}
+\Comment{Take out link to \textbf{\#}}
+	\State {$ \textrm{into\_2[$ i $]} \gets \textrm{into\_2[$ i $]} + \textrm{offset} $}
+	\State {\textbf{delete} offset \textbf{from} graph[into\_2[$ i $] \, ].p}
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} out\_of\_1}
+\Comment{Attach end of graph\_1}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} into\_2}
+	\Comment{to start of graph\_2}
+		\State {\textbf{append} into\_2[$ j $] \textbf{to} graph[out\_of\_1[$ i $].n}
+		\State {\textbf{append} out\_of\_1[$ i $] \textbf{to} graph[into\_2[$ j $].p}
+	\EndFor
+\EndFor
+
+\end{algorithmic}
+\end{algorithm}
+It is used to merge two input graphs which are stored in the internal graph format 
+outlined in section~\ref{sec:internal_graph_format}. \\
+The function operates by first copying every node from graph\_1 into the newly created graph, 
+except for the end node with label “\$”. A list of all nodes which have outgoing edges leading to that node 
+is hereby stored in the array out\_of\_1. 
+This array is then iterated over, and from each of these nodes the edge leading to the end node is taken out. 
+Finally, all nodes are iterated over and their pointers in the .p and .n arrays are updated to reflect 
+the new positions of the nodes in the graph array which follow the now deleted end node. 
+This concludes the deletion of the node with label “\$” from the first graph. \\
+Most of the nodes from the second input, graph\_2, are then added to the resulting graph. 
+Only one of the nodes from graph\_2 is left out, which is the start node with label “\#”. 
+As the start node is defined to always be in position 0 in the graph array, 
+this can simply be done by starting the iteration at position 1. 
+While adding the new nodes to the resulting graph, 
+all their .p and .n arrays are updated using an offset. 
+This is necessary as they get appended to the end of the new graph 
+and therefore their positions are different than they were in graph\_2. 
+Equivalently to the array out\_of\_1, which kept track of the nodes with edges leading towards the end node in graph\_1, 
+we now also use an array into\_2, which keeps track of the nodes with edges coming in from the start node in graph\_2. 
+Again, these edges are deleted to fully delete the start node from graph\_2. \\
+Having deleted both the end node of graph\_1 and the start node of graph\_2, 
+we then attach the end of graph\_1 to the start of graph\_2, again using the out\_of\_1 and into\_2 arrays 
+which tell us which nodes lie at the end of graph\_1 and at the start of graph\_2, respectively. 
+This concludes the function, as the merged graph has been fully formed.
+
+Using this function to merge the graphs directly 
+enables us to generate a flat XBW table based on the merged graph, 
+which can then later on be compared against the results of the 
+advanced XBW table merging algorithms to check whether they successfully merged the individual tables.
 
 \section{Ensuring the Graph is Reverse Deterministic}
 \label{sec:why_rev_det}
@@ -3074,17 +3182,17 @@ in order to more quickly build prefixes. \\
 To be able to compare the results of different methods anyway, and call a test 
 a success even if not the exact same flat table has been generated, but a nevertheless 
 equally acceptable table has been constructed, we convert the tables in question to the 
-primitive automatons described in section~\ref{sec:internal_graph_format}. \\
-We further introduced the function \texttt{automatonsAreEquivalent}, which 
-takes in two automatons to give out \texttt{true} if both are equivalent, 
-and \texttt{false} if they are not. We here define two automatons to be 
+primitive automata described in section~\ref{sec:internal_graph_format}. \\
+We further introduced the function \texttt{automataAreEquivalent}, which 
+takes in two automata to give out \texttt{true} if both are equivalent, 
+and \texttt{false} if they are not. We here define two automata to be 
 equivalent if they generate the same language, even though they may differ 
 in the amount and layout of nodes that they use to construct this language. \\
 We can therefore check if both methods that are compared produce flat tables 
 which correspond to automata generating the same languages, which means 
 that graphs are generated which contain the exact same paths.
 
-Even with the ability to compare the languages generated by automatons, 
+Even with the ability to compare the languages generated by automata, 
 the automated tests still have to be analysed carefully instead of 
 simply being taken at face value. \\
 Consider a merge test with several randomized inputs showing a mismatch 
