@@ -2672,6 +2672,7 @@ to determine which operation to choose next and how to apply it.
 % splitNodeInAutomaton
 
 \section{Prefix Sorting}
+\label{sec:prefix_sorting}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                              METHODS: Prefix Sorting
@@ -2919,6 +2920,7 @@ but instead we append the entire prefixes of succeeding nodes.
 % ... - add this section about how strings in the graph can be located!
 
 \section{Merging Node Tables}
+\label{sec:gml_merging_node_tables}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                         METHODS: Merging Node Tables
@@ -2941,7 +2943,88 @@ of merging two node tables.
 % replace $ having origin 0 with $#firstLetterH_2 within prefixes
 % and more
 
-% ...
+% ... - add ALLLLL the stuff for node table merging!
+
+While working on the emerging XBW node table, we often have to construct longer prefixes for nodes 
+with ambiguous prefixes. Do do so, we navigate through the graph and append labels of the nodes we encounter. 
+However, this navigation through the graph is made more difficult by the fact that the ordering 
+of the nodes of the first input table can be changed within the merged table. 
+The reason for this is that their prefixes, which within the first input table ended at the 
+end node $ v_e $ of the first graph, can now spill over into the second graph, 
+thereby giving different relative orderings. 
+This concept is illustrated in figure~\ref{fig:evo_fig_node_merge_aftersort} and table~\ref{table:node_merge_aftersort}. \\
+% GAAT|,1,CT,3 and CAA|,1,,3
+\begin{table}[htb]
+\centering
+\caption[Node tables showing purpose of aftersort array]{Node tables showing the purpose of the aftersort array. The upper two node tables are the inputs for the XBW node merging, while the bottom table is the outcome. The highlighted columns correspond to the highlighted nodes in figure~\ref{fig:evo_fig_node_merge_aftersort}.}
+
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{4pt}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | }
+\hline
+T & G & A|T & G & \textbf{\#} &\cellcolor{green_bg}\color{green_fx}A &\cellcolor{purple_bg}\color{purple_fx}C & \$ & \textbf{BWT} \\ \hline 
+\$ & AA & AT & C & G &\cellcolor{green_bg}\color{green_fx}T\$\textbf{\#}C &\cellcolor{purple_bg}\color{purple_fx}TA & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 1 & 10 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 10 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\quad
+\begin{tabular}{ | c | c | c | c | c | c | }
+\hline
+A & A|C & C & \textbf{\#} & \$ & \textbf{BWT} \\ \hline 
+\$ & A\$ & AA & C & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 10 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 10 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+}
+
+\vspace{0.5cm}
+
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+A & A|C & C & G & A|T & T & G & \textbf{\#} &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{green_bg}\color{green_fx}A & \$ & \textbf{BWT} \\ \hline 
+\$ & A\$ & AA\$ & AAT & AT & CA & CT & G &\cellcolor{purple_bg}\color{purple_fx}TA &\cellcolor{green_bg}\color{green_fx}TC & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 1 & 1 & 10 & 1 & 10 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 10 & 1 & 1 & 10 & 1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+
+\label{table:node_merge_aftersort}
+\end{table}
+% GAAT|,1,CT,3 and CAA|,1,,3
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_node_merge_aftersort.pdf}
+\caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
+\end{figure}
+% TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+We can see that in the input table at the top, the green node with prefix T\$\textbf{\#}C is sorted 
+before the purple node with prefix TA, 
+as the dollar sign is lexicographically smaller 
+than all other considered characters. 
+When considering just the first input table on its own, the prefix of the green node would actually be T\$, 
+as we only appended \textbf{\#}C to that prefix is to show 
+how the prefix will look like when a spill over into the second input graph occurs, in which labels from the 
+second input graph are appended to prefixes in the first graph. 
+However, in the merged table at the bottom, the green node with prefix TC is sorted after the purple node with prefix TA, 
+as “C” is lexicographically bigger than “A”. \\
+Therefore, when we are working with the merged table, we cannot simply append the columns from the two input 
+tables in the exact order in which they are within the input tables, but we need to change the order slightly 
+to account for the fact that such spillovers from the first into the second input can happen. 
+This itself is not a particularly challenging problem, as we can just account for this different sorting 
+behaviour when initially constructing the merged table. \\
+However, doing so results in a merged table which is internally inconsistent as long as we still 
+see it as merged form of two individual tables, using an origin row to keep track of the partial table 
+we are working in. 
+To counteract this problem, we use a structure which we refer to as an \textit{aftersort array}, 
+which allows us to account for sorting problems after the start of merging the two tables. 
+It provides a mapping from the locations within the first input table that we expect 
+to the actual locations in the merged table, which can slightly differ from it. 
+In particular, we use such an array with the name bwt\_aftersort in 
+the functions \texttt{nextNodes} and \texttt{prevNodes} to this end. \\
+It is never necessary to apply an aftersort array when considering the second input, 
+as no spillovers out of that table can occur when building prefixes, as we build 
+prefixes by advancing to succeeding nodes, and no new node is succeeding the end node 
+of the second input which actually becomes the end node of the merged table.
 
 \section{Creating a Flat Table}
 %
@@ -3079,7 +3162,7 @@ How this function operates can be seen in algorithm~\ref{alg:lf}.
 
 \If {ep < sp}
 \Comment{Return empty range if nothing is found}
-	\State \Return [ \, ]
+	\State \Return $ [ \, ] $
 \EndIf
 
 \State \phantom{nl}
@@ -3175,18 +3258,114 @@ therefore preventing unnecessary indexing method conversions.
 % TODO :: maybe add a table or figure showing an example run of LF and Psi?
 
 \subsection{Constructing Prefixes}
+\label{sec:gml_flat_construct_prefixes}
 
-Prefixes can be constructed using $ \Psi $ function to advance from a node to the next ones, 
-while keeping track of the labels of these nodes.
+Prefixes can be constructed using the $ \Psi $ function to advance from a node to the next ones, 
+while keeping track of the labels of these nodes. \\
+That is, to construct the prefix of a node $ v $, we can read out the label $ l ( v ) $ as 
+first character of the prefix. 
+We can then advance through all nodes $ u_j $ succeeding $ v $ by using the $ \Psi $ function once 
+for each outgoing edge. 
+If all these nodes $ u_j $ have the same label, so if $ l ( u_j ) \boldsymbol{=} l ( u_k ) $ for 
+all $ j $ and $ k $ for which $ u_j $ and $ u_k $ are defined, then we can append this label 
+to the prefix we are building. 
+Otherwise, we have to append an error character such as “!” to indicate that this position in the 
+prefix cannot be filled unambiguously and stop the prefix generation. 
+We also have to stop building up the prefix when we add the special “\$” character to it, 
+as we would otherwise just continue building it from the start. 
+We can continue onwards with this process until we have generated a prefix of the desired length 
+by repeatedly using $ \Psi $ again to find all succeeding nodes 
+of all current nodes $ u_j $, and again adding the shared label of all of them if it is unambiguous. \\
+% TODO :: add an algorithm for _publishPrefix?
+This process is implemented in the function \texttt{\_publishPrefix} of the XBW environment in GML. 
+In addition to performing the aforementioned calculations to generate the prefix of a given node, 
+this function can also return a recommended \textit{split node} through the optional parameter give\_the\_split\_node. 
+We here define a split node as a node which can be split into several nodes, thereby ideally enabling us 
+to continue building longer prefixes. 
+An example for such a node can be seen in figure~\ref{fig:evo_split_node}. 
+% GTCTTAACT|,3,AG,5
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_split_node.pdf}
+\caption[Graph with split node before and after splitting]{Graph with split node with label “C!” before splitting (top) and the same graph after splitting the node (bottom).} \label{fig:evo_split_node}
+\end{figure}
+It can be seen that splitting the node with label “C!” in the figure did not change the 
+genomic strings generated as paths through the whole graph from start node to end node, 
+which is a general requirement we have for splitting nodes. 
+The splitting helped in enabling us to build longer prefixes as one node with 
+two outgoing edges to nodes with different labels was replaced by two nodes 
+with only one outgoing edge each, so that each one of the new nodes can 
+have a longer prefix. \\
+For the general concept of splitting nodes to 
+enable the building of longer prefixes, see section~\ref{sec:prefix_sorting}. \\
+In figure~\ref{fig:evo_split_node}, 
+after generating the prefix of node “C!” the function \texttt{\_publishPrefix} would 
+return that node as a recommended split node. However, the node returned is 
+not always the node for which the prefix is constructed; instead, we decided to return the first node 
+with several outgoing edges encountered when going backwards through the tree of nodes 
+that were inspected for generating the prefix, starting at the leaf nodes whose labels 
+necessitated the adding of a “!” character instead of a letter. 
+Such a tree of inspected nodes can be seen in figure~\ref{fig:evo_node_splitting_tree}. 
+% GTGATTGAA|,4,CC,6;,2,GATG,7
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_node_splitting_tree.pdf}
+\caption[Graph with prefix generation tree]{Graph with prefix generation tree based on node with prefix “TGA!”, having leaves with labels C, T and another T.} \label{fig:evo_node_splitting_tree}
+\end{figure}
+Here, we were trying to enlarge the prefix of a node with prefix “TGA!”, 
+and got the node with label “A!” as split node. 
+It is not necessary to always act as the Graph Merging Library does in this case. 
+It would be equally right to first split the node with prefix “TGA!” into two different nodes, 
+and to then split the node with label “A!”.
 
-% ...
+\subsection{Finding Text Patterns}
 
-\subsection{Finding Texts}
+Text patters in a graph corresponding to a flat table 
+can be found using the LF function with a big initial range which gets diminished through 
+several applications, calling the function once for each letter in the text. 
+This happens in the \texttt{find} function, the general approach of which is shown in algorithm~\ref{alg:find}. 
+\begin{algorithm}
+\caption[Find pattern in a flat table]{Find pattern $ P $ in a flat table.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:find}
+\begin{algorithmic}[1]
 
-Texts can be found using the LF function with a big initial range which gets diminished through 
-several applications, calling the function once for each letter in the text.
+\State $ [ sp, ep ] \gets [ 0, ( \textrm{\textbf{length of} BWT} ) - 1 ] $
+\State $ i \gets \textbf{length of} \, P $
 
-% ...
+\State \phantom{nl}
+
+\While {i > 0}
+	\State $ i \gets i - 1 $
+	\State $ [ sp, ep ] \gets \textrm{LF} ( [ sp, ep ] , P [ i ] , \texttt{true} , i > 0 ) $
+	
+	\State \phantom{nl}
+
+	\If { ( \textbf{length of} [ sp, ep ] < 1 ) \textbf{or} ( ep < sp ) }
+		\State \Return $ [ \, ] $
+	\EndIf
+\EndWhile
+
+\State \phantom{nl}
+
+\State \Return $ [ sp, ep ] $
+
+\end{algorithmic}
+\end{algorithm}
+This function returns a range which corresponds to the nodes 
+at which the given pattern $ P $ starts in the graph, 
+given using the FC-indexing method. 
+This method is used through the last parameter given to LF, which is $ i > 0 $. 
+This parameter is do\_rank, and it is \texttt{false} for the last iteration which we 
+are looking at, so that LF in the last iteration does not perform the final rank operations 
+to convert its output into absolute indices. 
+The reason why we wish to use this indexing method here 
+is that FC-indexing allows us to specify not just a node, 
+but a precise outgoing edge of that node, so that the caller does 
+not need to guess which edge to take out of the node. 
+However, the caller is still expected to find the rest of the edges manually by 
+traversing the graph from the node that was found onwards, 
+as they are not directly given out.
 
 \section{Merging Flat Tables}
 %
@@ -3197,30 +3376,69 @@ several applications, calling the function once for each letter in the text.
 The merging of flat XBW tables is in principle similar to the merging of node tables. 
 We again iterate over all nodes of all involved graphs and construct a new table 
 based on them. 
-However, a big difference to the merging of the node tables is that we no longer have 
+
+A big difference to the merging of the node tables is that we no longer have 
 a data structure available to store the computed prefixes of all columns. 
 This is intentional, as storing all of these prefixes in memory would be prohibitive 
 in a real-world scenario. The implication of not having the prefixes readily available 
 are that we can no longer keep track of problematic nodes that easily. 
-We also cannot merge the separate tables together as they are and work on the node splitting to expand the prefixes 
-after the merge, as the flat XBW format relies heavily on the ordering on the columns. 
-We simply cannot guarantee that we will order the columns correctly 
-if we do not have expanded prefixes in the first place. \\
-We therefore decided to implement the merging of flat XBW tables in two steps, 
-with the first being an iteration over all columns of the tables that are supposed to be merged, 
-with the aim of determining which prefixes will need to be expanded. The corresponding nodes are 
-split and the prefixes recalculated until no further node splitting will be necessary when the actual 
-merge occurs. \\
-The second step is then to carry out the merging. This in itself is complicated by the fact 
-that in flat XBW tables, entire columns do not necessarily form a union. That is, 
-in the node table, each column consisting of an entry in the BWT, a prefix, and values for $ M $ and $ F $, 
-represents one node in the graph, and can not be taken apart. 
-However, in the flat XBW table, column do not form such a union. 
-Instead, an $ F $ value of 0 shows that the BWT of this column forms a union with the BWT of the column to the left, 
-and an $ M $ value of 0 shows that the first column value of this column forms a union 
-with the first column value of the column to the left.
+Therefore, merging the separate tables together as they are and working on the node splitting to expand the prefixes 
+after the merge, as we did for merging node tables, is impractical. 
+As the flat XBW format relies heavily on the ordering on the columns, 
+we simply cannot guarantee that we will order the columns correctly 
+if we do not have expanded prefixes in the first place.
 
-% TODO :: add algorithm!
+We therefore decided to implement the merging of flat XBW tables in three main steps, 
+with the first being an iteration over all nodes of the tables that are supposed to be merged, 
+with the aim of determining which prefixes will need to be expanded. The corresponding nodes are 
+split and the prefixes recalculated already within the input graphs before the actual merge. 
+This is repeated until no further node splitting will be necessary when the actual 
+merge occurs. \\
+The iteration itself occurs as step-by-step comparison in which we advance through 
+both input tables at the same time, always choosing to advance with the node that has the lexicographically 
+smallest prefix of the considered nodes. 
+This is done using the \texttt{checkIfSplitOneMore} function of the XBW environment in GML, 
+which calculates one set of prefixes of nodes in both input tables 
+and either advances to the next set of nodes, or populates the splitnodes array 
+with nodes which it recommends to split to be able to construct unambiguous prefixes if this 
+construction is not possible without splitting nodes. 
+To return such a split node, \texttt{checkIfSplitOneMore} internally uses the \texttt{\_publishPrefix} function 
+described in section~\ref{sec:gml_flat_construct_prefixes}, which can make a recommendation for a 
+node that enables us to construct longer prefixes upon being split.
+If such a node is returned, then the function \texttt{splitOneMore} is used to actually 
+perform the node splitting. \\
+Just as when merging XBW node tables as described in section~\ref{sec:gml_merging_node_tables}, 
+we again use an aftersort array. 
+The reason for using it is that the ordering of the nodes within the first input table is not necessarily the 
+same as their ordering within the merged table, necessitating this adjustment to the order of comparison 
+for the construction of prefixes and the splitting of nodes.
+
+As the second and main part of the merging algorithm 
+we then construct the merged table by again advancing through the 
+input tables node for node and always adding the node with the lexicographically smallest prefix 
+as next node to the emerging table. The way in which we step through the two input tables 
+is exactly the same as in the first step, again using the aftersort array to allow us to 
+append nodes to the final table in an ordering different from how they are 
+ordered within the input. \\
+The function which we use to advance through the nodes of both tables is called \texttt{mergeOneMore}, 
+and just like \texttt{checkIfSplitOneMore} it internally uses the \texttt{\_publishPrefix} function 
+to calculate one set of prefixes of nodes in both input tables. 
+It then appends the node with the lexicographically lowest prefix to the emerging table 
+and advances to the next set of nodes. 
+It never has to return recommended splitting nodes instead of advancing to the next 
+set of nodes, as the actions of the first step ensure that the two input tables 
+can be merged in the second step without unambiguous prefixes occurring.
+
+The third and final step in our implementation for merging flat XBW tables 
+is to clean up the merged table by removing the end node of the first input graph 
+and the start node of the second input graph. 
+This is done in the function \texttt{finalizeMerge}. 
+These nodes could have also not been added to the merged table in the first place, 
+making it unnecessary to perform an extra step in the end. 
+This however would have increased the complexity of the second step, which is why we 
+decided to perform it as a separate step in the end.
+
+% TODO :: add algorithms! like, all of them!
 
 \section{Fusing Instead of Merging}
 \label{sec:fusing_instead_of_merging}
@@ -4007,7 +4225,7 @@ the Creative Commons Attribution Non-Commercial License
 which permits non-commercial re-use, distribution, and reproduction in any medium, 
 provided the original work is properly cited. 
 For commercial re-use, please contact \url{moyaccercchi@hotmail.de}. \\
-The source codes together with the newest version of the thesis itself can be accessed at \url{http://tomschiller.de/graphalign}.
+The source codes together with the newest version of this thesis itself can be accessed at \url{http://tomschiller.de/graphalign}.
 % 
 % TODO :: add stuff to the appendix!
 
