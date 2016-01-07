@@ -2787,7 +2787,8 @@ one of the successors of $ N $.
 In this fashion, every successor of $ N $ obtains one of the nodes replacing $ N $ as predecessors. 
 Every one of the new nodes also obtains incoming edges to all the nodes that are predecessors of $ N $. 
 Finally, every one of the nodes replacing $ N $ is given the label of $ N $. 
-The process of splitting a node is shown in figure~\ref{fig:evo_fig_node_splitting}. \\
+The process of splitting a node is shown in figure~\ref{fig:evo_fig_node_splitting}.
+
 % GACCTAATG|,5,C,8;,1,AG,5 - here we did a bit of work manually; this is about the splitting of the T node,
 % but the position looks better after the splitting of the C node, so we copied some arrows manually in inkscape etc.
 \begin{figure}[!htb]
@@ -2795,6 +2796,7 @@ The process of splitting a node is shown in figure~\ref{fig:evo_fig_node_splitti
 \includegraphics[width=\textwidth]{evo_fig_node_splitting.pdf}
 \caption[Node splitting example]{Node splitting example. On the top, the graph is visualized before the splitting of the central node with label \textup{“T”} and prefix \textup{“T!”}. On the bottom, the same graph can be seen after node splitting occurred. The node has been replaced with one node with prefix \textup{“TC”} and one node with prefix \textup{“TA”}. Both nodes have all the incoming edges that the original node had.} \label{fig:evo_fig_node_splitting}
 \end{figure}
+
 It should be noted that we do not wish to remove all exclamation points entirely, 
 as it is enough for a prefix to be so long as to be unambiguously sortable against all 
 other prefixes of nodes in the graph. If a prefix is long enough to ensure this, then 
@@ -2814,9 +2816,66 @@ Node tables are easier to understand and to use as they are more closely related
 underlying graph, which means that the visualized graph can be used to understand their behaviour. 
 The definition of a node table can be found in section~\ref{sec:node_table_definition}.
 
-% To create a node table when a prefix sorted graph is given, we can ...
-%
-% ...
+To create a node table when a prefix sorted graph such as the one in figure~\ref{fig:evo_fig_node_construct_prefixes} is given, 
+% ACTAGTGAT|,5,T,8;,2,,4;,2,T,5
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_node_construct_prefixes.pdf}
+\caption[Prefix sorted graph]{Prefix sorted graph, for which an XBW node table is supposed to be created.} \label{fig:evo_fig_node_construct_prefixes}
+\end{figure}
+we can first create 
+an alphabetically sorted list of all prefixes of the nodes in the graph. 
+Such as list is shown in table~\ref{table:node_construct_prefixes_1}.
+
+\begin{table}[htb]
+\centering
+\caption[Alphabetically sorted prefix list]{Alphabetically sorted prefix list for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+\$ & AC & AG & AT & C & GA & GT & T\$ & TAG & TAT & TGA & TGT & \textbf{\#} & \textbf{Prefix} \\ \hline 
+\end{tabular}
+\label{table:node_construct_prefixes_1}
+\end{table}
+
+Having created such a list, we can then iterate over the list of prefixes. 
+For each node $ v_i $ corresponding to prefix $ i $, 
+we can add a cell for the value of the BWT and one for the value of the bit-vector $ M $ of $ v_i $. 
+We store the labels of all nodes immediately 
+preceding $ v_i $ in the BWT cell, 
+and a string starting with a one followed by some amount of zeroes 
+such that its overall length is equal to the outdegree of $ v_i $ in the $ M $ cell. \\
+This gives us a table containing the prefixes, BWT and $ M $, such as table~\ref{table:node_construct_prefixes_2}.
+
+\begin{table}[htb]
+\centering
+\caption[Node table with BWT, prefixes and $ M $]{Node table with BWT, prefixes and $ M $ for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+T & \textbf{\#} & T|C & G|T & A & T & A|T & A & C & G & G & C & \$ & \textbf{BWT} \\ \hline 
+\$ & AC & AG & AT & C & GA & GT & T\$ & TAG & TAT & TGA & TGT & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 1 & 100 & 1 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
+\end{tabular}
+\label{table:node_construct_prefixes_2}
+\end{table}
+
+We can finally also add a row for the bit-vector $ F $, with each cell containing 
+a string starting with a one followed by as many zeroes as are necessary such that 
+the length of the string is equal to the amount of entries of the corresponding BWT cell. 
+This concludes the generation of the XBW node table for the given graph. 
+An example outcome can be seen in table~\ref{table:node_construct_prefixes_3}.
+
+\begin{table}[htb]
+\centering
+\caption[Complete node table]{Complete node table for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+T & \textbf{\#} & T|C & G|T & A & T & A|T & A & C & G & G & C & \$ & \textbf{BWT} \\ \hline 
+\$ & AC & AG & AT & C & GA & GT & T\$ & TAG & TAT & TGA & TGT & \textbf{\#} & \textbf{Prefix} \\ \hline 
+1 & 1 & 1 & 1 & 100 & 1 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 10 & 10 & 1 & 1 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\label{table:node_construct_prefixes_3}
+\end{table}
 
 \section{Working on a Node Table}
 %
@@ -2971,6 +3030,37 @@ However, working with flat XBW tables directly is rather cumbersome,
 and it can therefore help to first investigate the simpler case 
 of merging two node tables.
 
+\subsection{Basic Approach}
+
+The general node table merging approach that we use 
+in the function \texttt{merge\_BWTs\_advanced} 
+is to add the columns of both tables which are supposed to be merged to a single table, 
+to sort the columns in this new table by their prefixes, 
+and to then expand prefixes until they all are unambiguous.
+
+More exactly, we first add a row with the caption “origin” to both input tables, 
+with all the cells of this row in the first table containing the character “0” and 
+all the cells of the origin row in the second table containing the character “1”. 
+We use these rows to later on keep track of where a node came from, 
+such that we can perform operations on both input tables even while 
+they are joined together within the emerging new table. \\
+We then concatenate both tables to get one merged table containing 
+nodes from both input tables. 
+We also replace the label of the end node of the first table with $\$_0$ and 
+the label of the start node of the second table with $\#_0$, to easier keep track 
+of which start and end node is really contained in the final graph 
+and which one is only used while merging and will be discarded later on. \\
+We can then sort all columns alphabetically according to their prefixes. 
+If this does not lead to ambiguities due to columns with different origins 
+sharing the same prefixes, then we are lucky. However, if this occurs, 
+then we have to continue constructing the prefixes of these ambiguous nodes, 
+until all the ambiguities have been resolved. \\
+Finally, we can take out the $\$_0$ and $\#_0$ nodes which are no longer needed 
+and drop the origin row to convert the table we were constructing into 
+a fully merged XBW node table.
+
+% ... - illustrate this more, using figures and tables and things! =)
+
 % Algorithm for Merging Node Tables (function GML.merge_BWTs_advanced()):
 %
 % find last letter of DH_1 and first letter of DH_2
@@ -2982,7 +3072,7 @@ of merging two node tables.
 % replace $ having origin 0 with $#firstLetterH_2 within prefixes
 % and more
 
-% ... - add ALLLLL the stuff for node table merging!
+\subsection{Aftersort Array}
 
 While working on the emerging XBW node table, we often have to construct longer prefixes for nodes 
 with ambiguous prefixes. Do do so, we navigate through the graph and append labels of the nodes we encounter. 
