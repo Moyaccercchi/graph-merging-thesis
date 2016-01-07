@@ -784,16 +784,17 @@ within the field of DNA analysis.
 %
 % This thesis is original, unpublished, independent work by the author, \thesisauthor.
 
+\setcounter{tocdepth}{1}
 \tableofcontents
 \listoffigures
 \listoftables
 \listofalgorithms
 \addtocontents{loa}{\vskip 15pt}
 \addcontentsline{toc}{chapter}{List of Algorithms}
-% TODO :: check if the previous line still works (it add the "List of Algorithms" as entry to the main tableofcontents, 
+% TODO :: check if the previous line still works (it adds the "List of Algorithms" as entry to the main tableofcontents, 
 % but it does it AFTER that page, so basically as long as the list of algorithms fills less than one whole page everything is peachy,
-% but if we end up with several hundred algorithms and spill over the page, then the page displayed in the main table of contents
-% will probably be wrong
+% but if we end up with several hundred algorithms and our text flows onto the next page,
+% then the page displayed in the main table of contents will probably be wrong
 
 \chapter*{Glossary}
 \markboth{GLOSSARY}{}
@@ -942,7 +943,7 @@ A \textit{single nucleotide polymorphisms} is a change of a single nucleotide.
 Snips are rather straightforward to work with, as the location of the surrounding data is not affected.
 \\ \\
 
-\textbf{start node:} & If a graph has a node with label “\textbf{\#}” 
+\textbf{start node:} & If a graph has a node with label “$\#$” 
 having no incoming edges, then we call this the \textit{start node} $ v_s $ of the graph. 
 See page \pageref{def:start_node}.
 \\ \\
@@ -1531,8 +1532,8 @@ by node table~\ref{table:evo_node_table_example}. \\
 \caption[Node table corresponding to a graph]{Node table corresponding to the graph in figure~\ref{fig:evo_fig_node_table_example}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & G & G & G & A & C|G & G|T & \textbf{\#} & G & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGC & TGGG & TT & \textbf{\#} & \textbf{Prefix} \\ \hline 
+G & G & G & G & A & C|G & G|T & $\#$ & G & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & CG & CT & G\$ & GA & GCG & GCT & GGA & GGC & GGG & TGC & TGGC & TGGG & TT & $\#$ & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 100 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 10 & 10 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -1649,11 +1650,11 @@ in figure~\ref{fig:evo_fig_flat_table_with_ct}. \\
 % GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
 \begin{table}[htb]
 \centering
-\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, \textbf{\#}} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{\textbf{\#}} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{\textbf{\#}} {\, \Rightarrow \,} 17 ] $.}
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, $\#$} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{$\#$} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{$\#$} {\, \Rightarrow \,} 17 ] $.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & \textbf{\#} & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C & G & G &\cellcolor{green_bg}\color{green_fx}G & G & G & G & G &\cellcolor{red_bg}\color{red_fx}T & T & T &\cellcolor{blue_bg}\color{blue_fx}T & \textbf{\#} & \textbf{FC} \\ \hline 
+G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & $\#$ & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C & G & G &\cellcolor{green_bg}\color{green_fx}G & G & G & G & G &\cellcolor{red_bg}\color{red_fx}T & T & T &\cellcolor{blue_bg}\color{blue_fx}T & $\#$ & \textbf{FC} \\ \hline 
 1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{purple_bg}\color{purple_fx}0 &\cellcolor{purple_bg}\color{purple_fx}0 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & 1 & 0 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{green_bg}\color{green_fx}0 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -1994,7 +1995,7 @@ In the process of creating GML, we finally designed one more data format for
 genomic graphs. The idea behind FFX, the Flat Fused XBW format, is to enable saving 
 a flat XBW table directly, without having to convert it to some other format 
 first. \\
-As shown in subsection~\ref{sec:fusing_instead_of_merging}, 
+As shown in subsection~\ref{sec:fusing_flat_tables}, 
 it can be helpful to fuse several separate graphs together 
 instead of merging them completely. Therefore, FFX is designed 
 to specifically accommodate for these kinds of fused structures as well. 
@@ -2122,16 +2123,16 @@ the directed edges which lead from a node onto itself, either directly or along 
 % TODO FIGFIGFIG :: inifinite loops
 The alphabet $ \Sigma $ is assumed to contain only upper case English letters for graphs within GML.
 
-Graphs are also assumed to have exactly one \textit{start node}\label{def:start_node} $ v_s $ with the label “\textbf{\#}” which 
+Graphs are also assumed to have exactly one \textit{start node}\label{def:start_node} $ v_s $ with the label “$\#$” which 
 is the start of each path traversing the entire graph. This means that there is only one node with no incoming 
-edges, this node has the label “\textbf{\#}”, and it is the only node in the graph with this label. 
-The lexicographic value of the character “\textbf{\#}” is supposed to be above the 
+edges, this node has the label “$\#$”, and it is the only node in the graph with this label. 
+The lexicographic value of the character “$\#$” is supposed to be above the 
 lexicographic value of all characters in the alphabet $ \Sigma $, 
-which is however not the case for “\textbf{\#}” in ASCII \citep{ASCII}. 
+which is however not the case for “$\#$” in ASCII \citep{ASCII}. 
 We therefore internally use the character “{\textasciicircum}”, whose lexicographic value encoded in ASCII 
 is above all English letters in upper case. 
 This is also the reason why we work with upper case letters as node labels instead of allowing lower case letters as well. 
-Before being displayed, the character “{\textasciicircum}” is replaced by “\textbf{\#}”. \\
+Before being displayed, the character “{\textasciicircum}” is replaced by “$\#$”. \\
 Furthermore, each graph is assumed to have exactly one \textit{end node}\label{def:end_node} $ v_e $ with the label “\$” in which 
 each path traversing the entire graph ends. This can be reformulated as there being only one node without any 
 outgoing edges, this node having the label “\$”, and no other node in the graph having this label. 
@@ -2147,8 +2148,8 @@ but that there still is no other incoming edge into the start node and no other 
 This simplifies working with these tables slightly, as the FC row then exactly corresponds 
 to the alphabetically sorted BWT row. 
 If there was no such edge from $ v_e $ to $ v_s $, 
-then the BWT would contain the symbol “\textbf{\#}”, but it would be missing the “\$” character. 
-Also, the FC row would contain the “\$” character, but it would be missing the “\textbf{\#}”. \\
+then the BWT would contain the symbol “$\#$”, but it would be missing the “\$” character. 
+Also, the FC row would contain the “\$” character, but it would be missing the “$\#$”. \\
 On the other hand, when we are considering graphs internally as arrays of nodes which 
 each contain a label, an array of predecessors and an array of successors, 
 then we explicitly assume there not to be an edge from the end node to the start node. 
@@ -2175,6 +2176,43 @@ connect the two graphs through more than one edge.
 % informally, we refer to this scenario as "splitover"
 
 % TODO FIGFIGFIG :: show an image of a splitover - several edges connecting this and that, etc. bla blubb
+
+In addition to this extra requirement, we also take care with the end node of the first graph 
+to be merged and the start node of the second graph, as these are special nodes which will be 
+deleted after the merging has been finished. \\
+Just as with “$\#$”, which encoded in ASCII does not have the lexicographical properties 
+that we require, we also replace two other special characters internally with different characters. 
+These are “$\$_0$” and “$\#_0$”, which we use while merging graphs. 
+In particular, we sometimes replace the label of the end node of the first input graph 
+with “$\$_0$” and the label of the start node of the second input graph with “$\#_0$”, 
+to better be able to distinguish them from the start and end nodes of the merged graph. 
+However, we need to encode them as single characters when working with flat tables 
+which do not allow some cells to have different lengths. 
+Therefore, we internally encode “$\$_0$” as the percent sign “\%” and 
+we internally encode “$\#_0$” as the underscore sign “\_”. \\
+A clear lineup of all special characters which we use in GML can be found in table~\ref{table:special_characters}.
+\begin{table}[htb]
+\centering
+\caption[Special characters in GML]{Special characters in GML together with information about how they are encoded internally as well as remarks about their use.}
+
+\begin{tabular}{ | c | c | l | }
+\hline
+\textbf{Character} & \textbf{Encoded as} & \textbf{Remarks} \\
+\hline
+\$ & \$ & label of the end node $ v_e $ \\
+\hline
+$\#$ & {\textasciicircum} & label of the start node $ v_s $ \\
+\hline
+$\$_0$ & \% & label of the end node of the first input graph \\
+\hline
+$\#_0$ & \_ & label of the start node of the second input graph \\
+\hline
+! & ! & error character during prefix generation \\
+\hline
+\end{tabular}
+
+\label{table:special_characters}
+\end{table}
 
 \section{Generating a Genomic Graph}
 %
@@ -2216,7 +2254,7 @@ The \texttt{n} property contains an array of integers, with each integer being t
 of a node in the array representing the graph. It represents a list of all succeeding nodes. 
 Similarly, the \texttt{p} property is a list of preceding nodes, implemented as array of integers, 
 with each integer again being the index of a preceding node in the graph array. \\
-The start node with label “\textbf{\#}” is assumed to be found as the first element 
+The start node with label “$\#$” is assumed to be found as the first element 
 of the graph array. Apart from this node, the positions of the other nodes within 
 the array are not significant. In fact, elements of the array are also allowed to 
 be empty or the boolean value \texttt{false}. This is helpful when deleting 
@@ -2229,9 +2267,9 @@ current node to actually exist before performing any work on it.
 The extended XBW format requires for each graph for start with a node labelled with a 
 hash tag sign and to end with a node labelled with a dollar sign, 
 but these nodes are not explicitly encoded in the GML format.
-Therefore, the extra node with the \textbf{\#} label is created first when opening a GML file. 
+Therefore, the extra node with the $\#$ label is created first when opening a GML file. 
 The main row as specified in the GML file is then added as one possible way 
-of traversing the graph from the \textbf{\#} node to the \$ node, which is added at the end of the main row. \\
+of traversing the graph from the $\#$ node to the \$ node, which is added at the end of the main row. \\
 Finally, the info blocks are iterated over, and their contents are added as edges and nodes which are part 
 of paths off the main row.
 % TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
@@ -2338,7 +2376,7 @@ automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of t
 		\State \textbf{continue}
 	\EndIf
 	
-	\If {( node.label {\boldmath$ = $} \textbf{\#} ) \textbf{and} ( \textbf{length of} node.predecessors {\boldmath$ = $} 0 ) }
+	\If {( node.label {\boldmath$ = $} $\#$ ) \textbf{and} ( \textbf{length of} node.predecessors {\boldmath$ = $} 0 ) }
 		\State \textbf{continue}
 	\EndIf
 	
@@ -2352,7 +2390,7 @@ automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of t
 \end{algorithmic}
 \end{algorithm}
 and checks if the labels conform to the assumptions, meaning that every node needs to have a 
-label with exactly one English upper case letter, except for the start node which has the label “\textbf{\#}” and 
+label with exactly one English upper case letter, except for the start node which has the label “$\#$” and 
 the end node which has the label “\$”. 
 Again, if a node is encountered which does not conform to these assumptions, then the invalid input message 
 is shown to the user and the computation is stopped. \\
@@ -2475,17 +2513,17 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 
 \State {$ \textrm{graph} \gets [ \, ] $}
 \State {$ \textrm{offset} \gets ( \textrm{\textbf{length of} graph\_1} ) - 2 $}
-\State {$ \textrm{into\_2} \gets \textrm{graph\_2[ 0 ].n} $}
+\State {$ \textrm{into\_2} \gets \textrm{graph\_2$[ 0 ]$.n} $}
 
 \State \phantom{nl}
 
 \For {$ i $ \textbf{from} 0 \textbf{to length of} graph\_1}
 \Comment{Start to build graph as copy of graph\_1}
-	\If{graph\_1[$ i $].c {\boldmath$ = $} {\textquotesingle}\${\textquotesingle}}
+	\If{graph\_1$[ i ]$.c {\boldmath$ = $} \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
 		\State {$ \textrm{del\_i} \gets i $}
-		\State {$ \textrm{out\_of\_1} \gets \textrm{graph\_1[$ i $].p} $}
+		\State {$ \textrm{out\_of\_1} \gets \textrm{graph\_1$[ i ]$.p} $}
 	\Else
-		\State \textbf{append} graph\_1[$ i $] \textbf{to} graph
+		\State \textbf{append} graph\_1$[ i ]$ \textbf{to} graph
 	\EndIf
 \EndFor
 
@@ -2493,16 +2531,16 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 
 \For {$ i $ \textbf{from} 0 \textbf{to length of} out\_of\_1}
 \Comment{Take out link to \$}
-	\State {\textbf{delete} del\_i \textbf{from} graph[out\_of\_1[$ i $] \, ].n}
+	\State {\textbf{delete} del\_i \textbf{from} graph$ [ \textrm{out\_of\_1$[ i ]$} ] $.n}
 \EndFor
 
 \State \phantom{nl}
 
 \For {$ i $ \textbf{from} 0 \textbf{to length of} graph}
 \Comment{Update indices after deleting \$ node}
-	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph[$ i $].p}
-		\If{graph[$ i $].p[$ j $] {\boldmath$ \geq $} del\_i}
-			\State {\textbf{decrease} graph[$ i $].p[$ j $]}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph$[ i ]$.p}
+		\If{graph$[ i ]$.p$[ j ]$ {\boldmath$ \geq $} del\_i}
+			\State {\textbf{decrease} graph$[ i ]$.p$[ j ]$}
 		\EndIf
 	\EndFor
 	\State \textbf{Repeat previous five lines with} .n \textbf{instead of} .p
@@ -2512,19 +2550,19 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 
 \For {$ i $ \textbf{from} 1 \textbf{to length of} graph\_2}
 \Comment{Add all nodes from graph\_2}
-	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph\_2[$ i $].p}
-		\State {$ \textrm{graph\_2[$ i $].p} \gets \textrm{graph\_2[$ i $].p} + \textrm{offset} $}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} graph\_2$[ i ]$.p}
+		\State {$ \textrm{graph\_2$[ i ]$.p} \gets \textrm{graph\_2$[ i ]$.p} + \textrm{offset} $}
 	\EndFor
 	\State \textbf{Repeat previous three lines with} .n \textbf{instead of} .p
-	\State \textbf{append} graph\_2[$ i $] \textbf{to} graph
+	\State \textbf{append} graph\_2$[ i ]$ \textbf{to} graph
 \EndFor
 
 \State \phantom{nl}
 
 \For {$ i $ \textbf{from} 0 \textbf{to length of} into\_2}
-\Comment{Take out link to \textbf{\#}}
-	\State {$ \textrm{into\_2[$ i $]} \gets \textrm{into\_2[$ i $]} + \textrm{offset} $}
-	\State {\textbf{delete} offset \textbf{from} graph[into\_2[$ i $] \, ].p}
+\Comment{Take out link to $\#$}
+	\State {$ \textrm{into\_2$[ i ]$} \gets \textrm{into\_2$[ i ]$} + \textrm{offset} $}
+	\State {\textbf{delete} offset \textbf{from} graph[into\_2$[ i ]$ \, ].p}
 \EndFor
 
 \State \phantom{nl}
@@ -2533,8 +2571,8 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 \Comment{Attach end of graph\_1}
 	\For {$ j $ \textbf{from} 0 \textbf{to length of} into\_2}
 	\Comment{to start of graph\_2}
-		\State {\textbf{append} into\_2[$ j $] \textbf{to} graph[out\_of\_1[$ i $].n}
-		\State {\textbf{append} out\_of\_1[$ i $] \textbf{to} graph[into\_2[$ j $].p}
+		\State {\textbf{append} into\_2$[ j ]$ \textbf{to} graph[out\_of\_1$[ i ]$.n}
+		\State {\textbf{append} out\_of\_1$[ i ]$ \textbf{to} graph[into\_2$[ j ]$.p}
 	\EndFor
 \EndFor
 
@@ -2799,10 +2837,10 @@ we should be able to find the start and end nodes within the graph
 as well as being able to go from a node to a node connected to it through an edge.
 
 To find the index $ i_s $ of the column representing the start node in a node table, 
-we would usually search for all columns with a prefix starting with “\textbf{\#}”, 
+we would usually search for all columns with a prefix starting with “$\#$”, 
 as we know that the start node has a hash tag sign as its label. \\
 As we assume there only to be one start node, there is only one such column in the node table. 
-Its prefix therefore usually consists of just the letter “\textbf{\#}”, as there is no reason 
+Its prefix therefore usually consists of just the letter “$\#$”, as there is no reason 
 to build the prefix longer due to no other prefix starting with the same letter and an alphabetical 
 ordering of the nodes by the prefixes being already guaranteed from just the first letter. 
 However, a longer prefix would not be invalid, and therefore we would technically need to 
@@ -2910,7 +2948,8 @@ be made on whether the prefix agrees with the text or not. \\
 To construct such a longer prefix given a node table with short prefixes, we can use the 
 idea of \textit{prefix doubling}. 
 Hereby we do not append one character to the prefix at a time by iterating over the labels of succeeding nodes, 
-but instead we append the entire prefixes of succeeding nodes.
+but instead we append the entire prefixes of succeeding nodes. 
+To actually find these succeeding nodes, we use the \texttt{nextNodes} function introduced in the previous section.
 
 % ... TODO :: more? algorithm? At least some sort of figure illustrating this?
 % (I guess a very very simple fake algorithm would actually do it here ^^)
@@ -2963,16 +3002,16 @@ This concept is illustrated in figure~\ref{fig:evo_fig_node_merge_aftersort} and
 \renewcommand{\tabcolsep}{4pt}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | }
 \hline
-T & G & A|T & G & \textbf{\#} &\cellcolor{green_bg}\color{green_fx}A &\cellcolor{purple_bg}\color{purple_fx}C & \$ & \textbf{BWT} \\ \hline 
-\$ & AA & AT & C & G &\cellcolor{green_bg}\color{green_fx}T\$\textbf{\#}C &\cellcolor{purple_bg}\color{purple_fx}TA & \textbf{\#} & \textbf{Prefix} \\ \hline 
+T & G & A|T & G & $\#$ &\cellcolor{green_bg}\color{green_fx}A &\cellcolor{purple_bg}\color{purple_fx}C & \$ & \textbf{BWT} \\ \hline 
+\$ & AA & AT & C & G &\cellcolor{green_bg}\color{green_fx}T\$$\#$C &\cellcolor{purple_bg}\color{purple_fx}TA & $\#$ & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 1 & 10 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 10 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
 \quad
 \begin{tabular}{ | c | c | c | c | c | c | }
 \hline
-A & A|C & C & \textbf{\#} & \$ & \textbf{BWT} \\ \hline 
-\$ & A\$ & AA & C & \textbf{\#} & \textbf{Prefix} \\ \hline 
+A & A|C & C & $\#$ & \$ & \textbf{BWT} \\ \hline 
+\$ & A\$ & AA & C & $\#$ & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 10 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 10 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -2982,8 +3021,8 @@ A & A|C & C & \textbf{\#} & \$ & \textbf{BWT} \\ \hline
 
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-A & A|C & C & G & A|T & T & G & \textbf{\#} &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{green_bg}\color{green_fx}A & \$ & \textbf{BWT} \\ \hline 
-\$ & A\$ & AA\$ & AAT & AT & CA & CT & G &\cellcolor{purple_bg}\color{purple_fx}TA &\cellcolor{green_bg}\color{green_fx}TC & \textbf{\#} & \textbf{Prefix} \\ \hline 
+A & A|C & C & G & A|T & T & G & $\#$ &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{green_bg}\color{green_fx}A & \$ & \textbf{BWT} \\ \hline 
+\$ & A\$ & AA\$ & AAT & AT & CA & CT & G &\cellcolor{purple_bg}\color{purple_fx}TA &\cellcolor{green_bg}\color{green_fx}TC & $\#$ & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 1 & 1 & 10 & 1 & 10 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 10 & 1 & 1 & 10 & 1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -2997,13 +3036,13 @@ A & A|C & C & G & A|T & T & G & \textbf{\#} &\cellcolor{purple_bg}\color{purple_
 \caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
-We can see that in the input table at the top, the green node with prefix T\$\textbf{\#}C is sorted 
+We can see that in the input table at the top, the green node with prefix T\$$\#$C is sorted 
 before the purple node with prefix TA, 
 as the dollar sign is lexicographically smaller 
 than all other considered characters. 
 When considering just the first input table on its own, the prefix of the green node would actually be T\$, 
-as we only appended \textbf{\#}C to that prefix is to show 
-how the prefix will look like when a spill over into the second input graph occurs, in which labels from the 
+as we only appended $\#$C to that prefix is to show 
+how the prefix will look like when a spillover into the second input graph occurs, in which labels from the 
 second input graph are appended to prefixes in the first graph. 
 However, in the merged table at the bottom, the green node with prefix TC is sorted after the purple node with prefix TA, 
 as “C” is lexicographically bigger than “A”. \\
@@ -3048,8 +3087,8 @@ and \ref{table:evo_node_to_flat_flat}, which respectively show the a node table 
 Table~\ref{table:evo_node_to_flat_flat} shows the corresponding flat table.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & T & G & G & G & A & T & T & \textbf{\#} & A & A|G & A|G & A|C & \$ & \textbf{BWT} \\ \hline 
-\$ & AA & AG & ATA & ATC & ATG & C & G\$ & GA & GT & TA & TC & TG & \textbf{\#} & \textbf{Prefix} \\ \hline 
+G & T & G & G & G & A & T & T & $\#$ & A & A|G & A|G & A|C & \$ & \textbf{BWT} \\ \hline 
+\$ & AA & AG & ATA & ATC & ATG & C & G\$ & GA & GT & TA & TC & TG & $\#$ & \textbf{Prefix} \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 100 & 10 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 10 & 10 & 10 & 1 & $\boldsymbol{F}$ \\ \hline 
 \end{tabular}
@@ -3062,8 +3101,8 @@ G & T & G & G & G & A & T & T & \textbf{\#} & A & A|G & A|G & A|C & \$ & \textbf
 Table~\ref{table:evo_node_to_flat_node} shows the corresponding node table.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-G & T & G & G & G & A & T & T & \textbf{\#} & A & A & G & A & G & A & C & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & A & C & G & G & G & G & G & G & T & T & T & \textbf{\#} & \textbf{FC} \\ \hline 
+G & T & G & G & G & A & T & T & $\#$ & A & A & G & A & G & A & C & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & A & C & G & G & G & G & G & G & T & T & T & $\#$ & \textbf{FC} \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
@@ -3105,7 +3144,7 @@ The next section is about the merging of several flat XBW tables.
 Before considering this rather challenging problem, 
 it is helpful to first investigate how work within such flat tables can be performed in general. 
 In particular, we here look at how 
-the functions LF and $ \Psi $ can be used to find the predecessors and successors 
+the functions \texttt{LF} and $ \Psi $ can be used to find the predecessors and successors 
 of nodes, respectively.
 
 \subsection{Graph Navigation}
@@ -3138,12 +3177,12 @@ FC-indexing or BWT-indexing.
 
 % find preceding nodes
 To find the preceding nodes of a given node, 
-we can use the function LF. It performs last-to-first mapping to 
+we can use the function \texttt{LF}. It performs last-to-first mapping to 
 map the last column in the matrix of sorted cyclic rotations, which is the BWT, 
 to the first column, which is the FC row. 
 How this function operates can be seen in algorithm~\ref{alg:lf}. 
 \begin{algorithm}
-\caption[LF function for flat table navigation]{LF function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It gives out an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
+\caption[\texttt{LF} function for flat table navigation]{\texttt{LF} function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It gives out an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:lf}
 \begin{algorithmic}[1]
@@ -3182,7 +3221,7 @@ nodes $ v_{sp}, ..., v_{ep} $ and a character $ c $,
 and return a range of absolute indices corresponding to the nodes 
 preceding the ones that were given as input which have character $ c $ as label. 
 Both ranges can represent one or several nodes. \\
-The LF function is more general than a function designed for just finding the 
+The \texttt{LF} function is more general than a function designed for just finding the 
 preceding nodes of a given node. The ability of taking in more than one node through 
 the input range combined with the ability to actively search for specific preceding 
 nodes through the character $ c $ means that it can actually be used when searching 
@@ -3199,7 +3238,7 @@ so that the caller can set them to \texttt{false} after
 deciding to use different indexing methods if that is more convenient.
 
 % find succeeding nodes
-Similar to the LF function for preceding nodes, there is also a second special function we can use 
+Similar to the \texttt{LF} function for preceding nodes, there is also a second special function we can use 
 to find the succeeding nodes of a given node. 
 This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg:psi}. 
 \begin{algorithm}
@@ -3229,9 +3268,9 @@ This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg
 
 \end{algorithmic}
 \end{algorithm}
-It works slightly different than LF, 
+It works slightly different than \texttt{LF}, 
 in that it does not work on a range of nodes, but instead focuses on a single node only. 
-Similarly to LF, we need to call $ \Psi $ several times to find all nodes succeeding a given one. 
+Similarly to \texttt{LF}, we need to call $ \Psi $ several times to find all nodes succeeding a given one. 
 This functionality is provided through a second parameter which $ \Psi $ takes 
 in addition to the index of the node we are examining. 
 The second parameter determines which edge we take out of that node, 
@@ -3250,7 +3289,7 @@ The second difference is that we use $ j \boldsymbol{=} 0 $ to indicate the firs
 while their function starts with $ j \boldsymbol{=} 1 $. 
 Finally, in our version we actually made the select operation in the beginning and the rank operation in 
 the end optional by introducing the parameters do\_select and do\_rank, 
-just as we did with the LF function. 
+just as we did with the \texttt{LF} function. 
 This in particular allows the caller to combine the parameters $ i $ and $ j $ into one value 
 when calling with FC-indexing by setting do\_select to \texttt{false}, 
 therefore preventing unnecessary indexing method conversions.
@@ -3276,10 +3315,110 @@ as we would otherwise just continue building it from the start.
 We can continue onwards with this process until we have generated a prefix of the desired length 
 by repeatedly using $ \Psi $ again to find all succeeding nodes 
 of all current nodes $ u_j $, and again adding the shared label of all of them if it is unambiguous. \\
-% TODO :: add an algorithm for _publishPrefix?
 This process is implemented in the function \texttt{\_publishPrefix} of the XBW environment in GML. 
+Its general approach is outlined in algorithm~\ref{alg:_publishPrefix}. 
+\begin{algorithm}
+\caption[Generate prefix of a node in a flat table]{Generate the prefix of a node with FC-index $ i $ in a flat XBW table up to a given length. The optional parameter use\_all\_out\_edges can be set to \texttt{true} such that all outgoing edges of the specified node are used. Otherwise, only the specific edge addressed by $ i $ is followed out of the first considered node.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:_publishPrefix}
+\begin{algorithmic}[1]
+
+\State $ \textrm{pref} \gets \texttt{\textquotesingle}\texttt{\textquotesingle} $
+\State $ \textrm{i\_arr} \gets [ i ] $
+
+\For {$ i $ \textbf{from} 0 \textbf{to} length}
+
+	\If {$ (i > 0) $ \textbf{or} use\_all\_out\_edges}
+		\State $ \textrm{len} \gets \textrm{\textbf{length of} i\_arr} $
+		\For {$ j $ \textbf{from} 0 \textbf{to} len}
+			\If {i > 0}
+			\Comment {Convert from absolute}
+				\State $ \textrm{i\_arr}[ j ] \gets \textrm{select}(1, M, \textrm{i\_arr}[ j ]) $
+				\Comment {indexing to FC-indexing}
+			\Else
+				\State \textbf{decrease} i\_arr$[ j ]$ \textbf{while} $ M [ \textrm{i\_arr$[ j ]$} ] \boldsymbol{=} 0 $
+			\EndIf
+
+			\For {$ k $ \textbf{from} 1 \textbf{until} $ M [ \textrm{pref\_cur\_is$[ j ] + k$} ] \neq 0 $}
+				\State \textbf{append} i\_arr$[ j ] + k $ \textbf{to} i\_arr
+			\EndFor
+		\EndFor
+	\EndIf
+
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} i\_arr}
+	\Comment{Follow a specific outgoing edge}
+		\State $ \textrm{i\_arr}[ j ] \gets \Psi(\textrm{i\_arr}[ j ], 0, \texttt{false}, \texttt{false}) $
+		\Comment{in FC-indexing and get the}
+	\EndFor
+	\Comment{answer in BWT-indexing}
+
+	\State $ \textrm{char\_to\_add\_now} \gets \textrm{BWT}[ \textrm{i\_arr$[ 0 ]$} ] $
+	\State $ \textrm{not\_all\_chars\_are\_the\_same} \gets \texttt{false} $
+
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} i\_arr}
+		\If {$ \textrm{char\_to\_add\_now} \neq \textrm{BWT}[ \textrm{i\_arr$[ j ] $} ] $}
+			\State $ \textrm{not\_all\_chars\_are\_the\_same} \gets \texttt{true} $
+		\EndIf
+	\EndFor
+
+	\If {not\_all\_chars\_are\_the\_same}
+
+		\State $ \textrm{pref} \gets \textrm{pref} + \textrm{\texttt{\textquotesingle}!\texttt{\textquotesingle}} $
+		\Comment{Add error char to the prefix}
+
+		\State \textbf{break}
+
+	\Else
+
+		\State $ \textrm{pref} \gets \textrm{pref} + \textrm{char\_to\_add\_now} $
+
+		\If {($ \textrm{\textbf{length of} pref} > 1 $) \textbf{and} ($ \textrm{char\_to\_add\_now} \boldsymbol{=} \textrm{\texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle}} $)}
+		\Comment{Spillover}
+
+			\State $ i \gets (\textrm{\textbf{length of} FC row in nextXBW}) - 1 $
+			\Comment{Find $\#_0$ node in next XBW}
+
+			\State \Return pref + nextXBW.\texttt{\_publishPrefix}$( i )$
+		\EndIf
+	\EndIf
+
+	\If {(char\_to\_add\_now {\boldmath$ = $} \texttt{\textquotesingle}\$\texttt{\textquotesingle}) \textbf{or} (char\_to\_add\_now {\boldmath$ = $} \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})}
+		\State \textbf{break}
+	\EndIf
+
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} i\_arr}
+	\Comment{Convert from BWT-indexing}
+		\State $ \textrm{i\_arr}[ j ] \gets \textrm{rank}(1, F, \textrm{i\_arr}[ j ]) $
+		\Comment{to absolute indexing}
+	\EndFor
+\EndFor
+
+\State \Return pref
+
+\end{algorithmic}
+\end{algorithm}
+As the input to the function is given with the FC-indexing method, a particular edge can be specified 
+via which the first node is supposed to exited. This can be helpful for specific visualization purposes. 
+However, usually this is not the intended behaviour, which is why we introduced the parameter 
+use\_all\_out\_edges which defaults to \texttt{true}. 
+When it is left at its default value, all outgoing edges from the input node are considered, 
+just as they should be to generate the real prefix of the node. Therefore, the parameter can usually be ignored. 
+Only when it is explicitly set to \texttt{false} does the edge given by the input matter, 
+as the other outgoing edges of the input node are then not visited while generating the prefix. 
+The differences between the two possible choices for this parameter 
+are shown in figure~\ref{fig:evo_fig_use_all_out_edges_or_not}. \\
+% GACGT|,2,T,4;,3,,5 and ACCT|,1,,4;,1,,3
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_use_all_out_edges_or_not.pdf}
+\caption[Prefix generation in a flat table with use\_all\_out\_edges]{Prefix generation in a flat table with \textup{use\_all\_out\_edges}. We here called \textup{\texttt{\_publishPrefix}} for the node with prefix \textup{“GA”} highlighted in purple. At the top, we set \textup{use\_all\_out\_edges} to its default value \textup{\texttt{true}}, and therefore the prefix \textup{“GA!”} is returned. The prefix becomes ambiguous with the possibilities of constructing it as \textup{“GAT”} or \textup{“GAC”}. At the bottom, we set \textup{use\_all\_out\_edges} to \textup{\texttt{false}} and choose exactly one edge leading out of the purple node. This leads to the prefix \textup{“GATGTA!”} being generated.} \label{fig:evo_fig_use_all_out_edges_or_not}
+\end{figure}
 In addition to performing the aforementioned calculations to generate the prefix of a given node, 
 this function can also return a recommended \textit{split node} through the optional parameter give\_the\_split\_node. 
+The computations necessary for this have not been included in algorithm~\ref{alg:_publishPrefix} to simplify 
+the understanding of it, but they basically consist of an array of visited paths which keeps track 
+of the potential split nodes, and an evaluation at the very end of the function which determines 
+which one of these to return by choosing a node actually on a path leading to a prefix ambiguity. 
 We here define a split node as a node which can be split into several nodes, thereby ideally enabling us 
 to continue building longer prefixes. 
 An example for such a node can be seen in figure~\ref{fig:evo_split_node}. 
@@ -3287,7 +3426,7 @@ An example for such a node can be seen in figure~\ref{fig:evo_split_node}.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_split_node.pdf}
-\caption[Graph with split node before and after splitting]{Graph with split node with label “C!” before splitting (top) and the same graph after splitting the node (bottom).} \label{fig:evo_split_node}
+\caption[Graph with split node before and after splitting]{Graph with split node having prefix \textup{“C!”} before splitting (top) and the same graph after splitting the node (bottom).} \label{fig:evo_split_node}
 \end{figure}
 It can be seen that splitting the node with label “C!” in the figure did not change the 
 genomic strings generated as paths through the whole graph from start node to end node, 
@@ -3310,18 +3449,18 @@ Such a tree of inspected nodes can be seen in figure~\ref{fig:evo_node_splitting
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_node_splitting_tree.pdf}
-\caption[Graph with prefix generation tree]{Graph with prefix generation tree based on node with prefix “TGA!”, having leaves with labels C, T and another T.} \label{fig:evo_node_splitting_tree}
+\caption[Graph with prefix generation tree]{Graph with prefix generation tree based on node with prefix \textup{“TGA!”}, having leaves with labels \textup{C, T} and another \textup{T}. These leaves are also highlighted in red here, while the prefix tree visualization in GML usually leaves out the leaves of the prefix generation tree to only highlight the interior nodes which actually agree when building the prefix.} \label{fig:evo_node_splitting_tree}
 \end{figure}
 Here, we were trying to enlarge the prefix of a node with prefix “TGA!”, 
 and got the node with label “A!” as split node. 
 It is not necessary to always act as the Graph Merging Library does in this case. 
 It would be equally right to first split the node with prefix “TGA!” into two different nodes, 
-and to then split the node with label “A!”.
+and to split the node with label “A!” later on.
 
 \subsection{Finding Text Patterns}
 
 Text patters in a graph corresponding to a flat table 
-can be found using the LF function with a big initial range which gets diminished through 
+can be found using the \texttt{LF} function with a big initial range which gets diminished through 
 several applications, calling the function once for each letter in the text. 
 This happens in the \texttt{find} function, the general approach of which is shown in algorithm~\ref{alg:find}. 
 \begin{algorithm}
@@ -3337,7 +3476,7 @@ This happens in the \texttt{find} function, the general approach of which is sho
 
 \While {i > 0}
 	\State $ i \gets i - 1 $
-	\State $ [ sp, ep ] \gets \textrm{LF} ( [ sp, ep ] , P [ i ] , \texttt{true} , i > 0 ) $
+	\State $ [ sp, ep ] \gets \texttt{LF} ( [ sp, ep ] , P [ i ] , \texttt{true} , i > 0 ) $
 	
 	\State \phantom{nl}
 
@@ -3355,9 +3494,9 @@ This happens in the \texttt{find} function, the general approach of which is sho
 This function returns a range which corresponds to the nodes 
 at which the given pattern $ P $ starts in the graph, 
 given using the FC-indexing method. 
-This method is used through the last parameter given to LF, which is $ i > 0 $. 
+This method is used through the last parameter given to \texttt{LF}, which is $ i > 0 $. 
 This parameter is do\_rank, and it is \texttt{false} for the last iteration which we 
-are looking at, so that LF in the last iteration does not perform the final rank operations 
+are looking at, so that \texttt{LF} in the last iteration does not perform the final rank operations 
 to convert its output into absolute indices. 
 The reason why we wish to use this indexing method here 
 is that FC-indexing allows us to specify not just a node, 
@@ -3368,6 +3507,7 @@ traversing the graph from the node that was found onwards,
 as they are not directly given out.
 
 \section{Merging Flat Tables}
+\label{sec:merging_flat_tables}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                         METHODS: Merging Flat Tables
@@ -3420,7 +3560,7 @@ as next node to the emerging table. The way in which we step through the two inp
 is exactly the same as in the first step, again using the aftersort array to allow us to 
 append nodes to the final table in an ordering different from how they are 
 ordered within the input. \\
-The function which we use to advance through the nodes of both tables is called \texttt{mergeOneMore}, 
+We use the function \texttt{mergeOneMore} to advance through the nodes of both tables, 
 and just like \texttt{checkIfSplitOneMore} it internally uses the \texttt{\_publishPrefix} function 
 to calculate one set of prefixes of nodes in both input tables. 
 It then appends the node with the lexicographically lowest prefix to the emerging table 
@@ -3440,39 +3580,263 @@ decided to perform it as a separate step in the end.
 
 % TODO :: add algorithms! like, all of them!
 
-\section{Fusing Instead of Merging}
-\label{sec:fusing_instead_of_merging}
+\section{Fusing Flat Tables}
+\label{sec:fusing_flat_tables}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                   METHODS: Fusing Instead of Merging
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As shown in the previous section, merging flat XBW tables is rather complex. 
-It requires a lot of computation and due to a lot of node splitting 
-necessary to ensure unambiguously sortable prefixes along the entire merged 
-graph can result in large amounts of node splitting. This leads to an increase 
-in file size as opposed to the total file size of the individual graphs that are 
-merged. \\
+So far, we have investigated how several graphs can be merged together directly, 
+how they can be merged when they are encoded as node tables, 
+and finally how they can be merged when being encoded as flat tables. 
+However, there is another interesting possibility for 
+combining two graphs which we would like to look at. 
+We decided to refer to this method as \textit{fusing} several tables together, 
+as it is inherently different from the actions we perform when merging tables.
+
+\subsection{Fusing Instead of Merging}
+
+As shown in section~\ref{sec:merging_flat_tables}, merging flat XBW tables is rather complex. 
+It requires a lot of computations and can lead to a lot of node splitting, 
+which might be necessary to ensure unambiguously sortable prefixes along the entire merged graph. 
+This leads to an increase in file size as opposed to the total file 
+size of the individual graphs that are merged. \\
 To explore how these problems might be avoided, 
-We decided to implement another way to combining several flat XBW tables. 
+we decided to implement another way to combining several flat XBW tables. 
 In this way, consecutive graphs encoded as flat XBW tables are fused together on their ends, 
 meaning that the dollar sign node of one graph is connected with the hash tag node of the next. 
-This connection is not directly achieved within the data structure itself, 
-but it is instead performed by the program working on the data structure, 
-which in itself just contains several completely regular flat XBW tables with 
-one hash tag and one dollar sign node each.
-
-Implementing the fusing behaviour is not particularly difficult, 
+How fusing differs from merging is illustrated in figure~\ref{fig:evo_fig_merge_fuse_diffy}. 
+% GTC|,1,C,3 and ACT|,1,,3
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_merge_fuse_diffy.pdf}
+\caption[Merging and fusing graphs]{Merging and fusing graphs. The top row contains two input graphs. The middle row shows them fused together. The bottom row shows them merged together.} \label{fig:evo_fig_merge_fuse_diffy}
+\end{figure}
+This connection is not directly achieved within the flat table itself, 
+but it is instead stored in a surrounding host data structure, 
+and performed by the program working on it. 
+The data structure itself just contains several completely regular flat XBW tables with 
+one hash tag and one dollar sign node each, which in addition to the regular information 
+can also store information about their immediate predecessors and successors. \\
+That is, the core difference between merging and 
+fusing is that when we merge two tables, we perform a lot of work once 
+to generate one merged table. After the process is finished, 
+it is impossible to decide whether the table has been constructed directly 
+from some input graph, or has been the result of a merge operation of several graphs. 
+On the other hand, when we are fusing two tables together, 
+we only perform a relatively small amount work in the moment of fusing them, 
+and we then perform a little bit of extra work every time we are operating on the fused table. 
+The resulting data structure will always reveal that it actually consists of several 
+individual tables, and the extra work needs to be performed every time that the table is operated on. \\
+Implementing the fusing behaviour itself is not particularly difficult, 
 as the only new occurrence to look out for is a possible spillover in which 
 we leave one graph and move on to the next. In that event, the program working 
 on the fused XBW data structure needs to automatically jump over the hash tag and dollar sign nodes, 
-as internal hash tag and dollar sign nodes should not be accessible to the outside.
+as internal hash tag and dollar sign nodes should not be accessible to the outside. 
+Apart from that, work in a fused table can be performed just like in a regular one.
 
-% TODO :: add more!
+\subsection{Performing the Fusion of Two Tables}
+\label{sec:perform_fusion_of_two_tables}
 
-% TODO :: maybe we could add a picture of how two graphs are fused together on the ends?
-% and show how much work would be involved in merging - that is, making the stuff prefix
-% sorted after fusing - while all that can be avoided in simply letting it be that?
+To actually perform the fusion two flat XBW tables, we create 
+a host data structure which has a slot in which it can contain each table. 
+We then make each table aware of its immediately succeeding table as well as its immediately preceding table. 
+In the case of having two inputs, this means that the first input table needs to store the information 
+that there is no preceding table, and that the second input table is its succeeding table. 
+Similarly, the second input table needs to store the information that the first table is 
+its preceding table, and that it has no succeeding table. \\
+In GML, we use the function \texttt{initAsMergeHost} to initialize such a host data structure. 
+It contains the array subXBWs, which in turn contains pointers to all tables added to the host data structure. 
+The function itself just calls the general initialization function for any XBW environment, 
+and then sets an internal integer called role to the value 3. 
+Here, the value 1 stands for a regular XBW environment containing exactly one flat XBW table, 
+while 2 stands for an XBW environment which is in the process of being merged from several tables 
+and 3 stands for an environment which is the host data structure for several flat tables. \\
+We then call the function \texttt{addSubXBW}, shown in algorithm~\ref{alg:addSubXBW}, 
+\begin{algorithm}
+\caption[Add a table to a host data structure]{Add a flat XBW table to a host data structure. The parameter newXBW is a pointer to the XBW environment containing the table which is to be added to the host data structure.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:addSubXBW}
+\begin{algorithmic}[1]
+
+\State newXBW.\texttt{\_setPrevXBW}(\texttt{undefined})
+\State newXBW.\texttt{\_setNextXBW}(\texttt{undefined})
+
+\State \phantom{nl}
+
+\If {$ \textrm{\textbf{length of} subXBWs} > 0 $}
+	\State subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$.\texttt{\_setNextXBW}(newXBW)
+	\State newXBW.\texttt{\_setPrevXBW}(subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$)
+
+	\State \phantom{nl}
+
+	\State \phantom{nl}
+	\Comment {When fusing, \$ and $\#$ do not need to be replaced}
+	\If {we combine tables through merging}
+		\State subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}\$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})
+		\State newXBW.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}$\#$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\#_0$\texttt{\textquotesingle})
+	\EndIf
+\EndIf
+
+\State \phantom{nl}
+
+\State reset current positions within the new table to the start
+
+\State \phantom{nl}
+
+\State \textbf{append} newXBW \textbf{to} subXBWs
+
+\end{algorithmic}
+\end{algorithm}
+once for each table that we want to fuse together within that data structure. 
+This function adds the table to the host data structure and connects the table to its predecessor. 
+To do so, it first uses the functions \texttt{\_setPrevXBW} and \texttt{\_setNextXBW} to 
+set both the preceding table and the succeeding table 
+of the new table to \texttt{undefined}, meaning that the new table 
+has no preceding or succeeding tables. \\
+It then checks if the subXBWs array actually already contains entries, meaning that there 
+already are tables stored in the data structure. 
+If so, then the succeeding table of the last table in the structure is set to the new table, 
+and the preceding table of the new table is set to that last table. 
+If we are merging instead of fusing tables together, then the function also 
+replaces the end node of the preceding table with “$\$_0$” and the start node 
+of the new table with “$\#_0$”. 
+This however is not necessary when fusing tables, as the labels of nodes within the 
+tables can stay exactly as they usually would, with spillover scenarios being 
+completely handled from the outside when algorithms are working on the data structure. \\
+Finally, the new table is appended to the subXBWs array, which concludes the fusing of the 
+table to the ones already in the data structure before.
+
+\subsection{Fusing More Than Two Tables}
+
+When we want to merge more than two tables, we can simply do so by repeatedly merging pairs 
+of two tables together. E.g. if we want to merge the tables representing graphs $ H_1 $, $ H_2 $ and $ H_3 $, 
+then we can first merge $ H_1 $ and $ H_2 $ generating table $ H_{12} $, and afterwards 
+merge $ H_{12} $ and $ H_3 $ to generate table $ H_{123} $. 
+This means that although it might be interesting to look into merging algorithms which can handle 
+more than two input tables at once, it is ultimately not entirely necessary to do so, as at least 
+theoretically any number of tables can be merged if we are able to merge two tables.
+
+When we intend to fuse several tables together, the situation is slightly different. 
+As the process of fusing two tables together does not result in one table, 
+but instead in a data structure internally consisting of two tables, 
+we need to explicitly enable the fusing process to handle more than two input tables 
+and fuse them together into one data structure. 
+Furthermore each algorithm working on the fused data structure needs to be able to 
+handle such a data structure containing an arbitrary amount of tables, 
+as it would not help having a fused table consisting of more than two tables if there 
+were no algorithms readily available to perform any work on that fused table. \\
+Luckily, the changes needed to be made to the algorithm from section~\ref{sec:perform_fusion_of_two_tables} to 
+account for more than two input tables are rather small. 
+In particular, the host data structure needs to be able to provide an arbitrary amount of slots into 
+which to put these tables, such as an array which can hold as little as one element but has no practical boundary 
+in how many elements it can contain. Also, the tables within the structure need to be made aware of the 
+correct surrounding tables, each having exactly one preceding table and exactly one succeeding table, 
+except for the first table which has no preceding table and the last table which has no succeeding table. \\
+We here assume that a data structure representing a fused table always contains at least 
+one table, as otherwise it would be pointless to try and perform any work on it anyway. 
+The reason why we want to allow one table in the data structure instead of requiring at least two 
+of them is that we would like algorithms designed to work on these data structures to also be 
+able to handle single flat tables without having to create a whole special case for them in which 
+they are used directly without surrounding data structure.
+
+\subsection{Navigating Through Fused Tables}
+
+Just as with the navigation through XBW node tables and regular flat XBW tables, 
+we again wish to be able to find the start and end nodes of a fused flat XBW table. 
+We also wish to able to find the preceding and succeeding nodes of a 
+given node within a fused flat XBW table.
+
+To be able to perform any of these navigation functions, we however first need to 
+define an indexing method which can be used within the fused data structure. 
+When working with a regular flat XBW table, we can use a single integer $ i $ to 
+address a node via the three different methods of FC-indexing, BWT-indexing and absolute indexing. 
+As all these methods have certain advantages and disadvantages, we would like to 
+keep using them with fused flat tables. \\
+In addition to the integer $ i $, which gives us the location within a table, 
+we however need to also keep track of which table the node is located in that we are addressing. 
+One way is to simply use a second integer $ j $ to encode the table that we are interested in, 
+such that each node in the fused graph is identified via a pair $ (i, j) $ of integers addressing the 
+node in the table and the table within the structure. \\
+However, a second way is to keep using a single integer, and to determine which table we are in 
+by adding the lengths of all tables before the addressed one. So if we want to address a node 
+with location $ i $ in the second table within a fused structure, we would actually address it as $ | H_1 | + i $, 
+where $ | H_1 | $ stands for the amount of nodes in the first table. \\
+We decided to use the first of these two methods, as it is not necessary to change all indices 
+of succeeding tables if a node in a table gets added or deleted with this method. 
+That is, we address each node in a fused table with a pair of integers, the first of which 
+can be given via FC-indexing, BWT-indexing or absolute indexing, while the second one 
+actually refers to the table we are picking.
+
+Using this pairwise indexing method, we can find the start node of the graph as 
+last node of the first table. 
+We know that it is a node within the first table due to the fact that we start each path 
+through the entire graph 
+in the first table, and we know that it needs to be the last node within that table 
+as we find the start node within any flat XBW table in the last position due to 
+the lexicographical order of its label. 
+The index of the start node $ v_s $ of the fused graph 
+is therefore $ ( | H_{\textrm{last}} | - 1, 0 ) $, 
+where $ H_{\textrm{last}} $ is the last table within the subXBWs array of the host data structure and 
+$ | H_{\textrm{last}} | $ is the amount of nodes it contains. \\
+It is just as simple to find the end node $ v_e $ of the fused graph. 
+It is located in the last table as each path through the entire graph ends there, 
+and within that table it is the first node due to the lexicographical properties of 
+its label “\$”. 
+The index of the end node $ v_e $ of the fused graph 
+is therefore $ ( 0, | \textrm{subXBWs} | - 1 ) $, 
+where $ | \textrm{subXBWs} | $ is the amount of tables 
+that the fused data structure contains.
+
+Just as with regular flat XBW tables, we can also use the $ \Psi $ and \texttt{LF} functions 
+to navigate through each table to find preceding and succeeding nodes. 
+However, while the behaviour of these functions themselves does not need to change 
+at all, we do not call them directly in a fused graph. \\
+Instead, we wrap them in special functions provided by the host XBW environment. 
+In particular, we can call the function \texttt{host\_$\Psi$} with the same arguments 
+as the regular $ \Psi $ function, except for the first parameter 
+in which we use a pair $ (i, j) $ to address the node 
+we are interested in instead of a plain integer $ i $. 
+The result of the function is also slightly different, again being a pair $ (i, j) $ to 
+properly address a node within the fused graph instead of a plain integer $ i $. \\
+Similarly we have the function \texttt{host\_LF} which now accepts a range of nodes 
+within a pair as $ ([sp, ep], j) $ and it gives out an array of such structures. 
+It can be seen that this function does not allow us to specify a range spanning more 
+than one table, which is intentional. If calculations need to be performed on 
+several of the fused tables, such as for pattern searching, then the \texttt{host\_LF} function 
+needs to be called on each of the fused tables separately. 
+However, several such structure can be returned within an array to be able to return 
+ranges in several tables if they are found through spillovers.
+
+% ... - add algorithms for host_Psi and host_LF
+
+\subsection{Prefix Construction}
+
+To construct the prefix a node within the fused table, 
+we perform an algorithm similar to the one we performed for the prefix construction 
+in regular flat XBW tables. 
+In particular, we read out the label of the node itself as starting character of the prefix, 
+and then append characters to the emerging prefix by using the \texttt{host\_$\Psi$} function to 
+find the succeeding nodes and their labels. 
+The only difference to the prefix construction in regular flat XBW tables 
+is here that we have to take care of spillovers into succeeding tables, 
+which can become especially confusing if we are following several paths which are not all 
+within the same table.
+
+% ... write down an algorithm for \texttt{_publishPrefix} in a fused environment,
+% or at least make differences to regular algorithm a bit more clear
+
+\subsection{Searching for Patterns}
+
+As with the other algorithms working on fused tables, also the search for a pattern 
+in a fused graph is very similar to the algorithm for pattern searches on regular flat XBW tables. 
+In particular, we perform a pattern search using the \texttt{host\_LF} function on each table contained 
+in the host data structure, while keeping track of spillovers in which a pattern is broken 
+across the borders of two tables.
+
+% ... write down an algorithm for \texttt{find} in a fused environment,
+% or at least make differences to regular algorithm a bit more clear
 
 \chapter{Results}
 % unsere Ergebnisse
@@ -3800,7 +4164,8 @@ the merge result can become unnecessarily large.
 When merging flat XBW tables together, it is common that node splitting 
 will result in a merged graph with a size larger than the total size of the 
 original graphs. 
-Fusing flat XBW tables together omits the need for this increased file size, 
+The method of fusing flat XBW tables together as proposed in section~\ref{sec:fusing_flat_tables} omits 
+the need for this increased file size, 
 which not only makes it easier to store the data, but also means that working on 
 it is quicker as less data means that fewer operations are necessary to construct 
 distinct prefixes, to traverse all possible paths, and so one.
@@ -3816,7 +4181,10 @@ could become problematic. \\
 Also, it is algorithmically more complex to work with fused graphs, as every 
 algorithm working on the graph needs to be prepared to handle spillover scenarios, 
 in which the end of one of the fused graphs is reached and the execution needs to continue 
-within the next graph. \\
+within the next graph. 
+Individually, handling each spillover scenario might be only a small amount of effort, 
+but when large amounts of work are performed on the table, then these small amounts of work 
+could add up to take significantly more time than work performed on a regular table would. \\
 These spillover scenarios might also severely limit the otherwise seemingly 
 great possibilities for splitting the computation of fused graphs across different 
 cores in a distributed system. 
