@@ -243,7 +243,7 @@
     author =       "James Knight",
 	title =        "Graphs, Alignments, Variants and Annotations, pt. 1",
     year =         "2014",
-    URL =          "http://knightlab.commons.yale.edu/gava-pt-1/",
+    URL =          "http://campuspress.yale.edu/knightlab/2014/07/28/gava-pt-1/",
 	note =         "Accessed: 6th of April 2015"
 }
 %
@@ -252,7 +252,7 @@
     author =       "James Knight",
 	title =        "Graphs, Alignments, Variants and Annotations, pt. 2",
     year =         "2014",
-    URL =          "http://knightlab.commons.yale.edu/gava-pt-2/",
+    URL =          "http://campuspress.yale.edu/knightlab/2014/08/14/gava-pt-2/",
 	note =         "Accessed: 6th of April 2015"
 }
 %
@@ -1802,6 +1802,7 @@ Nevertheless, porting these algorithms to a faster programming language
 and using them in a production environment should of course be possible.
 
 \section{Data Formats}
+\label{sec:methods_data_formats}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                                METHODS: Data Formats
@@ -1892,17 +1893,18 @@ is converted to FASTA and not the entire variety of the data can be upheld.
 
 The GFA or Graphical Fragment Assembly format 
 has been proposed in 2014 \citep{specGFA1,specGFA2}. 
-This young format has a lot of advantages over FASTG, mainly 
-that it is more flexible by encoding graphs of any arbitrary size without 
+Despite some initial criticism \citep{knightGFA1}, 
+this young format has a lot of advantages over FASTG. 
+Such advantages are that 
+it is more flexible by encoding graphs of any arbitrary size without 
 making a distinction between local and global graphs and that it can easier be read by programs, 
 as not much emphasis is put on making it human-readable. 
 Therefore, the focus can lie clearly on the needs of developers of advanced software packages, 
-and on allowing them to directly store the kind of data that they encounter, 
-even if it complicates the format slightly.
+and on allowing them to directly store the kind of data that they encounter.
 % TODO :: citation needed?
 
-A file in the GFA format consists of several lines of tab-delimited plain text, with each line starting 
-with a character which indicates what kind of a line this particular line is \citep{specGFAnew}. 
+A file in the GFA format consists of several lines of tab-delimited plain text, possibly including optional tags. 
+Each line hereby starts with a character which indicates what kind of a line it is \citep{specGFAnew}. 
 Figure~\ref{fig:evo_fig_gfa_example} contains an example graph encoded in the GFA format.
 
 % ACAAGGTGTCC|,3,CG,7;,5,,9 without # and $ nodes
@@ -4132,22 +4134,33 @@ of starting to use reference graphs more widely.
 %                                                                                                  RESULTS: Formats for Genomic Graphs
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We tried out different formats in the course of this thesis, 
+We tried out different formats in the course of this thesis 
 and noticed that indeed some do seem more appropriate than others 
 for representing genomic graphs 
-and in particular population graphs used as alignment references.
+and in particular population graphs used as alignment references. \\
+Explanations and examples for the different formats that we consider here 
+are contained in section~\ref{sec:methods_data_formats}. 
 
 \subsection{FASTG Format}
 
-Even though encoding genomic graphs is possible in the FASTG format, 
-we noticed that it has some severe drawbacks.
+In the FASTG format, genomic graphs can be encoded in a very flexible manner, 
+making it possible to encode graphs which contain loops as well as graphs 
+which consist of several unconnected parts. 
+In addition to that, this format is also designed in such a way that any 
+FASTG file containing a graph can easily be converted into a file just containing 
+a linear sequence, such that backwards compatibility with software tools which 
+cannot yet handle graph data is given. \\
+However, the format also has several drawbacks, which we investigated into 
+while implementing it.
 
 Files in the FASTG format are unnecessarily big, which is mostly caused 
 by a lot of intentional whitespaces but also by the decision to repeat the 
 default interpretation of each FASTG-specific command just before the command. 
-In the following FASTG example, the underlined 
-text is just repeated and therefore unnecessary information:
-
+While this does make it simpler to convert FASTG files into the linear FASTA format, 
+it does add any value to a FASTG file as long as it is worked on in a pipeline of 
+software tools which are all fully capable of working with graphs. \\
+In the following example taken from a FASTG file, the underlined 
+text is just repeated and therefore unnecessary information: \\
 ...GCA\underline{TATGTCCTCTCTCC}[1:alt\pipe TATGTCCTCTCTCC\pipe GTC]GG...
 
 On the other hand, when eliminating most of the whitespaces to reduce the file size, 
@@ -4157,87 +4170,108 @@ However, that very human-readability is one of the main advantages of FASTA,
 and without it not much of a reason is left for using this particular family 
 of formats altogether.
 
-The FASTG format also is not very flexible. This can be seen by the fact that 
-it only allows for three layers of variation within the entirety of the data. \\
+The FASTG format also is unnecessarily complex. This can be seen by the fact that 
+it allows for three different layers of variation within the entirety of the data. \\
 The first layer considers global variation that is implemented through a mechanism in which the 
 FASTA comments define which sequences can lead to which others. \\
-The second layer is about local variation that is implemented through FASTG-specific constructs 
+The second layer handles local variation that is implemented through FASTG-specific constructs 
 directly in the genomic data. \\
 The third layer represents highly localized variation (such as snips) that can be nested 
 inside of other FASTG-specific constructs from the second layer. \\
 As not all of the constructs can be nested inside of each other 
 and as the comment-based global and construct-based local 
-variation are completely different approaches, this format 
-seems unnecessarily complex.
+variation are completely different approaches, each program working on FASTG files 
+has to implement different algorithms to perform the same work on the different layers.
 
-Finally, the FASTG format as defined in 2012 with 
-its many specialized constructs seems to be excessive for 
-the needs of the Python test pipeline implemented in the course of this thesis. \\
-Trying to implement the entirety of FASTG would in fact 
-also be complicated by the fact that the format is open to amendments, 
+Finally, complicating the implementation of the entirety of FASTG 
+is also the fact that the format is open to amendments and still changing, 
 such that solely implementing the existing standard would not be enough 
 to be able to correctly work with all FASTG files which may be encountered. 
-Even the specific bubble notation used within many FASTG files 
-% which looks similar to ...ACGT[C,T]TAGT... 
+Even the specific bubble notation used within many FASTG files, 
+on which we based our bubble format, 
 does not actually occur in the standard written in 2012 \citep{specGFA1,specFASTG}.
 
 \subsection{GFA Format}
 
-Unfortunately, GFA has several drawbacks as well.
+We also considered the GFA format in which genomic graphs can be encoded. 
+This format is as flexible as the previously considered FASTG format, allowing us to encode graphs consisting of 
+several parts which are not connected as well as loops. \\
+An advantage of GFA over FASTG is that 
+graph behaviour in GFA is encoded in completely the same fashion, no matter whether it is global 
+or local. This simplifies writing software that can work with the format, 
+as there is no need to implement algorithms in different forms to work on 
+different layers. \\
+Another advantage of this format is its flexible tag system, in which tags representing different kinds of 
+additional information can be added to pretty much any line. As tags which are not known to the program 
+opening a file can be safely ignored, this allows the format to grow into various specialized forms over 
+time while still maintaining backwards compatibility. 
+One use for such tags is the encoding of information about the alignment qualities associated with sequences and their links.
 
-A crucial problem is that GFA has only shortly been worked on, 
-and no definitive standard has been published. \\
-Although several people have responded quite favourably to the original blog post 
-outlining the format, many have also come up with improvements and outright criticism, 
-making it less likely that the format in its current state 
-is already suited for implementation \citep{knightGFA1}. \\
-The lack of a unified standard also means that it is not even clear which version of it 
-to base an implementation on.
-
-In the context of this thesis it is also important to consider another drawback. 
-According to Heng Li, the author of the format, GFA only aims to be an assembly format \citep{specGFA3}.
+A potential drawback of GFA is that 
+according to Heng Li, the original author of the format, GFA only aims to be an assembly format \citep{specGFA3}.
 % "GFA is not limited to an assembly format. It can represent arbitrary relationship between sequences and is thus suitable for a population graph format in theory. However, I would not take applications on population graphs, such as graph mapping, as a killer application of GFA. There are many open questions on population graphs. I cannot design a format for unsolved questions. GFA aims to be an assembly format only, at least for now."
-This means that it can represent a graph based on one particular read assembly. \\
-It has not, however, been designed to represent population graphs---which are exactly 
-the reference graphs for which it would be helpful to have a useful format.
-
-Finally, this format is very broad and allows for a lot of complicated 
-graph behaviour, especially considering its elaborate CIGAR strings. 
-This seems to introduce complexity that is, at least for now, 
-unnecessary for the purposes of creating a simple 
-implementation of a graph reference based alignment tool.
-
-% TODO :: completely overwork this, as apparently the standard came a lot further and now what we wrote here
-% a year ago is not correct anymore... oops!
+This means that it is aimed at representing a graph based on one particular read assembly, 
+while it has not been designed to represent population graphs which can be used as graph references. \\
+However, in practice this does not seem to be a significant drawback. 
+During practical test implementations, the GFA format, despite not being aimed at representing reference graphs, 
+could be used for this purpose without encountering notable difficulties.
 
 \subsection{Bubble Format}
 
-Surprisingly, implementing an algorithm to open a file in the seemingly simple bubble format was actually 
-not easier than implementing more advanced formats like FASTG, GFA and GML.
-
-% TODO :: a bit more text please
+Surprisingly, implementing algorithms to open and save files in the seemingly simple bubble format was actually 
+not easier than implementing more advanced formats like FASTG, GFA and GML. 
+This format may look simple for short and uncomplicated graphs, 
+but it can quickly become difficult to keep track of the depths at which some paths 
+are nested when the graphs considered become more complicated. \\
+Therefore, the key benefit of the bubble format, which is its general human-readability, 
+is not conserved for bigger files, for which it simply represents a rather complicated format 
+which is not capable of encoding many interesting kinds of graph behaviour. \\
+Having experienced the complications arising from this seemingly simple format, 
+we concluded that it would not be very helpful to use the bubble format within 
+other formats to represent highly localized variations. 
+Instead, approaches like in the GFA and GML format seem to be more useful, 
+in which graph behaviour on any scale is encoded in the exact same way.
 
 \subsection{GML Format}
 
 While using the GML format within the Graph Merging Library, 
-it turned out that although it is a simple format for easy graphs, 
+it proved to be a straightforward and flexible format. 
+If we allow for loops then this format is as flexible as FASTG and GFA are, 
+also being able to encode any kinds of genomic graphs. 
+Therefore, the requirement of our input not containing any loops should be 
+seen as a specific requirement for the Graph Merging Library, which attempts 
+to convert such graphs into flat XBW tables in which loops can provide problems 
+due to potential infinite loops during the prefix generation. 
+It should however not be seen as a requirement for the GML format itself, 
+which is perfectly capable of encoding graphs with loops.
+
+A slight drawback that we noticed when using the GML format was that 
 modifying graphs with it by hand is rather cumbersome. 
 Especially deleting nodes on the main row is a quite elaborate process, 
 in which the pointers of all paths leaving or entering the main row 
-need to be updated. \\
+need to be updated. 
+Other formats, such as GFA and FASTG, make this process a lot simpler, 
+as entire sequences or data blocks are referenced and adding characters to such a 
+sequence or deleting characters from it does not change how the sequence 
+relates to the rest of the graph. \\
 This problem however could be mitigated by implementing a special text editor 
 for the GML format, which would be able to handle common functionalities such as 
 removing a node and inserting a node, while automatically updating the relevant pointers.
 
-% TODO :: more
-
 \subsection{FFX Format}
 
-% TODO :: nicer introduction, and maybe also a bit more focus on FFX and what it can / cannot achieve (especially with fused data?)
+Lastly, we also considered the FFX format, in which flat XBW tables are stored directly. 
+This format turned out to be very simple to implement when working with flat XBW tables already, 
+as a file can be opened and used without performing much work. Equally, saving a flat XBW table 
+in the FFX format is a quick and simple process. \\
+However, manually modifying files in this format is not very intuitive, 
+and the overall human-readability of this format is the worst of all formats considered here. 
+This should not be seen as a huge drawback though, as we saw for many formats that the human-readability was 
+only really useful for very small examples, and that large graphs are unintuitive in any format anyway.
 
-We noticed that none of the considered formats currently offer inbuilt compression techniques. 
-Changing this however would not be very difficult. Especially in the FFX format, 
-which mainly contains a BWT and two bit-vectors for each data block, 
+We also noticed that none of the considered formats currently offer inbuilt compression techniques. 
+Especially in the FFX format, changing this however would not be very difficult. 
+As this format mainly contains a BWT and two bit-vectors for each data block, 
 a rather simple compression method would be to save both the BWT and the bit-vectors 
 using run-length encoding. 
 % TODO :: insert figure of FFX with run-length encoding switched on
@@ -4251,13 +4285,24 @@ of the different formats by not saving the contents of the files as ASCII text,
 but instead as bitwise data structures that can e.g. represent each of the nucleotides A, C, G and T with 
 just two bits.
 
+\subsection{Format Recommendations}
+
+After having considered the five different formats mentioned so far, 
+we can now make the recommendation to use the GFA format for genomic graphs 
+if the ability of encoding additional information in tags is necessary, 
+or to use the FFX format when working with flat XBW tables internally anyway, 
+as this drastically reduces the amount of work associated with opening and saving files. 
+The FASTG and GML format do not seem to provide drastic advantages over either of these formats, 
+and the bubble format is not intended for real-world usage anyway.
+
 \section{Automated Tests}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                             RESULTS: Automated Tests
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In general, we can confirm how well the Graph Merging Library functions by checking 
+After having implemented the Graph Merging Library, 
+we wanted to confirm how well it functions by checking 
 that for a certain set of predefined inputs, the correct outputs are generated. 
 For that purpose, we provided several kinds of automated tests for both the 
 graph and XBW generation from an input, as well as the merging of several input graphs 
@@ -4500,7 +4545,7 @@ However, the first steps on the way to using reference graphs in real-world appl
 
 \section{Discussion}
 
-Despite a lot of work already having been done to explore 
+Despite a lot of work already having been performed to explore 
 ways of using genomic graphs within the field of human DNA analysis, 
 using reference graphs rather than reference strings still 
 is a difficult proposition and only few tools exist that incorporate 
@@ -4536,7 +4581,12 @@ tools of the analysis pipeline.
 As various different tools are in use for specific problems, no one implementation 
 is likely to achieve this. Instead, the community at large needs to start 
 incorporating the ideas of using graph data rather than sequential data into 
-more and more of the existing tools.
+more and more of the existing tools. \\
+Internally encoding graphs as flat XBW tables and using formats such as FFX for working on 
+these structures hereby seems like a promising method which could be used by more and 
+more software tools over time. Ideally, the explanations of this approach given within this 
+thesis will help steering more researchers in the direction of using this method to implement 
+genomic graphs into their pipelines.
 
 \bibliography{thesisreferences}
 
