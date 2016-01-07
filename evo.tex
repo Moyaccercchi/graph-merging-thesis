@@ -544,6 +544,24 @@
 	month =        "September",
     year =         "1996"
 }
+%
+% genutzt
+@online{Childs2007,
+    author =       "Kevin Childs",
+	title =        "Bioinformatics Data Formats",
+    year =         "2007",
+    URL =          "http://rice.plantbiology.msu.edu/training/Childs_Data_Formats.pdf",
+	note =         "Accessed: 6th of January 2016"
+}
+%
+% genutzt
+@online{specGFAnew,
+    author =       "{The GFA Format Specification Working Group}",
+	title =        "Graphical Fragment Assembly (GFA) Format Specification ",
+    year =         "2015",
+    URL =          "https://github.com/pmelsted/GFA-spec",
+	note =         "Accessed: 6th of January 2016"
+}
 \end{filecontents*}
 
 % Configurations
@@ -828,7 +846,7 @@ within the field of DNA analysis.
 
 % TODO :: maybe also add the following:
 % edits
-% FASTA / FASTQ / GFA / STPU; for each of these, send the reader to the Implementation chapter, Data Formats section
+% FASTA / FASTQ / GFA / Bubble / GML / FFX; for each of these, send the reader to the Implementation chapter, Data Formats section
 % de novo assembly :: assembly without a reference https://en.wikipedia.org/wiki/De_novo_transcriptome_assembly
 % lf-mapping :: last-to-front-mapping or last-to-first-mapping (meaning that the relative positions in the BWT column and in the first column conincide)
 % lf and psi as navigation functions
@@ -1798,34 +1816,142 @@ different possible approaches for encoding graphs.
 
 There are many formats readily available for genomic data strings 
 that can be used when only sequential data is considered. 
-One of the most common formats for genomic strings is the FASTA format. 
-% TODO :: citation necessary
-Its simple structure means that it is human-readable 
+One of the most common formats for genomic strings is the FASTA format \citep{Childs2007}. 
+Its simple structure as a plain text format consisting of a definition line 
+followed by the genomic data means that it is human-readable 
 and can easily be used by various programs.
 
 However, the aim here is to find data formats that are capable of 
 encoding genomic graphs rather than strings. 
-Such a format is FASTG, which is 
-a FASTA-like format designed to handle graph data \citep{specFASTG}. 
+A FASTA-like format designed to handle graph data is FASTG \citep{specFASTG}. \\
+This format was especially designed to enable quick conversion from a file 
+encoded in FASTG back to FASTA to enable backwards compatibility with tools which cannot 
+handle the graph portion of the data. In that case, all the graph portions are simply left 
+out and a path through the graph becomes the genomic string encoded in the converted FASTA file. \\
+In the FASTG format, genomic graphs are represented by providing the global structure of 
+the data, which describes the overall structure of the entire graph, 
+into which linear sequences and local graphs are embedded. 
+All of this is then surrounded by specific begin and end lines which identify the file as being 
+in the FASTG format. 
+An example for a graph encoded in the FASTG format can be seen in figure~\ref{fig:evo_fig_fastg_example}.
 
-% TODO :: write about FASTG - do not write down the entire standard, 
-% but rather one or two important things for someone to understand how we implemented it.
+% GACGT|,2,T,4 without # and $   and   AAGT|,1,,4 without # and $ (flipped arrow)
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{\#FASTG:begin;} \\
+\texttt{\#FASTG:version=1.0:assembly\_name={\textquotesingle}example graph{\textquotesingle};} \\
+\texttt{>chr1;} \\
+\texttt{GA[1:alt:allele|C,T]GT} \\
+\texttt{>chr2:chr2;} \\
+\texttt{AAGT} \\
+\texttt{\#FASTG:end;} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_fastg_example.pdf}
+\caption[FASTG example file]{FASTG example file together with the graph that the file represents.} \label{fig:evo_fig_fastg_example}
+\end{figure}
+
+The global structure is hereby represented by several data blocks, each of which contains 
+a definition line starting with the character “$>$”, followed by one or several lines 
+representing the genomic data within that block. 
+The text in the definition line hereby determines how several such data blocks relate to each 
+other and the global structure of the encoded data, such that a data block can represent a cycle 
+or a linear part, and its ends can be attached to other data blocks. They however do not have to 
+be attached to other data blocks, such that it is also possible to encode graphs in the FASTG format 
+which are not connected, meaning that not all nodes within the graph need to be reachable from all other nodes. \\
+The linear structure of the data is encoded via special commands right inside the data block. 
+Examples for some common local commands are shown in table~\ref{table:fastg_local_examples}.
+
+\begin{table}[htb]
+\centering
+\caption[Local commands in FASTG]{Examples for local commands in FASTG.}
+\begin{tabularx}{1.0\textwidth}{ | l | X | }
+\hline
+\textbf{Example} & \textbf{Remarks} \\
+\hline
+\texttt{[6:gap:size=(6,4..8)]} & Gap of four to eight characters, with default gap length of six characters. \\
+\hline
+\texttt{[1:alt|C,CG,TT]} & Bubble representing the options of “C”, “CG” or “CT” with the default option being the first one. \\
+\hline
+\texttt{[1:alt:allele|A,T]} & Bubble representing the options of “A” or “T” with the default option being the first one. We use the \texttt{allele} term to denote that we are sure that both options occur in the sample data. \\
+\hline
+\texttt{[10:tandem:size=(5,3..7)|CG]} & Three to seven repeats of “CG”, with the default being five repeats. \\
+\hline
+\texttt{[20:digraph:...]} & A local graph within the format which takes up a default length of twenty characters. The actual graph definition inside the \texttt{digraph} command is replaced by “\texttt{...}” for brevity. \\
+\hline
+\end{tabularx}
+\label{table:fastg_local_examples}
+\end{table}
+
+When referring to “default” values in this table, we mean that these are the values taken when the FASTG file 
+is converted to FASTA and not the entire variety of the data can be upheld.
 
 \subsection{GFA Format}
 
 The GFA or Graphical Fragment Assembly format 
 has been proposed in 2014 \citep{specGFA1,specGFA2}. 
 This young format has a lot of advantages over FASTG, mainly 
-that it is a lot more flexible and can easier be read by programs, 
+that it is more flexible by encoding graphs of any arbitrary size without 
+making a distinction between local and global graphs and that it can easier be read by programs, 
 as not much emphasis is put on making it human-readable. 
 Therefore, the focus can lie clearly on the needs of developers of advanced software packages, 
 and on allowing them to directly store the kind of data that they encounter, 
 even if it complicates the format slightly.
 % TODO :: citation needed?
 
-% TODO :: write more about GFA - as with FASTG, just a quick overview over the main commands and how they can be implemented
+A file in the GFA format consists of several lines of tab-delimited plain text, with each line starting 
+with a character which indicates what kind of a line this particular line is \citep{specGFAnew}. 
+Figure~\ref{fig:evo_fig_gfa_example} contains an example graph encoded in the GFA format.
 
-The GFA format uses CIGAR strings. 
+% ACAAGGTGTCC|,3,CG,7;,5,,9 without # and $ nodes
+% H   VN:Z:1.0
+% S   1   ACA
+% S   2   AAG
+% L   1   +   2   +   1M
+% S   3   AGGT
+% L   2   +   3   +   2M
+% S   4   TG
+% L   3   +   4   +   1M
+% S   5   TCC
+% L   4   +   5   +   0M
+% L   2   +   5   +   0M
+% S   6   CACGT
+% L   1   +   6   +   2M
+% L   6   +   4   +   1M
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{H \quad VN:Z:1.0} \\
+\texttt{S \quad 1 \quad ACA} \\
+\texttt{S \quad 2 \quad AAG} \\
+\texttt{L \quad 1 \quad + \quad 2 \quad + \quad 1M} \\
+\texttt{S \quad 3 \quad AGGT} \\
+\texttt{L \quad 2 \quad + \quad 3 \quad + \quad 2M} \\
+\texttt{S \quad 4 \quad TG} \\
+\texttt{L \quad 3 \quad + \quad 4 \quad + \quad 1M} \\
+\texttt{S \quad 5 \quad TCC} \\
+\texttt{L \quad 4 \quad + \quad 5 \quad + \quad 0M} \\
+\texttt{L \quad 2 \quad + \quad 5 \quad + \quad 0M} \\
+\texttt{S \quad 6 \quad CACGT} \\
+\texttt{L \quad 1 \quad + \quad 6 \quad + \quad 2M} \\
+\texttt{L \quad 6 \quad + \quad 4 \quad + \quad 1M} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_gfa_example.pdf}
+\caption[GFA example file]{GFA example file together with the graph that the file represents.} \label{fig:evo_fig_gfa_example}
+\end{figure}
+
+The lines of the file header start with the character “\texttt{H}” and can be followed by tags which tell us about the 
+version number or the quality of the data. 
+Other line types include ones with character “\texttt{S}” representing sequences, which 
+contain the name of the sequence and the genomic sequence itself, 
+lines with character “\texttt{C}” for containments 
+and lines with character “\texttt{L}”. 
+These represent links between sequences which are identified by their names and orientations. 
+The links are augmented by CIGAR strings. 
 In general, such a CIGAR string is a sequence of lengths and operations 
 associated with these lengths that is used when aligning one string to another \citep{specSAM}. 
 % a really, REALLY good explanation for CIGAR strings (that I can sadly not quote as it is "just some random wiki":
@@ -1860,44 +1986,33 @@ about problems to avoid when designing actual graph formats to be used for real 
 In the bubble format a genomic sequence is represented as a single continuous string. 
 There are no comments within the format, 
 and neither newline characters nor in fact any kinds of whitespaces. \\
-Any sort of graph representation in STPU is based on bubbles, which can be extended as long as necessary, 
+Any sort of graph representation in this format is based on bubbles, which can be extended as long as necessary, 
 and can be nested. A bubble is started with a “(” character and ended 
 with a “)” character. Alternatives within the bubbles are marked with “{\!\pipe}” 
 characters. 
-A representation of a short and simple graph in bubble notation can be seen in figure~\ref{fig:evo_fig_STPUbubble_f}. \\
-Insertions and deletions are represented as bubbles whose alternative route is empty. 
-One such deletion can be seen in figure~\ref{fig:evo_fig_STPUinsertion_f}. \\
-As remarked before, this format cannot be used to represent arbitrary graphs. 
-An example for which it fails to provide a correct encoding can be seen in figure~\ref{fig:evo_fig_STPUcycle_f}. 
-Nevertheless, the bubble format is sufficient for simple algorithmic tests.
+A representation of a short and simple graph in bubble notation can be seen in figure~\ref{fig:evo_fig_STPUbubble_f}.
 
-% \begin{figure}[!htb]
-% \centering
-% \includegraphics[width=0.47\textwidth]{evo_fig_STPUbubble_f.png}
-% \caption[Simple bubble in STPU format]{Simple bubble, represented in STPU as \textup{ACGT(AG\pipe CTT)ATTTC}.} \label{fig:STPUbubble}
-% \end{figure}
 % ACGTCTTATTTC|,4,AG,8    nicer: AG against C - CGTAGATTC|,4,C,7 (without $ and #)
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_STPUbubble_f.pdf}
 \caption[Simple bubble in bubble format]{Simple bubble, represented in bubble format as \textup{CGTA(GA\pipe C)TTC}.} \label{fig:evo_fig_STPUbubble_f}
 \end{figure}
-% \begin{figure}[!htb]
-% \centering
-% \includegraphics[width=0.47\textwidth]{evo_fig_STPUinsertion_f.png}
-% \caption[Insertion in STPU format]{Insertion, represented in STPU as \textup{ACGT(AG\pipe )ATTTC}.} \label{fig:STPUinsertion}
-% \end{figure}
+
+Insertions and deletions are represented as bubbles whose alternative route is empty. 
+One such deletion can be seen in figure~\ref{fig:evo_fig_STPUinsertion_f}.
+
 % ACGTATTTC|,4,AG,5    nicer: deletion - CGTAGATTC|,4,,7 (without $ and #)
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_STPUinsertion_f.pdf}
 \caption[Deletion in bubble format]{Deletion, represented in bubble format as \textup{CGTA(GA\pipe )TTC}.} \label{fig:evo_fig_STPUinsertion_f}
 \end{figure}
-% \begin{figure}[!htb]
-% \centering
-% \includegraphics[width=0.47\textwidth]{evo_fig_STPUcycle_f.png}
-% \caption[Cycle in STPU format]{Cycle which cannot be fully represented in STPU, but can be approximated to any wanted length as \textup{ACGTAG(\pipe AG(\pipe AG(\pipe AG(\pipe ...))))ATTTC}.} \label{fig:STPUcycle}
-% \end{figure}
+
+As remarked before, this format cannot be used to represent arbitrary graphs. 
+An example for which it fails to provide a correct encoding can be seen in figure~\ref{fig:evo_fig_STPUcycle_f}. 
+Nevertheless, the bubble format is sufficient for simple algorithmic tests.
+
 % CGTAGATTC|,7,,4 (without $ and #)
 \begin{figure}[!htb]
 \centering
@@ -1909,17 +2024,30 @@ Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 
 After implementing the Bubble Format, which represents a very straightforward but rather 
 limited approach for encoding graphs, 
-we decided to design a different new format 
-which could be used to encode genomic graphs. 
+we decided to design a different new format to encode genomic graphs in the Graph Merging Library. 
 As both the FASTG and the GFA format seem to be rather extensive, 
 the idea behind the GML format is to create a simpler way of encoding graph data, 
 while not falling into the pitfalls of the Bubble Format and limiting the scope of 
 the graphs which could be expressed too much. 
 As can be seen with the success of FASTA files for sequential data, 
 the simplicity of a data format is rather important, as it makes it more likely 
-for future tools to be designed with inbuilt support for the format.
+for future tools to be designed with inbuilt support for the format. \\
+An example graph encoded in the GML format can be seen in figure~\ref{fig:evo_fig_first_gml_example}.
 
-The aim of the GML format is also to not unnecessarily complicate the process of 
+% GAGTCGAT|p1,1,TGG,5;,p1:1,T,mp:6
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{>gml\_example\_graph} \\
+\texttt{GAGTCGAT|p1,1,TGG,5;,p1:1,T,mp:6} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_first_gml_example.pdf}
+\caption[GML example file]{GML example file together with the graph that the file represents.} \label{fig:evo_fig_first_gml_example}
+\end{figure}
+
+An aim when designing the GML format was to not unnecessarily complicate the process of 
 making existing tools of the analysis pipeline 
 compatible with graph data. 
 Therefore, the general structure of a GML-formatted file is similar to the general structure 
@@ -1929,10 +2057,24 @@ by comments. A comment in turn consists of the character “>” to indicate the
 the name of the following data block, followed by a space character and any free text that 
 can be used as is deemed necessary when the file is created. 
 If a GML file contains no comments at all, 
-then all the rows are simply interpreted as one contiguous data block.
+then all the rows are simply interpreted as one contiguous data block. \\
+An example for how several graphs can be encoded in the GML format 
+can be seen in figure~\ref{fig:evo_fig_second_gml_example}.
 
-% TODO :: create general figure of GML file:
-%
+% CAA|,1,CG,3 and TGTC|,1,,4;,1,,3
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{>first\_gml\_example\_graph} \\
+\texttt{CAA|,1,CG,3} \\
+\texttt{>second\_gml\_example\_graph} \\
+\texttt{TGTC|,1,,4;,1,,3} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_second_gml_example.pdf}
+\caption[GML example file containing two graphs]{GML example file containing two graphs together with the graphs that the file represents.} \label{fig:evo_fig_second_gml_example}
+\end{figure}
 
 Within a data block, a genomic graph is encoded in two different parts. \\
 The first part is referred to as the \textit{main path}. 
@@ -1943,13 +2085,13 @@ These labels are not included in the main path within the file, as they are impl
 to exist for any such graph. \\
 The second part of a data block is optional. 
 If the second part is given, then the first and second part of the data block are separated by a pipe character. 
-This second part is an array of info blocks, separated from each other by semicolons. \\
-Finally, each info block consists of exactly four parts which are separated from each other by commas.
-\begin{itemize}
-\item The first part is the identifier of the path, which can contain letters and underscores, 
+This second part is an array of info blocks, separated from each other by semicolons.
+
+Finally, each info block consists of exactly four parts which are separated from each other by commas. \\
+The first part is the identifier of the path, which can contain letters and underscores, 
 as well as numbers in any position but the first. 
-The identifier can also be left empty.
-\item The second part is the origin of the path, 
+The identifier can also be left empty. \\
+The second part is the origin of the path, 
 containing the identifier of the path on which this one 
 originates followed by a colon and the position within that path 
 at which it originates. \\
@@ -1962,20 +2104,11 @@ The counting of the position starts at number zero for the first symbol.
 However, the main path implicitly contains the hash tag symbol and the dollar sign symbol. 
 Therefore the hash tag symbol on the main path is \texttt{mp:0} and 
 the first alphabetical character on the main path is \texttt{mp:1}, 
-while the first alphabetical character on a path with the identifier \texttt{path9} is \texttt{path9:0}.
-\item The third part is the content of the path, meaning the sequence of labels of nodes on the path. 
-It can be empty if the path consists of just an edge from the origin to the target without containing any nodes.
-\item The fourth part is the target of the path, 
+while the first alphabetical character on a path with the identifier \texttt{path9} is \texttt{path9:0}. \\
+The third part is the content of the path, meaning the sequence of labels of nodes on the path. 
+It can be empty if the path consists of just an edge from the origin to the target without containing any nodes. \\
+The fourth part is the target of the path, 
 specified according to the same format as the origin of the path in the second part of the info block.
-\end{itemize}
-
-% TODO :: create figure of GML file:
-% e.g. GACG|p1,1,TGG,3;,p1:0,C,p1:2 or bubble notation G(A|T(G|C)G)CG
-% mainpath|infoblock;infoblock;infoblock
-% \                                    /
-%             data block
-%
-% also have the actual graph representation of that with it on the figure =)
 
 The GML format can encode any labelled graphs which start with a special hash tag node 
 and end with a dollar sign node, as long as each node within the graph 
@@ -1995,13 +2128,31 @@ In the process of creating GML, we finally designed one more data format for
 genomic graphs. The idea behind FFX, the Flat Fused XBW format, is to enable saving 
 a flat XBW table directly, without having to convert it to some other format 
 first. \\
-As shown in subsection~\ref{sec:fusing_flat_tables}, 
+As shown in section~\ref{sec:fusing_flat_tables}, 
 it can be helpful to fuse several separate graphs together 
 instead of merging them completely. Therefore, FFX is designed 
 to specifically accommodate for these kinds of fused structures as well. 
 It does not however impose these fused structures on the user, 
 as non-fused graphs can simply be stored as single data blocks within 
-an FFX file.
+an FFX file. 
+An FFX example file and the graph that it represents can be seen in figure~\ref{fig:evo_fig_ffx_example}.
+
+% AGAgctTAC|,2,AC,6;,3,,8
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{>ffx\_example\_graph} \\
+\texttt{B \quad CGTAG\#GAGAAATC\$} \\
+\texttt{M \quad 111111111001111} \\
+\texttt{F \quad 111011111011111} \\
+\texttt{O \quad \$>0,A>1,C>2,G>3,T>4,\#>5} \\
+\texttt{C \quad \$>0,A>1,C>6,G>8,T>12,\#>14} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_ffx_example.pdf}
+\caption[FFX example file]{FFX example file together with the graph that is represented by the file.} \label{fig:evo_fig_ffx_example}
+\end{figure}
 
 The basic structure of an FFX file is again inspired by FASTA, 
 containing an optional starting comment which contains an identifier for 
@@ -2013,13 +2164,17 @@ they are not seen as separate entities. Instead, the program working on
 the FFX file is supposed to handle them as fused flat XBW tables, 
 with the end node of the first table leading into the start node of the 
 second table, the end node of the second leading into the start node of the 
-third, and so on. \\
+third, and so on. 
+For a more detailed explanation of how fused 
+flat tables work and the motivation behind using them, 
+see section~\ref{sec:fusing_flat_tables}. \\
 As more complex formats are less likely to become 
 used by the community at large as it would be harder to re-implement them 
-in various situations, certain rules are imposed on these fused data structures. 
-First of all, a data block is always fused to the one directly following 
+in various situations, these fused data structures are required to be strictly linear. 
+This means that a data block is always fused to the one directly following 
 within the file. 
-Theoretically, it would be possible to create a set of rules for the comment 
+Just like the encoding of the global structure happens in FASTG, 
+it would be possible to create a set of rules for the comment 
 lines to indicate that other relations should instead take place, such as the 
 end node of the first table leading to the start node of the fourth and so on, 
 but even though this would increase the flexibility of the format, it would only 
@@ -2030,20 +2185,51 @@ data block to the next is always completely linear, and every path through the
 entire FFX file must use every edge between the data blocks exactly once. \\
 At the first glance, this might seem like a rather limiting constraint. 
 However, it should be noted that much more complex behaviour is very possible 
-within each data block, which can encode a complex a graph as is necessary. 
+within each data block, which can encode as complex a graph as is necessary 
+as long as it does not contain any loops. 
 Also, this is inspired by the actual needs for a huge graph reference, 
-in which the overall structure is very linear and all perturbations are on a 
-rather local scale.
+in which the overall structure is linear and all perturbations are on a 
+rather local scale. \\
+Figure~\ref{fig:evo_fig_ffx_example_fused} contains an example for 
+how several graphs can be encoded in the FFX format as a single fused graph. 
 
-In FFX, each data block consists of the BWT, the $ M $ and $ F $ bit vectors, 
-and additional data which could be constructed on the fly from just the BWT, 
-but which takes up a lot of time to be constructed while only take up a small 
-amount of space, such that saving it explicitly within the file means that the 
-lengthy process of computing it again and again does not need to be executed on 
-every opening of the file.
+% CAA|,1,G,3 and TGA|,1,,3
+\begin{figure}[!htb]
+\centering
+\begin{tabularx}{1.0\textwidth}{ | X | }
+\hline
+\texttt{>first\_fused\_graph} \\
+\texttt{B \quad AAGC\#C\$} \\
+\texttt{M \quad 1111011} \\
+\texttt{F \quad 1101111} \\
+\texttt{O \quad \$>0,A>1,C>2,G>3,\#>4} \\
+\texttt{C \quad \$>0,A>1,C>3,G>5,\#>6} \\
+\texttt{>second\_fused\_graph} \\
+\texttt{B \quad AGTT\#\$} \\
+\texttt{M \quad 111101} \\
+\texttt{F \quad 110111} \\
+\texttt{O \quad \$>0,A>1,G>2,T>3,\#>4} \\
+\texttt{C \quad \$>0,A>1,G>2,T>3,\#>5} \\
+\hline
+\end{tabularx}
+\includegraphics[width=\textwidth]{evo_fig_ffx_example_fused.pdf}
+\caption[FFX example file containing fused graphs]{FFX example file containing two graphs (top) together with the fused graph that is represented by the file (middle) and the graph that the fused graph represents (bottom).} \label{fig:evo_fig_ffx_example_fused}
+\end{figure}
 
-% TODO :: make clearer HOW the BWT, M and F are encoded in a data block, and WHAT other data there is
-% TODO :: add pictures of FFX files and the corresponding graphs (also a picture of two graphs being merged, leading to one data block, and two graphs being fused, leading to two data blocks)
+In FFX, each data block consists of lines for the BWT, the $ M $ and $ F $ bit vectors, 
+as well as lines for the ord and $ C $ arrays. 
+Both of these arrays could be constructed on the fly from just the BWT. 
+This however takes up a lot of time while they both only take up a small 
+amount of space even for very large graphs, 
+such that storing them explicitly within the file means that the 
+lengthy process of computing them does not need to be repeated again and again 
+whenever the file is opened. \\
+In particular, the BWT is contained in a line starting with the letter “\texttt{B}” followed 
+by a tab character. 
+Similarly, the bit vector $ M $ is contained in a line starting with “\texttt{M}” and 
+the bit vector $ F $ in a line starting with “\texttt{F}”. 
+Finally, the ord and $ C $ arrays are 
+contained in lines starting with “\texttt{O}” and “\texttt{C}”, respectively.
 
 \subsection{Implementation}
 %
@@ -2058,7 +2244,7 @@ The goal here was not to achieve a software package that could compete with
 the already commonly used alignment solutions, but rather to have a 
 simple test bed for trying out different algorithmic approaches and file formats.
 
-Section~\ref{sec:results_data_formats} contains the insights gained from 
+Section~\ref{sec:results_data_formats} contains the results gained by 
 implementing the different data formats.
 
 \section{Graph Merging Library}
@@ -4228,15 +4414,15 @@ as any amount of tests performed is necessarily finite, while there are
 infinitely many inputs that could theoretically be specified, 
 such that it will never be possible to check every single input that there is.
 
-\section{Merging XBWs}
+\section{Merging XBW Tables}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                                                RESULTS: Merging XBWs
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the Graph Merging Library, we have explored several ways to merge XBWs. 
+Using the Graph Merging Library, we have explored several ways to merge both XBW node tables and flat XBW tables. 
 As could be expected, merging two node tables is a much simpler process than merging two flat tables, 
-as a node table is much less compressed, and working on it is simpler in general. 
+as a node table is less optimized for compression, and working on it is simpler in general. 
 The node table not being as compressed as a flat table though means 
 that it would not be practical in a real-life scenario to merge these kinds of tables.
 
@@ -4245,7 +4431,7 @@ the merge result can become unnecessarily large.
 
 % TODO :: insert picture - a graph, another, and then merged soooo big as the thing is split and split and split
 
-\section{Fusing XBWs Instead of Merging Them}
+\section{Fusing Flat Tables Instead of Merging Them}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %                                                                                         RESULTS: Fusing XBWs Instead of Merging Them

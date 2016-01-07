@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   preserveAspectRatio="xMidYMid slice"
+   viewBox="-170.5 78 1041 114"
+   version="1.1"
+   style="width:1041px;height:114px"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="evo_fig_fastg_example.svg">
+  <metadata
+     id="metadata66">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1200"
+     inkscape:window-height="689"
+     id="namedview64"
+     showgrid="false"
+     inkscape:zoom="0.79880651"
+     inkscape:cx="520.5"
+     inkscape:cy="57"
+     inkscape:window-x="79"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <style
+     type="text/css"
+     id="style4">svg * {color:#000;font-family:Times New Roman,serif;line-height:22px;font-style:normal;font-weight:500;}svg &gt; text, svg &gt; text &gt; tspan {font-size:30px;}svg &gt; text.prefix, svg &gt; text.prefix &gt; tspan {font-size:15px;}svg &gt; text &gt; tspan.d {font-size:20px;}svg &gt; text.prefix &gt; tspan.d {font-size:10px;}svg &gt; text &gt; tspan.u {font-size:20px;}svg &gt; text.prefix &gt; tspan.u {font-size:10px;}</style>
+  <rect
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     height="129.02242"
+     width="1041"
+     y="62.624798"
+     x="-170.5"
+     id="rect6" />
+  <defs
+     id="defs8">
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="markerArrow31">
+      <path
+         style="fill:#000;"
+         d="M2,7 L2,9.5 L5,7 L2,4.5 L2,7"
+         id="path11" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="markerArrow31_extra">
+      <path
+         style="fill:#C00;"
+         d="M2,7 L2,9.5 L5,7 L2,4.5 L2,7"
+         id="path14" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="markerArrow39">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#000000"
+         d="M 2,7 2,9.5 5,7 2,4.5 2,7"
+         id="path11-9" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="marker3388">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#000000"
+         d="M 2,7 2,9.5 5,7 2,4.5 2,7"
+         id="path3390" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="marker3392">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#000000"
+         d="M 2,7 2,9.5 5,7 2,4.5 2,7"
+         id="path3394" />
+    </marker>
+    <marker
+       orient="auto"
+       refY="7"
+       refX="4"
+       markerHeight="13"
+       markerWidth="13"
+       id="marker3396">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#000000"
+         d="M 2,7 2,9.5 5,7 2,4.5 2,7"
+         id="path3398" />
+    </marker>
+  </defs>
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="100"
+     cx="-82"
+     id="circle16" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="100"
+     cx="-82"
+     id="circle18" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="110"
+     x="-82"
+     id="text20">G</text>
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m -57,100 50,0"
+     id="path22"
+     inkscape:connector-curvature="0" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="100"
+     cx="18"
+     id="circle24" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="100"
+     cx="18"
+     id="circle26" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="110"
+     x="18"
+     id="text28">A</text>
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m 43,100 50,0"
+     id="path30"
+     inkscape:connector-curvature="0" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="100"
+     cx="118"
+     id="circle32" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="100"
+     cx="118"
+     id="circle34" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="110"
+     x="118"
+     id="text36">C</text>
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m 143,100 50,0"
+     id="path38"
+     inkscape:connector-curvature="0" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="100"
+     cx="218"
+     id="circle40" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="100"
+     cx="218"
+     id="circle42" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="110"
+     x="218"
+     id="text44">G</text>
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m 243,100 50,0"
+     id="path46"
+     inkscape:connector-curvature="0" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="100"
+     cx="318"
+     id="circle48" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="100"
+     cx="318"
+     id="circle50" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="110"
+     x="318"
+     id="text52">T</text>
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="170"
+     cx="118"
+     id="circle54" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="170"
+     cx="118"
+     id="circle56" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="180"
+     x="118"
+     id="text58">T</text>
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m 143,170 q 65,0 72,-45"
+     id="path60"
+     inkscape:connector-curvature="0" />
+  <path
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow31)"
+     d="m 21,125 q 7,45 72,45"
+     id="path62"
+     inkscape:connector-curvature="0" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="107.90111"
+     cx="471.03967"
+     id="circle16-9" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="107.90111"
+     cx="471.03967"
+     id="circle18-6" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="117.90111"
+     x="471.03967"
+     id="text20-3">A</text>
+  <path
+     inkscape:connector-curvature="0"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow39)"
+     d="m 496.0397,107.90111 50,0"
+     id="path22-8" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="107.90111"
+     cx="571.03967"
+     id="circle24-4" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="107.90111"
+     cx="571.03967"
+     id="circle26-6" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="117.90111"
+     x="571.03967"
+     id="text28-2">A</text>
+  <path
+     inkscape:connector-curvature="0"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow39)"
+     d="m 596.0397,107.90111 50,0"
+     id="path30-4" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="107.90111"
+     cx="671.03967"
+     id="circle32-2" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="107.90111"
+     cx="671.03967"
+     id="circle34-4" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="117.90111"
+     x="671.03967"
+     id="text36-0">G</text>
+  <path
+     inkscape:connector-curvature="0"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow39)"
+     d="m 696.0397,107.90111 50,0"
+     id="path38-3" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
+     r="20"
+     cy="107.90111"
+     cx="771.03967"
+     id="circle40-2" />
+  <circle
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
+     r="18"
+     cy="107.90111"
+     cx="771.03967"
+     id="circle42-5" />
+  <text
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="117.90111"
+     x="771.03967"
+     id="text44-4">T</text>
+  <path
+     inkscape:connector-curvature="0"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow39)"
+     d="m 762.49178,132.90111 q -140,75 -280,0"
+     id="path46-6" />
+</svg>
