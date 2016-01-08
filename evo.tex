@@ -3912,6 +3912,12 @@ as the only new occurrence to look out for is a possible spillover in which
 we leave one graph and move on to the next. In that event, the program working 
 on the fused XBW data structure needs to automatically jump over the hash tag and dollar sign nodes, 
 as internal hash tag and dollar sign nodes should not be accessible to the outside. 
+Also, we have to add an additional requirement to the tables which we consider. 
+When we want to fuse tables together, then the start node of each input table needs to have 
+exactly one outgoing edge, and the end node of each input table needs to have exactly one incoming edge. 
+This requirement is necessary to ensure that the navigation functions \texttt{LF} and $\Psi$, 
+which we will define for a fused table 
+in section~\ref{sec:fused_table_navigation}, can actually perform their work correctly. \\
 Apart from that, work in a fused table can be performed just like in a regular one.
 
 \subsection{Performing the Fusion of Two Tables}
@@ -4020,6 +4026,7 @@ able to handle single flat tables without having to create a whole special case 
 they are used directly without surrounding data structure.
 
 \subsection{Navigating Through Fused Tables}
+\label{sec:fused_table_navigation}
 
 Just as with the navigation through XBW node tables and regular flat XBW tables, 
 we again wish to be able to find the start and end nodes of a fused flat XBW table. 
@@ -4069,22 +4076,22 @@ that the fused data structure contains.
 
 Just as with regular flat XBW tables, we can also use the $ \Psi $ and \texttt{LF} functions 
 to navigate through each table to find preceding and succeeding nodes. 
-However, while the behaviour of these functions themselves does not need to change 
+However, while the behaviour of these functions themselves within each table does not need to change 
 at all, we do not call them directly in a fused graph. \\
 Instead, we wrap them in special functions provided by the host XBW environment. 
-In particular, we can call the function \texttt{host\_$\Psi$} with the same arguments 
-as the regular $ \Psi $ function, except for the first parameter 
+In particular, we can call the function $\Psi$ in the host environment with the same arguments 
+as the regular $ \Psi $ function for a flat table, except for the first parameter 
 in which we use a pair $ (i, j) $ to address the node 
 we are interested in instead of a plain integer $ i $. 
 The result of the function is also slightly different, again being a pair $ (i, j) $ to 
 properly address a node within the fused graph instead of a plain integer $ i $. \\
-Similarly we have the function \texttt{host\_LF} which now accepts a range of nodes 
-within a pair as $ ([sp, ep], j) $ and it gives out an array of such structures. 
+Similarly we have the function \texttt{LF} which when called on the host environment accepts a range of nodes 
+within a pair as $ ([sp, ep], j) $ and gives out an array of such structures. 
 It can be seen that this function does not allow us to specify a range spanning more 
 than one table, which is intentional. If calculations need to be performed on 
-several of the fused tables, such as for pattern searching, then the \texttt{host\_LF} function 
+several of the fused tables, such as for pattern searching, then the \texttt{LF} function 
 needs to be called on each of the fused tables separately. 
-However, several such structure can be returned within an array to be able to return 
+However, several such structures can be returned within an array to be able to return 
 ranges in several tables if they are found through spillovers.
 
 % ... - add algorithms for host_Psi and host_LF
@@ -4095,7 +4102,7 @@ To construct the prefix a node within the fused table,
 we perform an algorithm similar to the one we performed for the prefix construction 
 in regular flat XBW tables. 
 In particular, we read out the label of the node itself as starting character of the prefix, 
-and then append characters to the emerging prefix by using the \texttt{host\_$\Psi$} function to 
+and then append characters to the emerging prefix by using the $\Psi$ function of the host environment to 
 find the succeeding nodes and their labels. 
 The only difference to the prefix construction in regular flat XBW tables 
 is here that we have to take care of spillovers into succeeding tables, 
@@ -4109,7 +4116,7 @@ within the same table.
 
 As with the other algorithms working on fused tables, also the search for a pattern 
 in a fused graph is very similar to the algorithm for pattern searches on regular flat XBW tables. 
-In particular, we perform a pattern search using the \texttt{host\_LF} function on each table contained 
+In particular, we perform a pattern search using the \texttt{LF} function of the host environment on each table contained 
 in the host data structure, while keeping track of spillovers in which a pattern is broken 
 across the borders of two tables.
 
@@ -4499,6 +4506,13 @@ With a fused XBW however, in addition to specifying a column within the table,
 it also needs to specified which table is addressed, necessitating pairs of integers. 
 If particularly large list of locations needs to be created, this difference of two integers instead of one 
 could become problematic. \\
+Another disadvantage of fusing graphs instead of merging them is that we 
+are only allowed to use end nodes with one incoming edge and start nodes with one outgoing edge 
+at the fusion point of any two graphs. 
+This however is not a huge sacrifice, as fusing flat tables makes it unnecessary to 
+split nodes, which we would possibly have to do when merging the tables. 
+The splitting cannot occur across table boundaries, leaving merged graphs 
+actually more restricted than fused ones. \\
 Also, it is algorithmically more complex to work with fused graphs, as every 
 algorithm working on the graph needs to be prepared to handle spillover scenarios, 
 in which the end of one of the fused graphs is reached and the execution needs to continue 
