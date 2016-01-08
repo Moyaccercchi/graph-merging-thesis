@@ -158,6 +158,10 @@
 % see https://en.wikibooks.org/wiki/LaTeX/Algorithms
 \usepackage[chapter]{algorithm}
 \usepackage{algpseudocode}
+% add StateInd command to add additionally indented states, e.g. when manually building switch functionality
+\newcommand{\StateInd}{\State\hspace{0.6cm}}
+\newcommand{\StateIndd}{\State\hspace{1.2cm}}
+\newcommand{\StateInddd}{\State\hspace{1.8cm}}
 
 % make table of contents clickable (in electronic devices, of course... not on paper ^^)
 \usepackage{hyperref}
@@ -3913,8 +3917,8 @@ we leave one graph and move on to the next. In that event, the program working
 on the fused XBW data structure needs to automatically jump over the hash tag and dollar sign nodes, 
 as internal hash tag and dollar sign nodes should not be accessible to the outside. 
 Also, we have to add an additional requirement to the tables which we consider. 
-When we want to fuse tables together, then the start node of each input table needs to have 
-exactly one outgoing edge, and the end node of each input table needs to have exactly one incoming edge. 
+When we want to fuse tables together, then every fused start node needs to have 
+exactly one outgoing edge, and every fused end node needs to have exactly one incoming edge. 
 This requirement is necessary to ensure that the navigation functions \texttt{LF} and $\Psi$, 
 which we will define for a fused table 
 in section~\ref{sec:fused_table_navigation}, can actually perform their work correctly. \\
@@ -3955,12 +3959,24 @@ We then call the function \texttt{addSubXBW}, shown in algorithm~\ref{alg:addSub
 
 	\State \phantom{nl}
 
-	\State \phantom{nl}
-	\Comment {When fusing, \$ and $\#$ do not need to be replaced}
-	\If {we combine tables through merging}
-		\State subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}\$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})
-		\State newXBW.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}$\#$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\#_0$\texttt{\textquotesingle})
-	\EndIf
+	\State \textbf{switch} (kind of table combination)
+		\StateInd \textbf{case} merging
+		\Comment {Replace \$ and $\#$ with $\$_0$ and $\#_0$}
+			\StateIndd subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}\$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})
+			\StateIndd newXBW.\texttt{\_replaceSpecialChar}(\texttt{\textquotesingle}$\#$\texttt{\textquotesingle}, \texttt{\textquotesingle}$\#_0$\texttt{\textquotesingle})
+			\StateIndd \textbf{break}
+		\StateInd \textbf{end case}
+		\StateInd \textbf{case} fusing
+		\Comment {Throw error if several edges lead through fusion point}
+			\StateIndd \textbf{if} subXBWs$[ (\textrm{\textbf{length of} subXBWs}) - 1 ]$.\texttt{\_hasMoreThanOneEndNodeEdge}()
+				\StateInddd \textbf{throw} invalid input error
+			\StateIndd \textbf{end if}
+			\StateIndd \textbf{if} nextXBW.\texttt{\_hasMoreThanOneStartNodeEdge}()
+				\StateInddd \textbf{throw} invalid input error
+			\StateIndd \textbf{end if}
+			\StateIndd \textbf{break}
+		\StateInd \textbf{end case}
+	\State \textbf{end switch}
 \EndIf
 
 \State \phantom{nl}
@@ -3989,8 +4005,34 @@ of the new table with “$\#_0$”.
 This however is not necessary when fusing tables, as the labels of nodes within the 
 tables can stay exactly as they usually would, with spillover scenarios being 
 completely handled from the outside when algorithms are working on the data structure. \\
+Otherwise, that is, if we are fusing instead of merging, the function checks 
+whether there are several edges going through the new fusion location. \\
+It therefore calls \texttt{\_hasMoreThanOneEndNodeEdge} on the table which was the last one so far, 
+and \texttt{\_hasMoreThanOneStartNodeEdge} on the newly added table. \\
 Finally, the new table is appended to the subXBWs array, which concludes the fusing of the 
 table to the ones already in the data structure before.
+
+Both of the functions used to check for multiple edges passing through the fusion point 
+perform very simple checks which however require a fair amount of 
+explanation. \\
+The function \texttt{\_hasMoreThanOneEndNodeEdge} is supposed to return \texttt{true} if 
+the end node in the table on which it is called has more than one incoming edge, and \texttt{false} otherwise. 
+It only contains the statement \textbf{return} $ F[ 1 ] \boldsymbol{=} 0 $. 
+This provides the required functionality as 
+the end node has label \$, and its predecessors are found at the start of the BWT row. 
+So if the $ F $ row starts with “11”, then we know that the first element has only one incoming 
+edge and we return \texttt{false}, as otherwise there would be one or more zeroes following the first “1”. 
+If the $ F $ row however starts with “10”, then we know that the first element has at least two incoming edges 
+and we return \texttt{true}. \\
+The function \texttt{\_hasMoreThanOneStartNodeEdge} on the other hand is supposed to return \texttt{true} if 
+the start node has more than one outgoing edge, and \texttt{false} otherwise. 
+It only contains the statement \textbf{return} $ M[(\textbf{length of} \, M) - 1] \boldsymbol{=} 0 $. 
+This provides the required functionality as 
+the start node has label $\#$, and it is found at the end of the FC row. 
+So if the $ M $ row ends with “1”, then we know that the last element has only one outgoing 
+edge and we return \texttt{false}, as otherwise there would be one or more zeroes following the last “1”. 
+If the $ M $ row however ends with “0”, then we know that the last element has at least two outgoing edges 
+and we return \texttt{true}.
 
 \subsection{Fusing More Than Two Tables}
 
@@ -4508,7 +4550,7 @@ If particularly large list of locations needs to be created, this difference of 
 could become problematic. \\
 Another disadvantage of fusing graphs instead of merging them is that we 
 are only allowed to use end nodes with one incoming edge and start nodes with one outgoing edge 
-at the fusion point of any two graphs. 
+at the location of the fusion of any two graphs. 
 This however is not a huge sacrifice, as fusing flat tables makes it unnecessary to 
 split nodes, which we would possibly have to do when merging the tables. 
 The splitting cannot occur across table boundaries, leaving merged graphs 
