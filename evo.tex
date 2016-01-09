@@ -1620,7 +1620,7 @@ In fact, we usually calculate several structures from the BWT, $ M $ and $ F $ w
 can be used in conjunction with the flat XBW table. 
 The additionally calculated information includes 
 the alphabet $ \Sigma $, a set of all distinct characters encountered in the BWT. \\
-We also keep track of the array “ord”, which has the characters of the alphabet as keys as their 
+We also keep track of the array “ord”, which has the characters of the alphabet as keys and their 
 positions in the alphabetically sorted $ \Sigma $ as indices. \\
 We finally generate the array $ C $, which also has the characters of the alphabet as keys, 
 and whose values are the indices of the first occurrences of these characters within FC. 
@@ -2149,15 +2149,15 @@ An FFX example file and the graph that it represents can be seen in figure~\ref{
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
 \texttt{>ffx\_example\_graph} \\
-\texttt{B \quad CGTAG\#GAGAAATC\$} \\
+\texttt{B \quad CGTAG{\textasciicircum}GAGAAATC\$} \\
 \texttt{M \quad 111111111001111} \\
 \texttt{F \quad 111011111011111} \\
-\texttt{O \quad \$>0,A>1,C>2,G>3,T>4,\#>5} \\
-\texttt{C \quad \$>0,A>1,C>6,G>8,T>12,\#>14} \\
+\texttt{O \quad \$>0,A>1,C>2,G>3,T>4,{\textasciicircum}>5} \\
+\texttt{C \quad \$>0,A>1,C>6,G>8,T>12,{\textasciicircum}>14} \\
 \hline
 \end{tabularx}
 \includegraphics[width=\textwidth]{evo_fig_ffx_example.pdf}
-\caption[FFX example file]{FFX example file together with the graph that is represented by the file.} \label{fig:evo_fig_ffx_example}
+\caption[FFX example file]{FFX example file together with the graph that is represented by the file. This file contains the character “{\textasciicircum}” instead of “$\#$”, as we use this one internally due to its lexicographic behaviour as explained on page~\pageref{hat_instead_of_hashtag}.} \label{fig:evo_fig_ffx_example}
 \end{figure}
 
 The basic structure of an FFX file is again inspired by FASTA, 
@@ -2205,17 +2205,17 @@ how several graphs can be encoded in the FFX format as a single fused graph.
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
 \texttt{>first\_fused\_graph} \\
-\texttt{B \quad AAGC\#C\$} \\
+\texttt{B \quad AAGC{\textasciicircum}C\$} \\
 \texttt{M \quad 1111011} \\
 \texttt{F \quad 1101111} \\
-\texttt{O \quad \$>0,A>1,C>2,G>3,\#>4} \\
-\texttt{C \quad \$>0,A>1,C>3,G>5,\#>6} \\
+\texttt{O \quad \$>0,A>1,C>2,G>3,{\textasciicircum}>4} \\
+\texttt{C \quad \$>0,A>1,C>3,G>5,{\textasciicircum}>6} \\
 \texttt{>second\_fused\_graph} \\
-\texttt{B \quad AGTT\#\$} \\
+\texttt{B \quad AGTT{\textasciicircum}\$} \\
 \texttt{M \quad 111101} \\
 \texttt{F \quad 110111} \\
-\texttt{O \quad \$>0,A>1,G>2,T>3,\#>4} \\
-\texttt{C \quad \$>0,A>1,G>2,T>3,\#>5} \\
+\texttt{O \quad \$>0,A>1,G>2,T>3,{\textasciicircum}>4} \\
+\texttt{C \quad \$>0,A>1,G>2,T>3,{\textasciicircum}>5} \\
 \hline
 \end{tabularx}
 \includegraphics[width=\textwidth]{evo_fig_ffx_example_fused.pdf}
@@ -2322,7 +2322,7 @@ The lexicographic value of the character “$\#$” is supposed to be above the
 lexicographic value of all characters in the alphabet $ \Sigma $, 
 which is however not the case for “$\#$” in ASCII \citep{ASCII}. 
 We therefore internally use the character “{\textasciicircum}”, whose lexicographic value encoded in ASCII 
-is above all English letters in upper case. 
+is above all English letters in upper case.\label{hat_instead_of_hashtag} 
 This is also the reason why we work with upper case letters as node labels instead of allowing lower case letters as well. 
 Before being displayed, the character “{\textasciicircum}” is replaced by “$\#$”. \\
 Furthermore, each graph is assumed to have exactly one \textit{end node}\label{def:end_node} $ v_e $ with the label “\$” in which 
@@ -3915,14 +3915,17 @@ Implementing the fusing behaviour itself is not particularly difficult,
 as the only new occurrence to look out for is a possible spillover in which 
 we leave one graph and move on to the next. In that event, the program working 
 on the fused XBW data structure needs to automatically jump over the hash tag and dollar sign nodes, 
-as internal hash tag and dollar sign nodes should not be accessible to the outside. 
+as internal hash tag and dollar sign nodes should not be accessible to the outside. \\
 Also, we have to add an additional requirement to the tables which we consider. 
 When we want to fuse tables together, then every fused start node needs to have 
 exactly one outgoing edge, and every fused end node needs to have exactly one incoming edge. 
 This requirement is necessary to ensure that the navigation functions \texttt{LF} and $\Psi$, 
 which we will define for a fused table 
-in section~\ref{sec:fused_table_navigation}, can actually perform their work correctly. \\
-Apart from that, work in a fused table can be performed just like in a regular one.
+in section~\ref{sec:fused_table_navigation}, can actually perform their work correctly. 
+More elaborate future work could however erase this requirement by adding more end nodes and start nodes 
+to each fused table representing the edges leading out of the start nodes and into the end nodes of the surrounding tables, 
+respectively. \\
+Apart from that, work can be performed in a fused table just like in a regular one.
 
 \subsection{Performing the Fusion of Two Tables}
 \label{sec:perform_fusion_of_two_tables}
@@ -4634,8 +4637,12 @@ modified to incorporate reference graphs in the future anyway.
 There still remains a lot of future work to be undertaken to actually use 
 the already existing and the here newly proposed algorithms in real-world 
 tools of the analysis pipeline. 
+% 
+% \subsection{Spreading the Use of Genomic Graphs}
+% 
 As various different tools are in use for specific problems, no one implementation 
-is likely to achieve this. Instead, the community at large needs to start 
+is likely to drastically spread the use of graph references. 
+Instead, the community at large needs to start 
 incorporating the ideas of using graph data rather than sequential data into 
 more and more of the existing tools. \\
 Internally encoding graphs as flat XBW tables and using formats such as FFX for working on 
@@ -4780,7 +4787,7 @@ GACGTACCTG|,2,T,4;,a:3,,5;,6,,10;,6,,8
 ATCTCAG|,1,GG,4;a,2,C,6;,a:1,G,7
 \end{lstlisting}
 
-\section{Predefined Graph Merge Tests}
+\section{Predefined Graph Merge and Fuse Tests}
 \label{sec:appendix_graph_merge_tests}
 %
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4790,7 +4797,8 @@ ATCTCAG|,1,GG,4;a,2,C,6;,a:1,G,7
 % TODO :: keep these lists up to date!
 
 The following tests are run to ensure that the Graph Merging Library does not throw errors 
-while merging XBW tables for input graphs:
+while merging XBW tables for input graphs. The same tests are also run for the fusing 
+behaviour, just with a different selection of tests representing invalid input.
 
 \begin{lstlisting}
 ACEG and BDFK
