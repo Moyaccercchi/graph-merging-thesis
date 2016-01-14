@@ -31,7 +31,7 @@
 %
 % TODO :: decide whether to use SNPs or snips, and then stick with one ;) (just now I used "snips", but seriously, check that!)
 %         also decide whether to use automatons or automata - don't use both!
-%         also indices vs. indexes!
+%         also indices vs. indexes! also main row vs. main path!
 %
 % TODO :: replace " - " with "---" (but case-to-case, nicht einfach so blanko!)
 %
@@ -172,6 +172,28 @@
 
 % gives us textquotesingle for non-curly apostrophes
 \usepackage{textcomp}
+
+% create an environment for a breakable non-floaty algorithm that can exceed one page in length
+\makeatletter
+\newenvironment{breakablealgorithm}
+  {% \begin{breakablealgorithm}
+   \begin{center}
+     \refstepcounter{algorithm}% New algorithm
+     \hrule height.8pt depth0pt \vspace{-0.45cm} \kern2pt% \@fs@pre for \@fs@ruled
+     \renewcommand{\caption}[2][\relax]{% Make a new \caption
+       {\raggedright\textbf{\ALG@name~\thealgorithm} ##2\par}%
+       \ifx\relax##1\relax % #1 is \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##2}%
+       \else % #1 is not \relax
+         \addcontentsline{loa}{algorithm}{\protect\numberline{\thealgorithm}##1}%
+       \fi
+       \kern2pt\hrule\kern2pt
+     }
+  }{% \end{breakablealgorithm}
+     \kern2pt\hrule\relax% \@fs@post for \@fs@ruled
+   \end{center}
+  }
+\makeatother
 
 % BTW, for example reference types, see https://www.sharelatex.com/learn/Bibliography_management_with_natbib
 
@@ -2027,6 +2049,7 @@ Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 \end{figure}
 
 \subsection{GML Format}
+\label{sec:def:gml_format}
 
 After implementing the Bubble Format, which represents a very straightforward but rather 
 limited approach for encoding graphs, 
@@ -2126,7 +2149,7 @@ Despite the potential to encode such complicated structures, it is reasonably
 simple and for very short graphs even human-readable. 
 With increasing graph size the readability of a GML file without special software 
 decreases though, as the info blocks containing alternative paths are quite not 
-located close to where they are found within the main row, but are all concentrated at the end of the file.
+located close to where they are found within the main path, but are all concentrated at the end of the file.
 
 \subsection{FFX Format}
 
@@ -2423,7 +2446,7 @@ The Graph Merging Library contains the function \texttt{generateRandomGraphStrin
 the automatic generation of random graphs, which can be used to quickly generate input for testing the 
 provided merging functions. 
 This function can be called without any arguments, in which case it will generate short graphs 
-or strings. If necessary, the length of the main row can however also be provided to generate 
+or strings. If necessary, the length of the main path can however also be provided to generate 
 graphs of different lengths. The alphabet can also be specified, which otherwise will be 
 set to $ \Sigma = \{ \textrm{A, C, G, T} \} $. Finally, two thresholds with values between $ 0\% $ and $ 100\% $ can 
 be specified, which tell the function how likely it is to add at least one infoblock to the graph, 
@@ -2460,10 +2483,10 @@ The extended XBW format requires for each graph for start with a node labelled w
 hash tag sign and to end with a node labelled with a dollar sign, 
 but these nodes are not explicitly encoded in the GML format.
 Therefore, the extra node with the $\#$ label is created first when opening a GML file. 
-The main row as specified in the GML file is then added as one possible way 
-of traversing the graph from the $\#$ node to the \$ node, which is added at the end of the main row. \\
+The main path as specified in the GML file is then added as one possible way 
+of traversing the graph from the $\#$ node to the \$ node, which is added at the end of the main path. \\
 Finally, the info blocks are iterated over, and their contents are added as edges and nodes which are part 
-of paths off the main row.
+of paths off the main path.
 % TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
 
 \section{Sanitizing the Graph}
@@ -2605,50 +2628,156 @@ quick and easy visual inspection.
 We therefore included a small visualization function within the Graph Merging Library, 
 which is capable of displaying simple graphs nicely. 
 Algorithm~\ref{alg:visualize} shows how this function works in general. 
-\begin{algorithm}
+The basic approach of this algorithm is inspired by the function \texttt{automatonToGMLdata}, 
+which we use to convert an automaton into a GML datablock. 
+\begin{breakablealgorithm}
 \caption[Visualize a graph]{Visualize a graph by first displaying one path from 
-the starting node to the end node, referred to as main row, 
+the start node to the end node, referred to as main path, 
 and then adding alternative paths around the established core.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:visualize}
 \begin{algorithmic}[1]
-\State $ \textrm{current\_node} \gets \textrm{graph}[0] $
-\Comment{Display main row}
-\State \textbf{draw} current\_node
-\State $ \textrm{more\_nodes} \gets [ \, ] $
-\While {current\_node.label \textbf{is not} \$}
-	\State \textbf{append} current\_node \textbf{to} more\_nodes
-	\State $ \textrm{current\_node} \gets \textrm{current\_node.successors}[0] $
-	\State \textbf{draw} current\_node
-\EndWhile
-\State \phantom{emptyline}
-\ForAll {more\_nodes \textbf{as} path \$}
-\Comment{Display other paths}
-	\State $ \textrm{current\_node} \gets \textrm{path} $
-	\If {current\_node has not been drawn}
-		\State $ \textrm{node} \gets \textrm{current\_node} $
-		\State $ \textrm{path} \gets [ \, ] $
-		\While {node has not been drawn}
-			\State \textbf{append} node \textbf{to} path
-			\State $ \textrm{node} \gets \textrm{node.successors}[0] $
-			\If {node has not been in more\_nodes before}
-				\State \textbf{append} node \textbf{to} more\_nodes
-			\EndIf
-		\EndWhile
-		\State \textbf{draw} nodes \textbf{in} path together
+
+\State $ \textrm{further\_edges} \gets [ \, ] $
+\Comment{List of edges left}
+\State $ \textrm{done\_edges} \gets [ \, ] $
+\Comment{List of already displayed edges}
+
+\State $ \textrm{auto\_to\_path} \gets [ \, ] $
+\Comment{Map automaton nodes to visualized paths}
+
+\State $ \textrm{vis\_positions} \gets [ \, ] $
+\Comment{Map automaton nodes to screen locations}
+
+\State $ i \gets 0 $
+\State $ k \gets 0 $
+
+\State \phantom{nl}
+
+\While {\texttt{true}}
+\Comment{Display main path}
+
+	\For {$ j $ \textbf{from} 1 \textbf{to length of} auto$[ i ]$.n}
+	\Comment{Put all edges out of}
+		\State \textbf{append} $ [ i, \textrm{auto}[ i ].\textrm{n}[ j ] ] $ \textbf{to} further\_edges
+		\Comment{main path on to-do-list}
+	\EndFor
+	
+	\State $ \textrm{auto\_to\_path}[ i ] \gets [ \texttt{{\textquotesingle}mp{\textquotesingle}}, k ] $
+	\State $ k \gets k + 1 $
+
+	\State \textbf{draw} node $ i $ on main path (with incoming edge if $ i > 0 $)
+	\State \textbf{update} vis\_positions with position node $ i $
+	
+	\If{auto$[ i ]$.c $\boldsymbol{=}$ \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
+		\State \textbf{break}
 	\EndIf
-	\ForAll {current\_node.predecessors \textbf{as} predecessor}
-		\State \textbf{draw} edge \textbf{from} predecessor \textbf{to} current\_node
+	
+	\State \textbf{append} $[ i , \textrm{auto$[i]$.n$[0]$}$ \textbf{to} done\_edges
+	\State $ i \gets \textrm{auto$[i]$.n$[0]$} $
+
+\EndWhile
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} further\_edges}
+\Comment{Display direct edges from}
+	\State $ \textrm{current\_edge} \gets \textrm{further\_edges}[ i ] $
+	\Comment{main path to main path}
+	\If {current\_edge starts and ends on main path}
+		\State \textbf{append} current\_edge \textbf{to} done\_edges
+		\State \textbf{remove} $ i $ \textbf{from} further\_edges
+		\State $ i \gets i - 1 $
+
+		\State \textbf{draw} current\_edge
+	\EndIf
+\EndFor
+
+\State \phantom{nl}
+
+\For {$ i $ \textbf{from} 0 \textbf{to length of} further\_edges}
+\Comment{Add all remaining}
+	\State $ \textrm{current\_edge} \gets \textrm{further\_edges}[ i ] $
+	\Comment{edges to further\_edges}
+	\For {$ j $ \textbf{from} 0 \textbf{to length of} auto$[ \textrm{current\_edge$[ 1 ]$} ]$.n}
+		\If {\textbf{it is neither contained in} done\_edges \textbf{nor in} further\_edges}
+			\State \textbf{append} $ [ \textrm{current\_edge}[ 1 ], \textrm{auto}[ \textrm{current\_edge}[ 1 ] ].\textrm{n}[ j ] ] $ \textbf{to} further\_edges
+		\EndIf
 	\EndFor
 \EndFor
+
+\State \phantom{nl}
+
+\While {$ \textrm{\textbf{length of} further\_edges} > 0 $}
+\Comment{Draw non-direct paths}
+	\For {$ i $ \textbf{from} 0 \textbf{to length of} further\_edges}
+	\Comment{from main path to main path}
+		\State $ \textrm{current\_edge} \gets \textrm{further\_edges}[ i ] $
+		\State $ \textrm{from\_n} \gets \textrm{auto\_to\_path}[ \textrm{current\_edge}[ 0 ] ] $
+
+		\If {from\_n \textbf{is defined}}
+
+			\State $ \textrm{to\_n} \gets \textrm{auto\_to\_path}[ \textrm{current\_edge}[ 1 ] ] $
+			\State $ k \gets 0 $
+			\State $ \textrm{path\_name} \gets \textrm{unique name for this path} $
+
+			\State $ \textrm{current\_path} \gets [ \textrm{current\_edge}[ 0 ] ] $
+
+			\While {to\_n \textbf{is not defined}}
+				\State $ \textrm{auto\_to\_path}[ \textrm{current\_edge}[ 1 ] ] \gets [ \textrm{path\_name}, k ] $
+
+				\State $ k \gets k + 1 $
+
+				\State \textbf{append} current\_edge$[ 1 ]$ \textbf{to} current\_path
+				\State \textbf{append} current\_edge \textbf{to} done\_edges
+				\State \textbf{remove} $ i $ \textbf{from} further\_edges
+
+				\For {$ j $ \textbf{from} 0 \textbf{to length of} further\_edges}
+					\If {$\textrm{further\_edges}[ j ][ 0 ] \boldsymbol{=} \textrm{current\_edge}[ 1 ]$}
+						\State $ i \gets j $
+						\State $ \textrm{current\_edge} \gets \textrm{further\_edges}[ j ] $
+						\State $ \textrm{to\_n} \gets \textrm{auto\_to\_path}[ \textrm{current\_edge}[ 1 ] ] $
+						\State \textbf{break}
+					\EndIf
+				\EndFor
+			\EndWhile
+
+			\State \textbf{append} current\_edge$[ 1 ]$ \textbf{to} current\_path
+
+			\If {current\_path \textbf{contains two nodes}}
+				
+				\State \textbf{draw} edge between both nodes in current\_path
+
+			\Else
+
+				\State \textbf{draw} second until second to last nodes in current\_path
+				\State \textbf{update} vis\_positions to contain positions of new nodes
+				\State \textbf{draw} edge into current\_path (between first and second node)
+				\State \textbf{draw} edge out of current\_path (between second to last and last node)
+
+			\EndIf
+
+			\State \textbf{append} current\_edge \textbf{to} done\_edges
+			\State \textbf{remove} $ i $ \textbf{from} further\_edges
+			\State \textbf{break}
+		\EndIf
+	\EndFor
+
+\EndWhile
+
 \end{algorithmic}
-\end{algorithm}
+\end{breakablealgorithm}
+Both when generating GML data as well as when visualizing an automaton, 
+we aim to identify one main path from the start node $ v_s $ to the end node $ v_e $, 
+and to then identify further paths lying off this main path. When generating GML data, 
+these additional paths are added as infoblocks, while we add them as paths of nodes on 
+different horizontal lines when visualizing the automaton. \\
 Having a closer look at line 1 of the algorithm, 
-it can be seen that it constructs the main row 
+it can be seen that it constructs the main path 
 by starting in the first node, which is assumed to 
 be labelled with the hash tag symbol. 
 In line 6 of the algorithm it can then be seen 
-that to construct the main row starting with this node, 
+that to construct the main path starting with this node, 
 the algorithm always jumps into the first of the successors of the current node. \\
 Therefore, before a graph can be passed to the visualization function, 
 it needs to be ensured that its hash tag node is stored in the very first position 
@@ -2668,7 +2797,7 @@ the visualized graph can be seen in figure~\ref{fig:evo_fig_visualize_short_vs_l
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_visualize_short_vs_long.pdf}
-\caption[Visualizations of graph with shortest and longest main rows]{Two visualizations of the same graph. The visualization on the top uses the shortest possible path as main row, while the visualization on the bottom uses the longest possible path.} \label{fig:evo_fig_visualize_short_vs_long}
+\caption[Visualizations of graph with shortest and longest main paths]{Two visualizations of the same graph. The visualization on the top uses the shortest possible path as main path, while the visualization on the bottom uses the longest possible path.} \label{fig:evo_fig_visualize_short_vs_long}
 \end{figure}
 The graph nodes are then adjusted in such a way that following the first successor of each 
 node upon starting at the hash tag node leads directly to the dollar sign node. \\
@@ -4299,8 +4428,8 @@ which is perfectly capable of encoding graphs with loops.
 
 A slight drawback that we noticed when using the GML format was that 
 modifying graphs with it by hand is rather cumbersome. 
-Especially deleting nodes on the main row is a quite elaborate process, 
-in which the pointers of all paths leaving or entering the main row 
+Especially deleting nodes on the main path is a quite elaborate process, 
+in which the pointers of all paths leaving or entering the main path 
 need to be updated. 
 Other formats, such as GFA and FASTG, make this process a lot simpler, 
 as entire sequences or data blocks are referenced and adding characters to such a 
