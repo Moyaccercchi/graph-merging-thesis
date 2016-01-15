@@ -638,8 +638,8 @@
 \def\thesispostalcode{107 Reykjavík}			% Office address
 \def\thesistelephone{+354 525 4000}					% Office telephone
 \def\thesispublisher{XX}						% (Publisher, not in use)
-\def\thesistutors{Páll Melsted \\ (imagine some text here)}					% TODO :: Fill in advisors
-\def\thesisrepresentative{(imagine some text here)}				% TODO :: Fill in representative
+\def\thesistutors{Páll Melsted \\ Kristján Jónasson}					% TODO :: Make sure these people really are the advisors
+\def\thesisrepresentative{Birte Kehr}				% TODO :: Make sure this person really is the representative
 \def\thesiscommittee{XXNN4 \\ XXNN5}			% (Committee name, not in use)
 \def\thesiskeywords{genome sequencing, pan-genome indexing, read alignment, Burrows-Wheeler transform, graph indexing}		% TODO :: Read over keywords and make sure they actually correspond to what we are doing here
 \def\thesisdedication{“And above all, watch with glittering eyes the whole world around you,\\
@@ -785,11 +785,11 @@ Reykjavik, Iceland, \thesismonth~\thesisyear \\
 
 The focus of this thesis lies on the computational challenges faced when reading out human DNA.
 In particular, reads of the DNA are commonly aligned with the help of a reference string.
-In this thesis, the opportunities and difficulties of using a graph reference are explored instead. \\
+In this thesis, the opportunities and difficulties of instead using a graph reference are explored. \\
 Several approaches for using graph references have already been proposed,
 but none of them are used widely in the field.
 In this thesis the existing approaches are therefore compared and
-new algorithms are developed which are intended to help spread
+new algorithms for working with genomic graphs are developed which are intended to help spread
 the usage of graph references further.
 These algorithms are then collected into the Graph Merging Library GML,
 which can be used to visualize their behaviour to further the understanding
@@ -1044,7 +1044,9 @@ Thank you all.
 %                                                                                                                         INTRODUCTION
 % ====================================================================================================================================
 
-The aim of this thesis is to help improve current approaches from the field of human genome sequencing,
+The aim of this thesis is to develop algorithms for merging and fusing flat XBW tables, 
+which will be introduced in section~\ref{sec:flat_table_definition}. \\
+We developed these algorithms to help improve current approaches from the field of human genome sequencing,
 in which the genome of an individual human being is read out using a combination of
 powerful machines and increasingly complex software algorithms.
 After the sequencing is complete, a list of the variations between an individual's genetic information
@@ -2053,12 +2055,12 @@ Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 \subsection{GML Format}
 \label{sec:def:gml_format}
 
-After implementing the Bubble Format, which represents a very straightforward but rather
+After implementing the bubble format, which represents a very straightforward but rather
 limited approach for encoding graphs,
 we decided to design a different new format to encode genomic graphs in the Graph Merging Library.
 As both the FASTG and the GFA format seem to be rather extensive,
 the idea behind the GML format is to create a simpler way of encoding graph data,
-while not falling into the pitfalls of the Bubble Format and limiting the scope of
+while not falling into the pitfalls of the bubble format and limiting the scope of
 the graphs which could be expressed too much.
 As can be seen with the success of FASTA files for sequential data,
 the simplicity of a data format is rather important, as it makes it more likely
