@@ -3653,7 +3653,7 @@ Similar to the \texttt{LF} function for preceding nodes, there is also a second 
 to find the succeeding nodes of a given node. 
 This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg:psi}. 
 \begin{algorithm}
-\caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ j $. It gives out the absolute index of the $ j $th node succeeding the node with index $ i $.}
+\caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ k $. It gives out the absolute index of the $ k $th node succeeding the node with index $ i $.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:psi}
 \begin{algorithmic}[1]
@@ -3663,7 +3663,7 @@ This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg
 
 \State \phantom{nl}
 
-\State $ i \gets i + j $
+\State $ i \gets i + k $
 \State $ c \gets \textrm{FC} [ i ] $
 \State $ i \gets \textrm{select}(c, \textrm{BWT}, i - C [ c ]) $
 \Comment{Get the next node}
@@ -3687,7 +3687,7 @@ in addition to the index of the node we are examining.
 The second parameter determines which edge we take out of that node, 
 and the index of the single node which we reach upon using that edge is returned. \\
 More formally, when $ i $ is the absolute index of a node $ v_i $ in the flat XBW table, 
-and $ j $ is an integer, then $ \Psi (i, j) $ returns the absolute index of the $ j $th node 
+and $ k $ is an integer, then $ \Psi (i, k) $ returns the absolute index of the $ k $th node 
 succeeding the node $ v_i $. So if the node $ v_i $ has two outgoing edges, 
 then $ \Psi (i, 0) $ returns the absolute index of the node reached when following 
 the first of these edges, while $ \Psi (i, 1) $ returns the absolute index of the node reached when 
@@ -3696,12 +3696,12 @@ The $ \Psi $ function described here differs slightly from the one proposed by \
 One of the differences is that we convert from absolute indexing to FC-indexing first, 
 and then get the character $ c $, as we directly take $ c $ from the FC row instead 
 of using another structure which corresponds to the FC row without entries for which $ M $ is zero. 
-The second difference is that we use $ j \boldsymbol{=} 0 $ to indicate the first outgoing edge, 
-while their function starts with $ j \boldsymbol{=} 1 $. 
+The second difference is that we use $ k \boldsymbol{=} 0 $ to indicate the first outgoing edge, 
+while their function starts with $ k \boldsymbol{=} 1 $. 
 Finally, in our version we actually made the select operation in the beginning and the rank operation in 
 the end optional by introducing the parameters do\_select and do\_rank, 
 just as we did with the \texttt{LF} function. 
-This in particular allows the caller to combine the parameters $ i $ and $ j $ into one value 
+This in particular allows the caller to combine the parameters $ i $ and $ k $ into one value 
 when calling with FC-indexing by setting do\_select to \texttt{false}, 
 therefore preventing unnecessary indexing method conversions.
 
@@ -4257,18 +4257,74 @@ In particular, we can call the function $\Psi$ in the host environment with the 
 as the regular $ \Psi $ function for a flat table, except for the first parameter 
 in which we use a pair $ (i, j) $ to address the node 
 we are interested in instead of a plain integer $ i $. 
+These same arguments include the optional parameters do\_select and do\_rank. 
 The result of the function is also slightly different, again being a pair $ (i, j) $ to 
-properly address a node within the fused graph instead of a plain integer $ i $. \\
-Similarly we have the function \texttt{LF} which when called on the host environment accepts a range of nodes 
-within a pair as $ ([sp, ep], j) $ and gives out an array of such structures. 
-It can be seen that this function does not allow us to specify a range spanning more 
-than one table, which is intentional. If calculations need to be performed on 
-several of the fused tables, such as for pattern searching, then the \texttt{LF} function 
-needs to be called on each of the fused tables separately. 
-However, several such structures can be returned within an array to be able to return 
-ranges in several tables if they are found through spillovers.
+properly address a node within the fused graph instead of a plain integer $ i $. 
+The approach on which the $ \Psi $ function within the host environment is based 
+is shown in algorithm~\ref{alg:host_psi}. \\
+\begin{algorithm}
+\caption[$\Psi$ function in a host environment for fused graphs]{$\Psi$ function in a host environment for fused graphs. It takes in a pair $ (i, j) $ containing an absolute index and an integer representing a table within the fused graph. In addition to that, it takes in the integer $ k $. This function gives out a pair $ (i, j) $, where $ i $ is the absolute index of the $ k $th node succeeding the node with index $ i $ in the $ j $th fused table.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:host_psi}
+\begin{algorithmic}[1]
 
-% ... - add algorithms for host_Psi and host_LF
+\State $ i \gets \textrm{subXBWs}[ j ].{\Psi}( i, k, \textrm{do\_select}, \textrm{do\_rank} ) $
+\Comment{Call regular $\Psi$ function}
+
+\State \phantom{nl}
+
+\If {$( i \boldsymbol{=} 0 )$ \textbf{and} $( j < ( \textrm{\textbf{length of} subXBWs} ) - 1)$}
+\Comment{Found end node $ v_e $}
+	\State $ j \gets j + 1 $
+	\Comment{Go to next table}
+	\State $ i \gets ( \textrm{\textbf{length of} BWT \textbf{in} subXBWs}[ j ] ) - 1 $
+	\Comment{Find start node $ v_s $}
+	\State $ i \gets \textrm{subXBWs}[ j ].{\Psi}( i, 0, \texttt{false}, \textrm{do\_rank} ) $
+	\Comment{Advance to node succeeding $ v_s $}
+\EndIf
+
+\State \phantom{nl}
+
+\State \Return $ [ i, j ] $
+
+\end{algorithmic}
+\end{algorithm}
+Similarly we have the function \texttt{LF} which when called in the host environment accepts a range of nodes 
+and the index of a table as $ ([sp, ep], j) $ and gives out such a structure as well. 
+It is shown in algorithm~\ref{alg:host_lf}.
+\begin{algorithm}
+\caption[\texttt{LF} function in a host environment for fused graphs]{\texttt{LF} function in a host environment for fused graphs. It takes in a pair $ ([sp, ep], j) $ containing a absolutely indexed range and an integer representing a table within the fused graph. In addition to that, it takes in a character $ c $. This function gives out a pair $ ([sp, ep], j) $, where $ [sp, ep] $ is the absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in the $ j $th fused table.}
+\addtocontents{loa}{\vskip 15pt}
+\label{alg:host_lf}
+\begin{algorithmic}[1]
+
+\State $ [sp, ep] \gets \textrm{subXBWs}[ j ].\texttt{LF}( [sp, ep], c, \textrm{do\_select}, \textrm{do\_rank} ) $
+\Comment{Call regular $\Psi$ function}
+
+\State \phantom{nl}
+
+\If {$( c \boldsymbol{=} \texttt{\textquotesingle}$\#$\texttt{\textquotesingle} )$ \textbf{and} $( [sp, ep] \, \textbf{is not empty} )$ \textbf{and} $( j > 0 )$}
+\Comment{Found start node $ v_s $}
+	\State $ j \gets j - 1 $
+	\Comment{Go to previous table}
+	\State $ [ sp, ep ] \gets [ 0, 0 ] $
+	\Comment{Find end node $ v_e $}
+	\State $ c \gets \textrm{subXBWs}[ j ].\textrm{BWT}[ 0 ] $
+	\State $ i \gets \textrm{subXBWs}[ j ].\texttt{LF}( [sp, ep], c, \texttt{false}, \textrm{do\_rank} ) $
+	\Comment{Advance to node preceding $ v_e $}
+\EndIf
+
+\State \phantom{nl}
+
+\State \Return $ [ [sp, ep], j ] $
+
+\end{algorithmic}
+\end{algorithm}
+As with the $\Psi$ function, which had to be called on one table within the fused graph in particular, 
+it can be seen that this function does not allow us to specify a range spanning more 
+than one table. If calculations need to be performed on 
+several of the fused tables, such as for pattern searching across the entire graph, 
+then the \texttt{LF} function needs to be called on each of the fused tables separately.
 
 \subsection{Prefix Construction}
 
@@ -4663,13 +4719,17 @@ the merge result can become unnecessarily large.
 %                                                                                         RESULTS: Fusing XBWs Instead of Merging Them
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When merging flat XBW tables together, it is common that node splitting 
-will result in a merged graph with a size larger than the total size of the 
-original graphs. An example for such intense node splitting behaviour can 
+When merging flat XBW tables, we perform node splitting to ensure that the 
+merged graph is prefix sorted. 
+However, each node that is split increases the overall amount of edges 
+and nodes in the graph. 
+Therefore, unless no node splitting is necessary at all, 
+the merged graph has a size larger than the total size of the 
+original graphs. An example for intense node splitting behaviour can 
 be seen in figure~\ref{fig:evo_fig_massive_split}. 
-Here, we have two input graphs with 23 edges in total. 
+In this example, we have two input graphs with 23 edges in total. 
 To save these together as fused graph, each graph is stored individually, 
-such that 23 columns are stored in total. 
+such that 23 columns are stored altogether. 
 However, if these were merged instead, we would obtain a graph with 50 edges, 
 such that more than twice as many columns would need to be stored to save the 
 merged graph. 
@@ -4677,6 +4737,7 @@ In addition to that, this is also an example in which the node splitting spills 
 across merging boundaries, which means that the merging algorithms proposed earlier 
 in this thesis would not be able to merge this graph anyway.
 
+% AGAGAGAG vs. ACCTG|,1,,3;,1,,5;,1,CT,4 ;p1,1,C,5;,2,,p1:0
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_massive_split.pdf}
@@ -4685,10 +4746,12 @@ in this thesis would not be able to merge this graph anyway.
 \end{figure}
 
 The method of fusing flat XBW tables together as proposed in section~\ref{sec:fusing_flat_tables} omits 
-the need for this increased file size, 
-which not only makes it easier to store the data, but also means that working on 
-it is quicker as less data means that fewer operations are necessary to construct 
-distinct prefixes, to traverse all possible paths, and so one.
+the need for an increased file size, 
+as all input graphs are stored exactly as they are without having to perform additional node splitting. 
+This not only makes it easier to store the data compared to storing a merged graph, 
+but also means that working on 
+a fused graph can be quicker as having less data means that fewer operations are necessary to construct 
+distinct prefixes, to traverse all possible paths, and so on. 
 
 However, fusing flat XBW tables also has downsides. 
 One of them is related to indexing. 
