@@ -588,6 +588,16 @@
     URL =          "https://github.com/pmelsted/GFA-spec",
 	note =         "Accessed: 6th of January 2016"
 }
+%
+% genutzt
+@article{Ferragina2000,
+    author =       "Paolo Ferragina and Giovanni Manzini",
+    title =        "Opportunistic Data Structures with Applications",
+    journal =      "Proceedings of the 41st Annual Symposium on Foundations of Computer Science",
+    pages =        "390",
+    year =         "2000",
+    note =         "{ISBN:} 0-7695-0850-2",
+}
 \end{filecontents*}
 
 % Configurations
@@ -1163,8 +1173,8 @@ These annotated variations can be found in databases of common variations, such 
 dbSNP\footnote{\,\,\,\url{http://www.ncbi.nlm.nih.gov/SNP/}}
 and SNPedia\footnote{\,\,\,\url{http://www.snpedia.com/}}.
 Even the latest release of the Human Reference Genome,
-which is designated GRCh38
-\footnote{\,\,\,\url{http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/}},
+which is designated 
+GRCh38\footnote{\,\,\,\url{http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/}},
 contains alternative haplotypes for some complex regions,
 which are essentially known variations of the rigid reference string. \\
 Considering that many alternative references are available and a lot of short variations are known,
@@ -1234,29 +1244,29 @@ within the scope of various parts of the analysis pipeline.
 Nowadays there are many approaches for aligning short reads to a reference string,
 and even some work into the alignment of reads to a reference graph has already been
 undertaken.
-We will first focus on the BWT for strings, which is the basis for the more advanced
-XBW approaches for genomic graphs considered later on.
+We will first focus on the Burrows--Wheeler Transform, or BWT, for strings. 
+It is the basis for the more advanced approaches for genomic graphs considered later on, 
+which use the extended Burrows--Wheeler Transform, 
+or XBW.
 
 \section{Burrows--Wheeler Transform for Strings}
 
 The core problem of read alignment to a reference string is simply that a
 lot of data needs to be worked on, as both the reference itself is very big
 and the amount of reads is enormous. \\
-This actually leads to two distinct problems, the first being that the
-memory requirements for storing any of the required data are huge,
-and the second being that the time that is spend aligning reads for
-even just a single individual is very long.
+We therefore wish to pre-process either the reads or the reference in a certain way, 
+ensuring that the work which needs to be performed in each step gets reduced. 
+Practically, it often makes sense to choose to pre-process the reference, 
+as the same reference can be used to align reads for several individuals, 
+and therefore the computationally expensive pre-processing only needs to be done once.
 
-To counteract the first problem, the data that is worked on is usually compressed,
-which means mostly that the string reference is being compressed in a certain way.
-Compressing the reads is not as helpful as compressing the reference,
-due to the fact that we can re-use the same compressed reference for aligning the
-reads of another individual later on, without having to execute the lengthy
-process of compressing the reference twice, while the reads will be different
-each time and therefore compressing them would mean that they have to be compressed again the next time around. \\
-A method that has been applied very often to enable such a compression is the utilization of the
-Burrows--Wheeler Transform \citep{Burrows1994}, which
-is a reversible reordering of a
+A common way for pre-processing the reference is to apply the BWT to it, 
+and to then use it in conjunction with a suffix array. This allows us to 
+perform fast lookups of patterns in the reference, which is exactly what we want 
+to do to find the locations at which we can align the reads. \\
+The BWT, or Burrows--Wheeler Transform \citep{Burrows1994}, 
+first emerged as a tool used in string compression techniques. 
+It is a reversible reordering of a
 repetitive text with few runs into a text of the same length that contains more runs
 and can therefore be easily compressed by run-length encoding or other encoding schemes.
 A simple example of this behaviour of achieving more easily compressable strings through the application of the BWT
@@ -1289,7 +1299,9 @@ We then sort this list alphabetically, and write out the resulting list of strin
 in such a fashion as to have each of the strings on its own row, exactly underneath each other.
 This creates a matrix of characters, of which we take the last column.
 Read from the top to the bottom, this last column is the BWT of string $ s $.
-This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
+This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}. 
+More efficient algorithms for creating the BWT of a string exist,
+which do not require building up the entire matrix of cyclic rotations.
 
 \begin{figure}[!htb]
 \centering
@@ -1299,7 +1311,8 @@ This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_ro
 
 It is customary to append a certain character to the end of the string before generating its BWT,
 with that character being different from all other characters in the string.
-A usual choice for this character is the dollar sign “\$”. \\
+A usual choice for this character is the dollar sign “\$”, 
+which is assumed to be lexicographically smaller than all characters in the original string. \\
 The reason for appending such a character is the requirement of being able to reconstruct the original string
 from the BWT, which allows us to discard the original string after encoding it using the BWT
 and compressing it with run-length encoding.
@@ -1314,7 +1327,7 @@ the number of the row within the matrix which contains the original string \cite
 As mentioned before, it is crucial that the BWT is a reversible reordering of a string,
 such that the original string can be obtained from the BWT.
 A simple algorithm for recreating the original string given its BWT starts by reconstructing the alphabetically sorted
-matrix of cyclic rotations as empty $ n {\times} n $ matrix, where $ n $ is the length of the BWT.
+matrix of cyclic rotations as empty $ n {\: \times \:} n $ matrix, where $ n $ is the length of the BWT.
 The last column of the matrix is then filled with the BWT, spelled out vertically.
 All the rows in the matrix are then sorted alphabetically.
 Now, the second-to-last column of the matrix is filled with the BWT,
@@ -1327,32 +1340,15 @@ usually the dollar sign.
 
 % TODO :: add figure to the BWT reverting?
 
-As noted before, the given algorithm for the creation of the BWT is rather simple,
-and more efficient algorithms exist which do not require building up the entire matrix of cyclic rotations.
-Likewise, the algorithm for regaining the original string from the BWT is not customarily
-used in its form here in practice. \\
-Actually, many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} which use
-the BWT to compress the reference actually
-work on the reference in this compressed form directly, without having
-to recreate the entire original text in memory.
-
-As memory has gotten cheaper over time and machines have become more
-well-equipped, memory consumption nowadays is not as much of a concern
-as it once was, when just fitting the reference into memory
-took a lot of ingenuity. \\
-% TODO :: citation needed
-However, the memory utilization of alignment tools is still important,
-as further reductions in the overall amount of memory necessary would
-mean that the alignment could be done using smaller and therefore cheaper
-machines, which would open up more real-world applications for sequence analysis
-for which its price currently is still too high.
-Also, a focus on how the available memory is used could lead to new alignment
-tools that make more efficient use of the special memory that is more readily available
-for the processor, such as using the L1, L2 and L3 cache rather than sending a lot of
-requests to the slower general RAM. \\
-Therefore, research into methods reducing the memory requirements of alignment tools
-is still ongoing.
-% TODO :: citation needed? maybe?
+As noted before, although the BWT originally came into use to aide in compressing strings, 
+we actually use it for a different reason. 
+\citet{Ferragina2000} proposed to combine the BWT with a structure known as a suffix array, 
+to form the FM-index, or Full-text index in Minute space. 
+The advantage of doing so is that we get an overall data structure which is not much larger 
+than the string which we encode, but which allows us to perform fast lookup operations 
+on it which enables us to quickly align reads to a reference string encoded in such a way.
+Therefore, many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} use
+the BWT to encode the reference and work on it in this compressed form directly.
 
 \section{The Role of Graphs in Read Alignment}
 
@@ -1391,22 +1387,24 @@ graph, but the size is still vastly reduced when compared to using all reference
 %                                                                                                  BACKGROUND: Formal Graph Definition
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We define a \textit{graph} $ G = (V, E) $ as a collection of a set
-of \textit{nodes} $ V = \{ v_1, ..., v_{|V|} \} $ and a set of edges $ E {\: \subseteq \:} V^2 $.
-Each one of these edges is a set $ (u, v) {\: \in \:} E $ with $ u {\: \in \:} V $ and $ v {\: \in \:} V $,
-which we call an edge from node $ u $ to node $ v $.
+of \textit{nodes} $ V = \{ v_1, ..., v_n \} $, where $ n = |V| $, and a set of edges $ E {\: \subseteq \:} V {\: \times \:} V $.
+Each one of these edges is a set $ (u, v) {\: \in \:} E $, 
+which we call an edge from node $ u {\: \in \:} V $ to node $ v {\: \in \:} V $.
 As the graphs we are working with are considered to be \textit{directed},
 we assume edge $ (u, v) {\: \in \:} E $ to
 be distinct from edge $ (v, u) {\: \in \:} E $.
-An example of such a graph can be seen in figure~\ref{fig:evo_fig_graph_example}. \\
+An example of such a graph can be seen in figure~\ref{fig:evo_fig_graph_example}.
+
 % GACGT|,2,T,4;,3,,5 vs. ACCTG|,1,,5;,1,,3 without start and end nodes
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_graph_example.pdf}
 \caption[Example graph]{Example graph with 11 nodes and 14 edges.} \label{fig:evo_fig_graph_example}
 \end{figure}
+
 For every node $ v {\: \in \:} V $ we define the amount of incoming edges of
 node $ v $, or the \textit{indegree} $ \textrm{in} ( v ) $, as the number of
-distinct edges $ (u, v) {\: \in \:} E $ for any $ u {\: \in \:} V $.
+distinct edges $ (u, v) $ contained in $ E $ for any $ u {\: \in \:} V $.
 Similarly, for every node $ v {\: \in \:} V $ we also define the amount of outgoing edges of
 node $ v $, or the \textit{outdegree} $ \textrm{out} ( v ) $, as the number of
 distinct edges $ (v, u) {\: \in \:} E $ for any $ u {\: \in \:} V $. \\
@@ -1416,9 +1414,11 @@ Every label $ l( v ) $ represents a character
 from the alphabet $ \Sigma $, which is a set of characters.
 In principle, a label could also consist of several characters,
 but we limit each label to exactly one character as we wish to
-represent several characters as nodes with separate labels sequentially connected by edges.
+represent a word formed by characters from $ \Sigma $ as a sequence of nodes
+connected by edges. \\
 We refer to such a structure of sequentially connected
-nodes $ u_1, u_2, ..., u_n $ as \textit{path} $ P = u_1 u_2 ... u_n $.
+nodes $ u_1, u_2, ..., u_n $ as \textit{path} $ P = u_1 u_2 ... u_n $. 
+The label $ l ( P ) $ of this path is then the word $ l ( u_1 ) l( u_2 ) ... l ( u_n ) $ formed by the labels of each node.
 
 \section{Burrows--Wheeler Transform for Graphs}
 
@@ -1439,8 +1439,7 @@ the storage space, but also enables efficient pattern searches directly on the
 stored data was proposed by \citet{Makinen2010}. \\
 The aim of these techniques is to
 minimize both the overhead in storage space and the needed time to perform typical work
-on the references, such as aligning reads to them.
-
+on the references, such as aligning reads to them. \\
 This group of authors continued working with scenarios in which
 several references are merged into a graph, with reads being directly
 aligned to the graph rather than to each reference on its own \citep{Siren2014}. \\
@@ -1468,8 +1467,7 @@ when they are being used rather than storing the entire array in memory.
 
 When using a reference graph for read alignment with the BWT, it is therefore common
 already to use a structure that simply behaves similar to the suffix array.
-Such a suffix-array-like data structure can also be constructed for graph references.
-
+Such a suffix-array-like data structure can also be constructed for graph references. \\
 In particular, efficient support of the following operations is necessary for such a data structure \citep{Siren2014}: \\
 Given a pattern, the range within the data structure
 that corresponds to all suffixes of the reference graph that are prefixed with that pattern needs to be found.
@@ -1487,11 +1485,10 @@ as the remainder of the alignment step is then very similar to the alignment aga
 
 To avoid the complications arising when working with
 a complete graph made from several references, other methods have been proposed
-to achieve similar results without explicitly constructing a reference graph.
-
+to achieve similar results without explicitly constructing a reference graph. \\
 One of these is the alignment tool BWBBLE which
-was created by \citet{Huang2013}. \\
-It works on the core assumption that most differences in between two references
+was created by \citet{Huang2013}. 
+It works on the core assumption that most differences between two references
 are snips, which can be encoded with a specific extended alphabet.
 Then, a modification to the Burrows--Wheeler Transform is made to
 be able to work with a single string reference containing this extended alphabet. \\
@@ -1547,9 +1544,10 @@ the rest of the pipeline has to be adapted as well.
 
 \section{Extending the Burrows---Wheeler Transform}
 
-Efforts involving changes to and generalizations of the Burrows--Wheeler Transform
-are also aided by the development of the XBW, which is a
-method of compressing trees similar to how the BWT is used to compress sequential data \citep{Ferragina2009}. \\
+Efforts involving changes to and generalizations of the BWT
+are also aided by the development of the XBW, or extended Burrows--Wheeler Transform. 
+This is a method of compressing trees similar to how the 
+BWT is used to compress sequential data \citep{Ferragina2009}. \\
 Each node in the tree has a label that is one character long.
 These labels are stored in the XBW together with a special bit vector,
 which keeps track of whether a given node is a leaf node or not.
@@ -1558,10 +1556,34 @@ of its branch. If a node does not have a successor, then the bit vector takes th
 
 \citet{Siren2014} extended the XBW even further, by introducing a second bit vector that enables nodes
 to have multiple predecessors as well as multiple successors. Therefore, this extended XBW can not only
-store trees, but instead can keep track of general finite graphs.
-In this paper, the extended XBW is stored in two different kinds of data structures,
+store trees, but instead can encode graphs. 
+In particular, any prefix-sorted reverse-deterministic 
+acyclic connected finite graph can be encoded in this way. \\
+The graph being finite means that 
+it needs to contain a finite amount of nodes and edges. It being connected means that all 
+nodes need to be reachable by all other nodes, when being allowed to follow edges in both ways. 
+Finally, the graph being acyclic means that it is 
+not allowed to contain any cycles, which are paths on which we leave a node, follow one 
+or more directed edges, and arrive at the same node again. 
+The requirements of the graph being reverse-deterministic and prefix sorted 
+will be defined in sections~\ref{sec:why_rev_det} and \ref{sec:prefix_sorting}, respectively. 
+As seen in these sections, 
+these requirements are not actually limiting us in practice, 
+as we can convert any acyclic connected finite graph 
+into a prefix-sorted reverse-deterministic one. \\
+In the paper, the extended XBW is stored in two different kinds of data structures,
 which have not been given explicit names there. We refer to these structures as
-node tables and flat tables.
+XBW node tables and flat XBW tables. 
+Each such table unambiguously encodes exactly one graph, but a given graph 
+can usually be encoded by different tables. \\
+Before a graph can be encoded by an XBW table, we append an \textit{end node} $ v_e $ with the label “\$” 
+to its end,  
+like we did for encoding a string using the BWT. 
+By appending it to the end we refer to creating an edge from each node with outdegree zero to the new node. 
+We also insert a \textit{start node} $ v_s $ with the label “$\#$” at the beginning of the graph, 
+where we assume that the hash tag character is lexicographically bigger 
+than all characters contained in the other node labels. 
+This means that we create an edge from the new node to each node with indegree zero.
 
 \subsection{Node Tables}
 \label{sec:node_table_definition}
@@ -1573,8 +1595,8 @@ node of the graph represented by the extended XBW. \\
 More formally, we define:
 
 \textbf{Definition} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT,
-the prefixes and the values of the bit vector $ M $,
-representing a finite graph with each column of the table corresponding
+the prefixes, the values of the bit vector $ M $, and optionally the values of the bit vector $ F $. 
+These rows together represent an acyclic finite graph with each column of the table corresponding
 to exactly one node of the graph.
 
 The columns in a node table are sorted alphabetically by the given prefix.
@@ -1634,42 +1656,42 @@ with each string containing the characters “1” and “0”, for ease of impl
 
 In contrast to the previously introduced node table,
 we refer to the next data structure as flat XBW table, or just flat table.
-This name is inspired by the fact that the data of each row here is not
-stored as array with elements of various lengths,
-but instead as flat sequence of characters which can be encoded as string
-or as array with elements of fixed size. \\
-The definition shows that a flat table consists of similar parts as a node table:
+This name is inspired by the fact that the data of each row is not
+nested in an array with elements of various lengths,
+but instead stored as a flat sequence of characters which can be encoded as a string,
+or as an array with elements of fixed size. \\
+The definition reveals that despite their differences, 
+flat tables are nevertheless similar to node tables:
 
 \textbf{Definition} A \textit{flat XBW table}\label{def:flat_table} is a table with rows for the BWT,
 the node labels and the values of $ M $ and $ F $,
-representing a finite graph.
+representing an acyclic finite graph.
 The table is arranged such that each cell contains exactly one character
 for the BWT and the node labels, and such that each cell contains exactly
 one bit for the bit vectors $ M $ and $ F $.
 
-We here often refer to the row containing the node labels as first column row, or short “FC”.
-The reasoning behind this name is that the row of node labels of the graph relate to the BWT row,
+We decided to refer to the row containing the node labels as first column row, or short “FC”.
+The reasoning behind this name is that the row of node labels of the graph relates to the BWT row,
 as the first column in the matrix of sorted cyclic rotations does to the last row, which is the traditional BWT.
 That is, the node labels are also the alphabetically sorted BWT, and in fact the columns are sorted in such a
-way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well. \\
-As the FC row simply corresponds to the BWT sorted alphabetically, it can easily be calculated
-when the BWT row is known. The BWT however, while being potentially very
-long, only consists of characters from a limited alphabet $ \Sigma $.
-Therefore, storing the FC both in a file and in memory does not take up a lot of storage space.
-This means that we usually accept the small space taken up by keeping it stored in memory,
-instead of recalculating it based on the BWT again and again.
-We can achieve this storage of FC using the array $ C $, which is another structure that can be generated
-from the BWT. \\
-In fact, we usually calculate several structures from the BWT, $ M $ and $ F $ which
-can be used in conjunction with the flat XBW table.
-The additionally calculated information includes
-the alphabet $ \Sigma $, a set of all distinct characters encountered in the BWT. \\
-We also keep track of the array “ord”, which has the characters of the alphabet as keys and their
+way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well. 
+This means that the FC row can easily be calculated by sorting the BWT row alphabetically. \\
+In addition to the FC row 
+we usually calculate three further data structures based 
+on the BWT, $ M $ and $ F $ rows. 
+We call these “$ \Sigma $”, “ord” and “$ C $”. \\
+$ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters encountered in the BWT. \\
+The ord array has the characters of the alphabet as keys and their
 positions in the alphabetically sorted $ \Sigma $ as indices. \\
-We finally generate the array $ C $, which also has the characters of the alphabet as keys,
-and whose values are the indices of the first occurrences of these characters within FC.
-The array $ C $ completely encodes FC, so that we do not need to explicitly store FC in any other way.
-Of course, we can do so anyway for a particularly simple implementation.
+The array $ C $ also has the characters of the alphabet as keys. 
+Its values are the indices of the first occurrences of these characters within FC.
+Using $ C $, we can completely reconstruct FC, and accessing an arbitrary cell in the FC row 
+via an iteration over $ C $ is a very quick operation. 
+Therefore, we do not need to explicitly store FC in any other way.
+Of course, we can do so anyway for a particularly simple implementation. \\
+$ \Sigma $, ord and $ C $, which represents FC, are all very small data structures and do not take up a lot of space. 
+We therefore usually keep them pre-calculated in memory, 
+instead of generating them on the fly based on the BWT, $ M $ and $ F $ again and again.
 
 The bit vectors $ M $ and $ F $ are exactly the same as the corresponding bit vectors in the node table,
 and are each strongly related to one of the other rows.
@@ -1679,7 +1701,8 @@ of these outgoing edges shares the same node $ u $ in which it originates, there
 which is precisely the content of the FC row. \\
 On the other hand, each cell in the $ F $ vector corresponds to a cell, or character, in the BWT.
 The reason for this is that the graph we are working on is necessarily reverse deterministic
-for this encoding to function properly, which is explored in further depth in section~\ref{sec:why_rev_det}.
+for this encoding to function properly, meaning that each node has no two predecessors with the same label. 
+This is explored in further depth in section~\ref{sec:why_rev_det}.
 Due to that, the label $ l (u_i) $ for each incoming edge $ (u_i, v) $ into a node $ v $ is distinct,
 as the graph would otherwise not be reverse deterministic.
 Therefore, for every node $ v $ there are as many entries in the BWT, which contains the labels of the preceding nodes,
@@ -1793,18 +1816,18 @@ Its FC-index is 8, as we start to count from 0 and the first green column in the
 Its BWT-index is 7, as the first green column in the BWT row is in position 7.
 Finally, its absolute index is 6, as there are 6 nodes preceding it to the left, one
 with label “\$”, one with label “A”, two with label “C” and two with label “G”. \\
-Calling $ \textrm{select}_1 ( M, 6 ) \boldsymbol{=} 8 $ gives us the FC-index from the absolute index and
-calling $ \textrm{select}_1 ( F, 6 ) \boldsymbol{=} 7 $ gives us the BWT-index from the absolute index.
-We can also call $ \textrm{rank}_1 ( M, 8 ) \boldsymbol{=} 6 $ to get the absolute index from the FC-index
-and $ \textrm{rank}_1 ( F, 7 ) \boldsymbol{=} 6 $ to get the absolute index from the BWT-index.
+Calling $ \textrm{select}_1 ( M, 6 ) = 8 $ gives us the FC-index from the absolute index and
+calling $ \textrm{select}_1 ( F, 6 ) = 7 $ gives us the BWT-index from the absolute index.
+We can also call $ \textrm{rank}_1 ( M, 8 ) = 6 $ to get the absolute index from the FC-index
+and $ \textrm{rank}_1 ( F, 7 ) = 6 $ to get the absolute index from the BWT-index.
 Conversions from the FC-index to the BWT-index and vice versa can therefore simply be executed as conversions
 to the absolute index and back. \\
 To find the FC-index at which the cells of the node end,
-we can call $ \textrm{select}_1 ( M, 6 + 1 ) - 1 \boldsymbol{=} 8 $, which
+we can call $ \textrm{select}_1 ( M, 6 + 1 ) - 1 = 8 $, which
 is the same as the FC-index at which the cells of the node start, as the node
 only occupies one column in the FC row.
 To find the BWT-index at which the cells of the node end,
-we can call $ \textrm{select}_1 ( F, 6 + 1 ) - 1 \boldsymbol{=} 8 $, which
+we can call $ \textrm{select}_1 ( F, 6 + 1 ) - 1 = 8 $, which
 is one more than the BWT-index at which the cells of the node start,
 as the node occupies two columns in the BWT row.
 
@@ -1944,9 +1967,9 @@ has been proposed in 2014 \citep{specGFA1,specGFA2}.
 Despite some initial criticism \citep{knightGFA1},
 this young format has a lot of advantages over FASTG.
 Such advantages are that
-it is more flexible by encoding graphs of any arbitrary size without
-making a distinction between local and global graphs and that it can easier be read by programs,
-as not much emphasis is put on making it human-readable.
+it is more flexible, due to encoding graphs of any arbitrary size without
+making a distinction between local and global graphs, and that it can easier be read by programs,
+as not as much emphasis is put on making it human-readable.
 Therefore, the focus can lie clearly on the needs of developers of advanced software packages,
 and on allowing them to directly store the kind of data that they encounter.
 % TODO :: citation needed?
@@ -2609,15 +2632,15 @@ automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of t
 \label{alg:checkAutomatonForIncorrectChars}
 \begin{algorithmic}[1]
 \ForAll {graph.nodes \textbf{as} node}
-	\If {( node.label {\boldmath$ = $} \$ ) \textbf{and} ( \textbf{length of} node.successors {\boldmath$ = $} 0 ) }
+	\If {( node.label $ = $ \$ ) \textbf{and} ( \textbf{length of} node.successors $ = $ 0 ) }
 		\State \textbf{continue}
 	\EndIf
 
-	\If {( node.label {\boldmath$ = $} $\#$ ) \textbf{and} ( \textbf{length of} node.predecessors {\boldmath$ = $} 0 ) }
+	\If {( node.label $ = $ $\#$ ) \textbf{and} ( \textbf{length of} node.predecessors $ = $ 0 ) }
 		\State \textbf{continue}
 	\EndIf
 
-	\If {( $ \textrm{node.label \textbf{in}} \, [ \textrm{A \textbf{to} Z} ] $ ) and ( \textbf{length of} node.label {\boldmath$ = $} 1 )}
+	\If {( $ \textrm{node.label \textbf{in}} \, [ \textrm{A \textbf{to} Z} ] $ ) and ( \textbf{length of} node.label $ = $ 1 )}
 		\State \textbf{continue}
 	\EndIf
 
@@ -2691,7 +2714,7 @@ and then adding alternative paths around the established core.}
 	\State \textbf{draw} node $ i $ on main path (with incoming edge if $ i > 0 $)
 	\State \textbf{update} vis\_positions with position node $ i $
 
-	\If{auto$[ i ]$.c $\boldsymbol{=}$ \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
+	\If{auto$[ i ]$.c $=$ \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
 		\State \textbf{break}
 	\EndIf
 
@@ -2755,7 +2778,7 @@ and then adding alternative paths around the established core.}
 				\State \textbf{remove} $ i $ \textbf{from} further\_edges
 
 				\For {$ j $ \textbf{from} 0 \textbf{to length of} further\_edges}
-					\If {$\textrm{further\_edges}[ j ][ 0 ] \boldsymbol{=} \textrm{current\_edge}[ 1 ]$}
+					\If {$\textrm{further\_edges}[ j ][ 0 ] = \textrm{current\_edge}[ 1 ]$}
 						\State $ i \gets j $
 						\State $ \textrm{current\_edge} \gets \textrm{further\_edges}[ j ] $
 						\State $ \textrm{to\_n} \gets \textrm{auto\_to\_path}[ \textrm{current\_edge}[ 1 ] ] $
@@ -2867,7 +2890,7 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 
 \For {$ i $ \textbf{from} 0 \textbf{to length of} graph\_1}
 \Comment{Start to build graph as copy of graph\_1}
-	\If{graph\_1$[ i ]$.c {\boldmath$ = $} \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
+	\If{graph\_1$[ i ]$.c $ = $ \texttt{\textquotesingle}\$\texttt{\textquotesingle}}
 		\State {$ \textrm{del\_i} \gets i $}
 		\State {$ \textrm{out\_of\_1} \gets \textrm{graph\_1$[ i ]$.p} $}
 	\Else
@@ -3102,7 +3125,7 @@ prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:w
 		\State $ \textrm{same\_as} \gets [ \, ] $
 		\ForAll {that\_node \textbf{in} graph}
 		\Comment {... if any node has the same prefix}
-			\If {this\_node.prefix {\boldmath$ = $} that\_node.prefix}
+			\If {this\_node.prefix $ = $ that\_node.prefix}
 				\State \textbf{append} $ [\textrm{that\_node}] $ \textbf{to} same\_as
 			\EndIf
 		\EndFor
@@ -3260,7 +3283,7 @@ The lexicographic value of this label is above the lexicographic value of all ch
 considered alphabet $ \Sigma $. \\
 Equivalently, there is only one end node $ v_e $ in the graph, and the column with index $ i_e $ corresponding to it
 can always be found in the very first, or left-most, column of the node table.
-Therefore, we always have $ i_e \boldsymbol{=} 0 $.
+Therefore, we always have $ i_e = 0 $.
 The reason is here that the lexicographic value of the label “\$” is lower than that of all characters from the
 alphabet $ \Sigma $.
 
@@ -3280,7 +3303,7 @@ of $ v_i $ have the same label, as the prefix of $ v_i $ will otherwise have the
 error character “!” in the second position. \\
 A similar approach can be used to read out the labels of the preceding nodes of $ v_i $.
 All these labels are different, as the graph has been made reverse deterministic,
-and they are stored in the BWT row of the node table. So if we find $ \textrm{BWT} ( i ) \boldsymbol{=} \textrm{A{\pipe}G} $,
+and they are stored in the BWT row of the node table. So if we find $ \textrm{BWT} ( i ) = \textrm{A{\pipe}G} $,
 then we know that $ v_i $ has two preceding nodes with the labels A and G.
 This however only allows us to read out the labels of the immediately preceding nodes,
 while not enabling us to find the labels of nodes preceding the predecessors of $ v_i $.
@@ -3301,7 +3324,7 @@ function works.
 \State $ \textrm{jump\_over} \gets 0 $
 
 \For {$ j $ \textbf{from} 0 \textbf{to} $ i $}
-	\If {label {\boldmath$ = $} $ \textrm{prefix} [ \, j \, ] [ \, 0 \, ] $ }
+	\If {label $ = $ $ \textrm{prefix} [ \, j \, ] [ \, 0 \, ] $ }
 		\State \textbf{increase} jump\_over
 	\EndIf
 \EndFor
@@ -3603,13 +3626,13 @@ there could be several cells in the FC and $ M $ rows corresponding to the start
 Therefore, using FC-indexing or BWT-indexing complicates finding the start node slightly,
 while finding this node with absolute indexing is as simple as for node tables. \\
 In absolute indexing, the index $ i_s $ of the start node is the highest index of all nodes.
-It can be found as $ i_s \boldsymbol{=} \textrm{rank}_1 ( M, l ) \boldsymbol{=} \textrm{rank}_1 ( F, l ) $ where we
+It can be found as $ i_s = \textrm{rank}_1 ( M, l ) = \textrm{rank}_1 ( F, l ) $ where we
 define $ l $ as the index of the last column in the table,
 which is equal to one less than the amount of columns in the table. \\
 % find end node
 Finding the cells corresponding to the end node $ v_e $ is even simpler, as its label “\$” is
 lexicographically smaller than all other labels and it is therefore sorted to the very front.
-This means that the absolute index of the end node in a flat table is $ i_e \boldsymbol{=} 0 $.
+This means that the absolute index of the end node in a flat table is $ i_e = 0 $.
 As there can be no nodes preceding this one in the table, the index is also 0 when using
 FC-indexing or BWT-indexing.
 
@@ -3723,8 +3746,8 @@ The $ \Psi $ function described here differs slightly from the one proposed by \
 One of the differences is that we convert from absolute indexing to FC-indexing first, 
 and then get the character $ c $, as we directly take $ c $ from the FC row instead 
 of using another structure which corresponds to the FC row without entries for which $ M $ is zero. 
-The second difference is that we use $ k \boldsymbol{=} 0 $ to indicate the first outgoing edge, 
-while their function starts with $ k \boldsymbol{=} 1 $. 
+The second difference is that we use $ k = 0 $ to indicate the first outgoing edge, 
+while their function starts with $ k = 1 $. 
 Finally, in our version we actually made the select operation in the beginning and the rank operation in 
 the end optional by introducing the parameters do\_select and do\_rank, 
 just as we did with the \texttt{LF} function. 
@@ -3743,7 +3766,7 @@ That is, to construct the prefix of a node $ v $, we can read out the label $ l 
 first character of the prefix.
 We can then advance through all nodes $ u_j $ succeeding $ v $ by using the $ \Psi $ function once
 for each outgoing edge.
-If all these nodes $ u_j $ have the same label, so if $ l ( u_j ) \boldsymbol{=} l ( u_k ) $ for
+If all these nodes $ u_j $ have the same label, so if $ l ( u_j ) = l ( u_k ) $ for
 all $ j $ and $ k $ for which $ u_j $ and $ u_k $ are defined, then we can append this label
 to the prefix we are building.
 Otherwise, we have to append an error character such as “!” to indicate that this position in the
@@ -3774,7 +3797,7 @@ Its general approach is outlined in algorithm~\ref{alg:_publishPrefix}.
 				\State $ \textrm{i\_arr}[ j ] \gets \textrm{select}(1, M, \textrm{i\_arr}[ j ]) $
 				\Comment {indexing to FC-indexing}
 			\Else
-				\State \textbf{decrease} i\_arr$[ j ]$ \textbf{while} $ M [ \textrm{i\_arr$[ j ]$} ] \boldsymbol{=} 0 $
+				\State \textbf{decrease} i\_arr$[ j ]$ \textbf{while} $ M [ \textrm{i\_arr$[ j ]$} ] = 0 $
 			\EndIf
 
 			\For {$ k $ \textbf{from} 1 \textbf{until} $ M [ \textrm{pref\_cur\_is$[ j ] + k$} ] \neq 0 $}
@@ -3810,7 +3833,7 @@ Its general approach is outlined in algorithm~\ref{alg:_publishPrefix}.
 
 		\State $ \textrm{pref} \gets \textrm{pref} + \textrm{char\_to\_add\_now} $
 
-		\If {($ \textrm{\textbf{length of} pref} > 1 $) \textbf{and} ($ \textrm{char\_to\_add\_now} \boldsymbol{=} \textrm{\texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle}} $)}
+		\If {($ \textrm{\textbf{length of} pref} > 1 $) \textbf{and} ($ \textrm{char\_to\_add\_now} = \textrm{\texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle}} $)}
 		\Comment{Spillover}
 
 			\State $ i \gets (\textrm{\textbf{length of} FC row in nextXBW}) - 1 $
@@ -3820,7 +3843,7 @@ Its general approach is outlined in algorithm~\ref{alg:_publishPrefix}.
 		\EndIf
 	\EndIf
 
-	\If {(char\_to\_add\_now {\boldmath$ = $} \texttt{\textquotesingle}\$\texttt{\textquotesingle}) \textbf{or} (char\_to\_add\_now {\boldmath$ = $} \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})}
+	\If {(char\_to\_add\_now $ = $ \texttt{\textquotesingle}\$\texttt{\textquotesingle}) \textbf{or} (char\_to\_add\_now $ = $ \texttt{\textquotesingle}$\$_0$\texttt{\textquotesingle})}
 		\State \textbf{break}
 	\EndIf
 
@@ -4176,7 +4199,7 @@ perform very simple checks which however require a fair amount of
 explanation. \\
 The function \texttt{\_hasMoreThanOneEndNodeEdge} is supposed to return \texttt{true} if
 the end node in the table on which it is called has more than one incoming edge, and \texttt{false} otherwise.
-It only contains the statement \textbf{return} $ F[ 1 ] \boldsymbol{=} 0 $.
+It only contains the statement \textbf{return} $ F[ 1 ] = 0 $.
 This provides the required functionality as
 the end node has label \$, and its predecessors are found at the start of the BWT row.
 So if the $ F $ row starts with “11”, then we know that the first element has only one incoming
@@ -4185,7 +4208,7 @@ If the $ F $ row however starts with “10”, then we know that the first eleme
 and we return \texttt{true}. \\
 The function \texttt{\_hasMoreThanOneStartNodeEdge} on the other hand is supposed to return \texttt{true} if
 the start node has more than one outgoing edge, and \texttt{false} otherwise.
-It only contains the statement \textbf{return} $ M[(\textbf{length of} \, M) - 1] \boldsymbol{=} 0 $.
+It only contains the statement \textbf{return} $ M[(\textbf{length of} \, M) - 1] = 0 $.
 This provides the required functionality as
 the start node has label $\#$, and it is found at the end of the FC row.
 So if the $ M $ row ends with “1”, then we know that the last element has only one outgoing
@@ -4300,7 +4323,7 @@ is shown in algorithm~\ref{alg:host_psi}. \\
 
 \State \phantom{nl}
 
-\If {$( i \boldsymbol{=} 0 )$ \textbf{and} $( j < ( \textrm{\textbf{length of} subXBWs} ) - 1)$}
+\If {$( i = 0 )$ \textbf{and} $( j < ( \textrm{\textbf{length of} subXBWs} ) - 1)$}
 \Comment{Found end node $ v_e $}
 	\State $ j \gets j + 1 $
 	\Comment{Go to next table}
@@ -4330,7 +4353,7 @@ It is shown in algorithm~\ref{alg:host_lf}.
 
 \State \phantom{nl}
 
-\If {$( c \boldsymbol{=} \texttt{\textquotesingle}$\#$\texttt{\textquotesingle} )$ \textbf{and} $( [sp, ep] \, \textbf{is not empty} )$ \textbf{and} $( j > 0 )$}
+\If {$( c = \texttt{\textquotesingle}$\#$\texttt{\textquotesingle} )$ \textbf{and} $( [sp, ep] \, \textbf{is not empty} )$ \textbf{and} $( j > 0 )$}
 \Comment{Found start node $ v_s $}
 	\State $ j \gets j - 1 $
 	\Comment{Go to previous table}
@@ -5178,6 +5201,7 @@ GCCGTCAACAGAGCTCGTGCTA|,13,G,18;,3,GTA,10 and TCTCGT|,1,GG,6;,1,GGCT,2
 ACCACTCGGTT|,7,AA,8;,1,CG,9 and AAATCTTC|,2,,4
 AACCGCGCCGTCTAAAGACCAA|,11,ACA,18 and TGGTCACCTCACTCCCTA|,1,,10
 AAAAGGAGGGATAC and GGATG|,2,A,5
+GACGTACCTG|a,2,TAT,6;,a:0,C,a:2 and ACCTG|,1,,5;,1,,3
 \end{lstlisting}
 
 The following tests are run to ensure that GML correctly recognizes whether a dataset
