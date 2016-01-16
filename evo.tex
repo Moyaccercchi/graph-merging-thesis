@@ -619,11 +619,14 @@
 \def\thesisyear{2016}       					% Year thesis submitted
 \def\thesismonth{January}						% Month thesis submitted
 \def\thesisauthor{Tom Willy Schiller}			% Thesis authoreiningaraðferðinni
-\def\thesistitle{Reference Graph Construction and Merging for Human DNA}	% TODO :: Check if title of thesis still has something
+\def\thesistitle{Reference Graph Construction and Merging for Human Genomic Sequences}	% TODO :: Check if title of thesis still has something
 %                                                                                     to do with what we actually ended up doing
-\def\thesistitlelineone{Reference Graph Construction}	% Front page title of thesis (line one)
-\def\thesistitlelinetwo{and Merging for Human DNA}	% Front page title of thesis (line two)
-\def\thesisshorttitle{Reference Graphs for Human DNA} 	% Short title of thesis (50 characters including spaces)
+\def\thesistitlelineone{Reference Graph Construction and}	% Close-to-front page title of thesis (line one)
+\def\thesistitlelinetwo{Merging for Human Genomic Sequences}	% Close-to-front page title of thesis (line two)
+\def\thesistitlelineoneofthree{Reference Graph}	% Front page title of thesis (line one)
+\def\thesistitlelinetwoofthree{Construction and Merging for}	% Front page title of thesis (line two)
+\def\thesistitlelinethreeofthree{Human Genomic Sequences}	% Front page title of thesis (line three)
+\def\thesisshorttitle{Reference Graphs for Human Genomic Sequences} 	% Short title of thesis (50 characters including spaces)
 \def\thesiscredits{60} 							% Credits awarded for the project
 \def\thesissubject{Computer Science}			% Thesis subject
 \def\thesiskind{M.Sc.}							% Masters of PhD thesis
@@ -685,12 +688,15 @@ University of Iceland\\
 \hspace*{-1.05cm}
 %\hspace*{0.58cm} % TODO this is the hacked-together title on the title page -
 %                       so check if the current title is actually still the same
-\huge \sffamily \bfseries \thesistitlelineone \\
+\huge \sffamily \bfseries \thesistitlelineoneofthree \\
 \hspace*{-1.25cm}
 %\hspace*{0.58cm}
-\huge \sffamily \bfseries \thesistitlelinetwo
+\huge \sffamily \bfseries \thesistitlelinetwoofthree \\
+\hspace*{-1.25cm}
+%\hspace*{0.58cm}
+\huge \sffamily \bfseries \thesistitlelinethreeofthree
 
-\vspace*{5.5cm}
+\vspace*{3.2cm}
 \hspace*{-1.35cm}
 %\hspace*{0.25cm}
 \normalfont \Large \sffamily \thesisauthor
@@ -886,10 +892,10 @@ Its value does not depend on a choice between the FC or BWT row.
 See page \pageref{def:absolute_indexing}.
 \\ \\
 
-\textbf{bps:} &
-The pairwise occurring essential building blocks of DNA are referred to as \textit{basepairs.}
-% TODO :: actually use this abbreviation somewhere in the text... I think the text that used it has been taken out lol ^^ roflderhatlolgesagt
-\\ \\
+% \textbf{bps:} &
+% The pairwise occurring essential building blocks of DNA are referred to as \textit{basepairs.}
+% % TODO :: actually use this abbreviation somewhere in the text... I think the text that used it has been taken out lol ^^
+% \\ \\
 
 \textbf{bubble:} &
 Simple encoding of short alternative paths in a genomic graph, such as
@@ -931,13 +937,13 @@ deletion affects the index of all the following characters, which is why indels
 usually require more effort to be accurately taken into account.
 \\ \\
 
-\end{tabular}
-
-\begin{tabular}{r p{12cm}}
-
 $k$\textbf{-mer:} &
 A nucleotide sequence of length $ k $.
 \\ \\
+
+\end{tabular}
+
+\begin{tabular}{r p{12cm}}
 
 \textbf{node table:} & An \textit{XBW node table} is a data structure consisting of a BWT row,
 a prefix row and one or two bit vector rows. Hereby the cells within each column do not need to have the same lengths.
@@ -1048,39 +1054,51 @@ The aim of this thesis is to develop algorithms for merging and fusing flat XBW 
 which will be introduced in section~\ref{sec:flat_table_definition}. \\
 We developed these algorithms to help improve current approaches from the field of human genome sequencing,
 in which the genome of an individual human being is read out using a combination of
-powerful machines and increasingly complex software algorithms.
+powerful machines and complex software algorithms.
 After the sequencing is complete, a list of the variations between an individual's genetic information
 and a reference genome can be produced in a process known as variant calling.
 The list can then be analysed to find previously unknown links between genetic variants and
 diseases throughout large population groups, but it can also be used within clinical tools, allowing the
-diagnosis of uncommon diseases. \\
-Many technological advances in recent years have already made it possible to sequence the whole genome
-of an individual for under 1000 USD,
-% TODO :: citation needed
-but ideally that price should be reduced even more to simplify further research and to make such diagnosis
-tools available for more people. At the same time, the quality of these methods should also still be improved,
-as the process most commonly used inherently generates many errors.
-% TODO :: citation needed
+diagnosis of uncommon diseases.
 
 \section{The Role of the Reference}
 
-The process that currently is most often used
+Many technological advances in recent years have already made it possible to sequence the whole genome 
+of an individual for under \$ 1000 USD. 
+% TODO :: citation needed
+The process currently most often used to do so 
 % TODO :: citation needed
 is based on a machine sequencing several strands of the
-individual's DNA in many short pieces, called reads.
-A pipeline of several software tools then aligns these reads to a reference genome,
-with the aim of either generating the full individual DNA or a list of variations
+individual's DNA, short for deoxyribonucleic acid. 
+The sequencing process however does not directly produce a data structure 
+representing the entire individual's DNA. 
+Instead, it produces a large collection of short pieces, called reads. 
+Such reads are strings consisting of the four letters A, C, G and T, 
+which represent the four nucleobases adenine, cytosine, guanine and thymine, respectively. \\
+Having sequenced the reads, 
+a pipeline of several software tools is used to align them to a reference genome. 
+The aim of this alignment is to either generate the full individual DNA or a list of variations
 from the reference that has been used. \\
-The reference that the software pipeline uses is often a genomic sequence string.
-It represents the average DNA of individuals whose DNA has previously been read out,
-as the DNA of one individual should be similar to the DNA of others.
+% TODO :: have a picture that shows this?
+However, the sequencing process still generates many errors. 
+While work is continuously being undertaken 
+to improve the quality of the sequencing results, 
+% TODO :: citation needed
+it is not expected that completely error-free reads 
+are going to be sequenced from an individual's DNA soon. 
+% TODO :: citation needed
+Therefore, the software tools used for working on the reads also need to continuously be improved, 
+to make better use of the data generated by the sequencing process. 
+One way of doing so is by aligning the sequenced reads against a reference graph rather than a reference string against. \\
+Such a reference string 
+represents the average DNA of individuals whose DNA has previously been read out,
+as the DNA of one individual should be similar to the DNA of others. 
 % TODO :: add picture: reference string generated from several references (that is, the picture contains lots of references,
 % that are then mushed into one... leaving out some details.
-
 It is necessary to use such a reference genome, as
 building up the individual DNA just from the reads themselves without a reference is a highly complex problem
 which cannot be solved unambiguously due to many repetitive regions within the DNA.
-Even reconstructing a very short DNA string just from the reads without a reference can lead to drastically wrong
+Even reconstructing a very short genomic string just from the reads without a reference can lead to drastically wrong
 results, as can be seen in figure~\ref{fig:evo_intro_assembly_wo_reference}.
 \begin{figure}[!htb]
 \centering
@@ -1316,7 +1334,7 @@ used in its form here in practice. \\
 Actually, many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} which use
 the BWT to compress the reference actually
 work on the reference in this compressed form directly, without having
-to recreate the original text in its entirety in memory.
+to recreate the entire original text in memory.
 
 As memory has gotten cheaper over time and machines have become more
 well-equipped, memory consumption nowadays is not as much of a concern
@@ -1816,7 +1834,7 @@ the same as the total amount of incoming edges into all nodes in the graph.
 
 To be able to understand the different existing approaches for working with
 reference graphs and genomic graphs in general, we have re-implemented several
-of these approaches myself. These implementations have been done in the programming
+of these approaches. These implementations have been done in the programming
 language Python and resulted in several scripts that can be steered
 by a graphical main program written in Delphi. \\
 We have then focused on creating the Graph Merging Library GML, which is a
@@ -2453,8 +2471,8 @@ This function can be called without any arguments, in which case it will generat
 or strings. If necessary, the length of the main path can however also be provided to generate
 graphs of different lengths. The alphabet can also be specified, which otherwise will be
 set to $ \Sigma = \{ \textrm{A, C, G, T} \} $. Finally, two thresholds with values between $ 0\% $ and $ 100\% $ can
-be specified, which tell the function how likely it is to add at least one infoblock to the graph,
-and how likely it is to add more infoblocks after adding the first.
+be specified, which tell the function how likely it is to add at least one info block to the graph,
+and how likely it is to add more info blocks after adding the first.
 
 % TODO :: add more text
 
@@ -2544,12 +2562,12 @@ It ensures that each edge is unique, meaning that there is no pair of
 edges $ (u_1, v_1) {\: \in \:} E $ and $ (u_2, v_2) {\: \in \:} E $ for which both $ u_1 = u_2 $ and $ v_1 = v_2 $ are true.
 It does not actually throw an error if such edges are encountered, but simply deletes one edge of the pair, until none
 of these pairs of edges are left. \\
-The next function is \texttt{checkAutomatonForLoops}.
-Its general approach is shown in algorithm~\ref{alg:checkAutomatonForLoops}.
+The next function is \texttt{checkAutomatonForCycles}.
+Its general approach is shown in algorithm~\ref{alg:checkAutomatonForCycles}.
 \begin{algorithm}
-\caption[Check if graph contains loops]{Check if a graph contains loops.}
+\caption[Check if graph contains cycles]{Check if a graph contains cycles.}
 \addtocontents{loa}{\vskip 15pt}
-\label{alg:checkAutomatonForLoops}
+\label{alg:checkAutomatonForCycles}
 \begin{algorithmic}[1]
 \State $ \textrm{paths} \gets [ \, [ \, 0 \, ] \, ] $
 \While {$ \textrm{\textbf{length of} paths} > 0 $}
@@ -2633,7 +2651,7 @@ We therefore included a small visualization function within the Graph Merging Li
 which is capable of displaying simple graphs nicely.
 Algorithm~\ref{alg:visualize} shows how this function works in general.
 The basic approach of this algorithm is inspired by the function \texttt{automatonToGMLdata},
-which we use to convert an automaton into a GML datablock.
+which we use to convert an automaton into a GML data block.
 \begin{breakablealgorithm}
 \caption[Visualize a graph]{Visualize a graph by first displaying one path from
 the start node to the end node, referred to as main path,
@@ -2774,26 +2792,26 @@ and then adding alternative paths around the established core.}
 Both when generating GML data as well as when visualizing an automaton,
 we aim to identify one main path from the start node $ v_s $ to the end node $ v_e $,
 and to then identify further paths lying off this main path. When generating GML data,
-these additional paths are added as infoblocks, while we add them as paths of nodes on
+these additional paths are added as info blocks, while we add them as paths of nodes on
 different horizontal lines when visualizing the automaton. \\
-Having a closer look at line 1 of the algorithm,
+Having a closer look at line 5 of the algorithm,
 it can be seen that it constructs the main path
 by starting in the first node, which is assumed to
 be labelled with the hash tag symbol.
-In line 6 of the algorithm it can then be seen
+In line 20 of the algorithm it can then be seen
 that to construct the main path starting with this node,
 the algorithm always jumps into the first of the successors of the current node. \\
 Therefore, before a graph can be passed to the visualization function,
 it needs to be ensured that its hash tag node is stored in the very first position
 and that the node labelled with the dollar sign can be reached by always travelling
-along the first of the successors.
+along the first of the successors, which is given if the graph is acyclic. 
 A separate function called \texttt{makeAutomatonPretty} is used to ensure that this is always the case,
 by traversing all possible paths and picking one path which leads to the dollar sign node.
 In the options it can be chosen whether this function
 should find one of the shortest paths, which is faster, or one of the longest paths,
 which leads to a better visualization.
 When it is instructed to find one of the longest paths, it will however still ignore
-paths including loops, as it might otherwise be trapped in the loop indefinitely,
+paths including cycles, as it might otherwise be trapped in the cycle indefinitely,
 trying to find yet longer paths.
 An example for how this choice affects
 the visualized graph can be seen in figure~\ref{fig:evo_fig_visualize_short_vs_long}.
@@ -2804,19 +2822,24 @@ the visualized graph can be seen in figure~\ref{fig:evo_fig_visualize_short_vs_l
 \caption[Visualizations of graph with shortest and longest main paths]{Two visualizations of the same graph. The visualization on the top uses the shortest possible path as main path, while the visualization on the bottom uses the longest possible path.} \label{fig:evo_fig_visualize_short_vs_long}
 \end{figure}
 The graph nodes are then adjusted in such a way that following the first successor of each
-node upon starting at the hash tag node leads directly to the dollar sign node. \\
+node upon starting at the hash tag node leads directly to the dollar sign node.
+
 It is also notable how exactly the iteration over the nodes works out.
-In line 10 we iterate over all nodes that have been added to more\_nodes,
-an array which keeps track of nodes which we have not fully worked on yet.
-This means that we may have already drawn the node, but we have not yet
-drawn all the incoming edges, and we may possibly not even have drawn the node itself.
-The loop in line 15 then iterates over all the first successors of that node,
-and adds them to an array called path, until a node is encountered that has already been drawn.
-Finally, in line 22, the entire path is drawn together. \\
+In line 43 we iterate over all edges that have been added to further\_edges,
+an array which keeps track of edges which we have not been drawn yet. \\
+Line 46 ensures that we only proceed with an edge 
+if it starts in a node which has already been drawn. 
+However, the edge might lead to a node which has or has not yet been drawn. 
+If the node it leads into has already been drawn, then we simply connect 
+the start and end node of this edge in line 68. \\
+If the node it leads into has not yet been drawn, then the iteration in line 51 is 
+used to append nodes to current\_path until we read a node which has been drawn, 
+therefore giving us an entire path of nodes which all have not been drawn, 
+starting in a drawn node and ending in a drawn node. \\
 Algorithmically it would be much more straightforward to simply iterate over all nodes
 and draw them when we encounter them, but in that case we would not have a good idea about
-where it might make sense to draw them. The approach of iterating over nodes
-that have not been worked on and nesting into this an iteration of the successors of that node
+where it might make sense to draw them. The approach of iterating over edges
+that have not been worked on and nesting into this an iteration over nodes which have not been drawn 
 allows us to instead draw entire parts of paths at once, so that we have a good idea
 where exactly to put the nodes on the display when drawing them, as they can simply
 be arranged next to each other.
@@ -5204,7 +5227,7 @@ the Creative Commons Attribution Non-Commercial License
 which permits non-commercial re-use, distribution, and reproduction in any medium,
 provided the original work is properly cited.
 For commercial re-use, please contact \url{moyaccercchi@hotmail.de}. \\
-The source codes together with the newest version of this thesis itself can be accessed at \url{http://tomschiller.de/graphalign}.
+The source codes together with the newest version of this thesis itself can be accessed at \url{http://tomschiller.de/reference_graphs}.
 %
 % TODO :: add stuff to the appendix!
 
