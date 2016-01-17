@@ -1279,10 +1279,20 @@ as well as changing the internal algorithmic logic of these tools to work on gra
 The focus of this thesis is therefore on the creation of an overview of the existing
 approaches that can be used for the implementation of genomic graphs,
 as well as on the exploration of new ways of working with genomic graphs,
-such as merging compressed graphs implicitly or explicitly. \\
+such as merging compressed graphs implicitly or explicitly. 
+We picked the problem of merging compressed graphs, 
+as this ultimately enables us to generate large graphs 
+based on existing sequential data together with local perturbations. 
+An example for this scenario is shown in figure~\ref{fig:evo_fig_add_perturbations_to_long_seq}. \\
 The goal hereby is not mainly to create a new read alignment tool that uses
 a reference graph, but rather to create and implement new algorithms that can
 be used in conjunction with such graphs in the future.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_add_perturbations_to_long_seq.png}
+\caption[Motivation for merging graphs]{Motivation for merging compressed graphs. Local variations are supposed to be added to a linear sequence. Instead of re-encoding the entire sequence as a graph, we intend to split it up around the site at which variations are to be added, and merge the linear parts with the graph containing the variations.} \label{fig:evo_fig_add_perturbations_to_long_seq}
+\end{figure}
 
 Both the newly created algorithms as well as already established ones
 for the conversion of graphs between different internal formats
@@ -2227,7 +2237,7 @@ An example graph encoded in the GML format can be seen in figure~\ref{fig:evo_fi
 \centering
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
-\texttt{>gml\_example\_graph} \\
+\texttt{>gml.1 example\_graph} \\
 \texttt{GAGTCGAT|p1,1,TGG,5;,p1:1,T,mp:6} \\
 \hline
 \end{tabularx}
@@ -2243,9 +2253,15 @@ of a FASTA file, which is already widely used. \\
 Namely, a GML file can contain comments and data, with different blocks of data being separated
 by comments. A comment in turn consists of the character “>” to indicate the start of a comment,
 the name of the following data block, followed by a space character and any free text that
-can be used as is deemed necessary when the file is created.
+can be used as is deemed necessary when the file is created. 
 If a GML file contains no comments at all,
-then all the rows are simply interpreted as one contiguous data block. \\
+then all the rows are simply interpreted as one contiguous data block. 
+The very first comment in the file is special, 
+as it contains an additional magic string right after the starting “>”. 
+This string indicates the 
+file format and version, e.g. \texttt{gml.1} for GML version 1. 
+It is followed by a space character and then the usual comment, that is, the data block identifier 
+and other optional text. \\
 An example for how several graphs can be encoded in the GML format
 can be seen in figure~\ref{fig:evo_fig_second_gml_example}.
 
@@ -2254,9 +2270,9 @@ can be seen in figure~\ref{fig:evo_fig_second_gml_example}.
 \centering
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
-\texttt{>first\_gml\_example\_graph} \\
+\texttt{>gml.1 first\_example\_graph} \\
 \texttt{CAA|,1,CG,3} \\
-\texttt{>second\_gml\_example\_graph} \\
+\texttt{>second\_example\_graph} \\
 \texttt{TGTC|,1,,4;,1,,3} \\
 \hline
 \end{tabularx}
@@ -2330,7 +2346,7 @@ An FFX example file and the graph that it represents can be seen in figure~\ref{
 \centering
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
-\texttt{>ffx\_example\_graph} \\
+\texttt{>ffx.1 example\_graph} \\
 \texttt{B \quad CGTAG{\textasciicircum}GAGAAATC\$} \\
 \texttt{M \quad 111111111001111} \\
 \texttt{F \quad 111011111011111} \\
@@ -2343,9 +2359,10 @@ An FFX example file and the graph that it represents can be seen in figure~\ref{
 \end{figure}
 
 The basic structure of an FFX file is again inspired by FASTA,
-containing an optional starting comment which contains an identifier for
+having a starting comment which contains a magic string indicating the 
+file format and the version, e.g. \texttt{ffx.1} for FFX version 1, an identifier for
 the contents of the file and other text that can be used freely.
-The optional comment is then followed by one or several data blocks,
+The comment is then followed by one or several data blocks,
 with each data block being separated by comment lines. \\
 However, if several data blocks are included within one FFX file,
 they are not seen as separate entities. Instead, the program working on
@@ -2386,7 +2403,7 @@ how several graphs can be encoded in the FFX format as a single fused graph.
 \centering
 \begin{tabularx}{1.0\textwidth}{ | X | }
 \hline
-\texttt{>first\_fused\_graph} \\
+\texttt{>ffx.1 first\_fused\_graph} \\
 \texttt{B \quad AAGC{\textasciicircum}C\$} \\
 \texttt{M \quad 1111011} \\
 \texttt{F \quad 1101111} \\
