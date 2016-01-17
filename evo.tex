@@ -1291,7 +1291,7 @@ be used in conjunction with such graphs in the future.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_add_perturbations_to_long_seq.png}
-\caption[Motivation for merging graphs]{Motivation for merging compressed graphs. Local variations are supposed to be added to a linear sequence. Instead of re-encoding the entire sequence as a graph, we intend to split it up around the site at which variations are to be added, and merge the linear parts with the graph containing the variations.} \label{fig:evo_fig_add_perturbations_to_long_seq}
+\caption[Motivation for merging graphs]{Motivation for merging graphs. Local variations are supposed to be added to a linear sequence. Instead of re-encoding the entire sequence as a graph, we intend to split it up around the site at which variations are to be added, and merge the linear parts with the graph containing the variations.} \label{fig:evo_fig_add_perturbations_to_long_seq}
 \end{figure}
 
 Both the newly created algorithms as well as already established ones
@@ -1310,10 +1310,9 @@ within the scope of various parts of the analysis pipeline.
 There are many approaches for aligning short reads to a reference string,
 and even some work into the alignment of reads to a reference graph has already been
 undertaken.
-We will first focus on the Burrows--Wheeler Transform, or BWT, for strings. 
-It is the basis for the more advanced approaches for genomic graphs considered later on, 
-which use the extended Burrows--Wheeler Transform, 
-or XBW.
+We will first focus on the \textit{Burrows--Wheeler Transform}, or BWT, which is a commonly used string transformation. 
+It is also the basis for the more advanced approaches for genomic graphs considered later on, 
+which use the \textit{extended Burrows--Wheeler Transform}, or XBW.
 
 \section{Burrows--Wheeler Transform for Strings}
 \label{sec:bwt_for_strings}
@@ -1329,14 +1328,15 @@ and therefore the computationally expensive pre-processing only needs to be done
 This approach is taken by some highly optimized current alignment tools, 
 such as BWA-MEM \citep{Li2013}.
 
-A common way for pre-processing the reference is to apply the BWT to it, 
-and to then use it in conjunction with a data structure 
-called the suffix array \citep{Puglisi2007}, which contains
-information about the locations within the reference represented by the BWT.
+A common way for pre-processing the reference is to apply the Burrows--Wheeler Transform \citep{Burrows1994} to it. 
+The BWT is then used in conjunction with a data structure 
+called the \textit{suffix array} \citep{Puglisi2007}, which 
+is an array of indexes corresponding to the alphabetically sorted suffixes 
+within the reference represented by the BWT.
 This allows us to 
 perform fast lookups of patterns in the reference, which is exactly what we want 
 to do to find the locations at which we can align the reads. \\
-The BWT, or Burrows--Wheeler Transform \citep{Burrows1994}, 
+The Burrows--Wheeler Transform 
 first emerged as a tool used in string compression techniques. 
 It is a reversible reordering of a
 repetitive text with few runs of same characters into a text of the same length that contains more runs
@@ -1360,7 +1360,7 @@ can be seen in table~\ref{table:evo_background_bwt_run_enc}.
 As the transformed text contains all the information necessary to recreate the
 original text, it is not necessary to store the original text at all.
 
-A simple algorithm to generate the BWT of a string uses
+A simple algorithm to generate both the BWT and the suffix array of a string uses
 the concept of \textit{cyclic rotations}.
 The $ n $th cyclic rotation of a string is a reordering of the string in which its first $ n $ characters
 are taken away from the beginning of the string and are instead inserted at its end. \\
@@ -1370,15 +1370,19 @@ put the resulting strings on a list.
 We then sort this list alphabetically, and write out the resulting list of strings
 in such a fashion as to have each of the strings on its own row, exactly underneath each other.
 This creates a matrix of characters, of which we take the last column.
-Read from the top to the bottom, this last column is the BWT of string $ s $.
+Read from the top to the bottom, this last column is the BWT of string $ s $. \\
+We find the suffix array of $ s $ by using the ordering which maps 
+the cyclic rotations to the matrix of alphabetically sorted rotations, 
+and applying this ordering to the list of increasing indexes representing 
+the start of each cyclic rotation. \\
 This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}. 
-More efficient algorithms for creating the BWT of a string exist,
+More efficient algorithms for creating the BWT of a string exist
 which do not require building up the entire matrix of cyclic rotations.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_bwt_with_cyclic_rotations.png}
-\caption[Generating the BWT of a string]{Generating the BWT of the string $ s = \textup{AGCAGCCTTAGC\$} $. After generating a list of cyclic rotations, the list is sorted, and the last column of the matrix formed by this sorted list reveals the BWT of $ s $ to be \textup{CT\$CGGGCAAATC}.} \label{fig:evo_fig_bwt_with_cyclic_rotations}
+\caption[Generating the BWT and suffix array of a string]{Generating the BWT and suffix array of the string $ s = \textup{AGCAGCCTTAGC\$} $. After generating a list of cyclic rotations, the list is sorted, and the last column of the matrix formed by this sorted list reveals the BWT of $ s $ to be \textup{CT\$CGGGCAAATC}.} \label{fig:evo_fig_bwt_with_cyclic_rotations}
 \end{figure}
 
 It is customary to append a certain character to the end of the string before generating its BWT,
@@ -1414,7 +1418,7 @@ usually the dollar sign.
 
 As noted before, although the BWT originally came into use to aide in compressing strings, 
 we actually use it for a different reason. 
-\citet{Ferragina2000} proposed to combine the BWT the suffix array 
+\citet{Ferragina2000} proposed to combine the BWT with the suffix array 
 to form the \textit{FM-index}, or Full-text index in Minute space. 
 The advantage of doing so is that we get an overall data structure which is not much larger 
 than the string which we encode, but which allows us to perform fast lookup operations 
@@ -1618,20 +1622,25 @@ then it cannot be guaranteed that the results will have a high quality.
 
 In general, the BWT consists of the letters preceding the alphabetically sorted cyclic rotations 
 in the cyclic rotation matrix, as shown in section~\ref{sec:bwt_for_strings}. 
-Therefore we can think of the BWT as a mapping from a list of alphabetically 
+Therefore we can think of the transformation itself as a mapping from a list of alphabetically 
 sorted substrings of a text to the character preceding each substring. 
-Therefore, when working with genomic graphs in which each character is the label 
-of a node, the BWT represents a mapping from an ordered list of nodes 
+Equivalently, when working with genomic graphs, in which each character is the label 
+of a node, this transformations represents a mapping from an ordered list of nodes 
 to the nodes preceding each node on the list. 
-In the case of a BWT encoding a string, each substring has exactly one preceding character. 
-However, in a graph, a node can have several preceding characters, 
-therefore making it necessary to augment the traditional BWT.
+This means that the resulting BWT string represents the labels of the nodes 
+preceding the nodes on an ordered list. \\
+When considering the Burrows--Wheeler Transform for graphs it is therefore necessary 
+to decide on an ordering for the list of nodes.
+Also, in the case of a BWT encoding a string, each substring has exactly one preceding character. 
+However, in a graph, a node can have several preceding characters. 
+This makes it necessary to augment the traditional BWT with additional information telling 
+us about the amount of preceding nodes.
 
 Possibilities to augment the BWT are to adjust the suffix array, 
 which is used together with the BWT already, 
 or to introduce entirely new arrays similar to the suffix array, 
 which help in providing the necessary functionality to be able to encode graphs. 
-This is not unusually difficult, 
+Adjusting the suffix array is hereby not a completely new idea, 
 as it is already common in real-world alignment tools 
 to use structures that simply behave similar to the suffix array, 
 instead of using real suffix arrays without any changes. 
@@ -1804,7 +1813,7 @@ In addition to the FC row
 we usually calculate three further data structures based 
 on the BWT, $ M $ and $ F $ rows. 
 We call these “$ \Sigma $”, “ord” and “$ C $”. \\
-$ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters encountered in the BWT. \\
+$ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters in the BWT. \\
 The ord array has the characters of the alphabet as keys and their
 positions in the alphabetically sorted $ \Sigma $ as indices. \\
 The array $ C $ also has the characters of the alphabet as keys. 
@@ -1856,7 +1865,8 @@ find these cell clusters across different rows, which for graphs with high in- a
 are not necessarily located in columns that are even close together.
 How cells in a flat table relate to actual nodes in a graph is illustrated via specifically highlighted
 cells in table~\ref{table:flat_table_with_ct}, which corresponds to the graph with highlighted nodes
-in figure~\ref{fig:evo_fig_flat_table_with_ct}. \\
+in figure~\ref{fig:evo_fig_flat_table_with_ct}.
+
 {
 % reduce whitespace in this table (default might be 6pt)
 % \renewcommand{\tabcolsep}{5pt}
@@ -1881,6 +1891,7 @@ G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green
 \caption[Graph corresponding to a flat table]{Graph corresponding to flat table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+
 More formally, we can observe that
 if we have a cell in column $ i $ of the FC row, and want to find the other cells corresponding to
 the node which this cell belongs to, then we first of all check the value of $ M $ in column $ i $.
