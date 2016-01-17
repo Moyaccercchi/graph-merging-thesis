@@ -203,8 +203,6 @@
 %                                                     REFERENCES
 % ===================================================================================================================
 %
-% TODO :: alle ungenutzten Referenzen noch irgendwo unterbringen
-%
 % genutzt
 @article{Siren2014,
     author =       "Jouni Sirén and Niko Välimäki and Veli Mäkinen",
@@ -305,7 +303,7 @@
     DOI =          "10.1093/bioinformatics/btp352"
 }
 %
-% UNGENUTZT
+% genutzt
 % in this paper, BWA is explained
 @article{Li2009,
     author =       "Heng Li and Richard Durbin",
@@ -490,8 +488,21 @@
     DOI =          "10.1186/gb-2009-10-3-r25"
 }
 %
-% UNGENUTZT
+% genutzt
+@article{Kehr2014,
+    author =       "Birte Kehr and Kathrin Trappe and Manuel Holtgrewe and Knut Reinert",
+    title =        "Genome alignment with graph data structures: a comparison",
+    year =         "2014",
+    volume =       "15",
+    number =       "1",
+    pages =        "1--20",
+    journal =      "BMC Bioinformatics",
+    DOI =          "10.1186/1471-2105-15-99",
+}
+%
+% genutzt
 % McKenna2010 is reference [3] from the grant proposal.
+% about: GATK, a variant caller
 @article{McKenna2010,
     author =       "Aaron McKenna and Matthew Hanna and Eric Banks and Andrey Sivachenko and Kristian Cibulskis and Andrew Kernytsky and Kiran Garimella and David Altshuler and Stacey Gabriel and Mark Daly and Mark A. DePristo",
     title =        "The {Genome Analysis Toolkit}: A MapReduce framework for analyzing next-generation {DNA} sequencing data",
@@ -503,13 +514,23 @@
     DOI =          "10.1101/gr.107524.110"
 }
 %
-% UNGENUTZT
+% genutzt
 % Garrison2012 is reference [5] from the grant proposal.
+% about: FreeBayes, a variant caller
 @article{Garrison2012,
     author =       "Erik Garrison and Gabor Marth",
     title =        "Haplotype-based variant detection from short-read sequencing",
     year =         "2012",
     note =         "arXiv:1207.3907 [q-bio.GN]"
+}
+%
+% genutzt
+% talks about kallisto
+@article{Bray2015,
+    author =       "Nicolas Bray and Harold Pimentel and Páll Melsted and Lior Pachter",
+    title =        "Near-optimal {RNA}-Seq quantification",
+    year =         "2015",
+    note =         "arXiv:1505.02710 [q-bio.QM]"
 }
 %
 % genutzt
@@ -539,6 +560,18 @@
     title =        "Web browser as an application platform: the lively Kernel experience",
     year =         "2008",
     note =         "Technical Report, SMLI TR-2008-175, Sun Microsystems"
+}
+%
+% genutzt
+% talks about sailfish
+@article{Patro2014,
+    author =       "Rob Patro and Stephen M Mount and Carl Kingsford",
+    title =        "Sailfish enables alignment-free isoform quantification from {RNA}-seq reads using lightweight algorithms",
+    year =         "2014",
+    volume =       "32",
+    journal =      "Nature Biotechnology",
+    pages =        "462--464",
+    DOI =          "10.1038/nbt.2862",
 }
 %
 % genutzt
@@ -799,23 +832,25 @@ Reykjavik, Iceland, \thesismonth~\thesisyear \\
 % TODO :: Útdráttur á ensku sem er að hámarki 250 orð (currently, I have 161 words).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-The focus of this thesis lies on the computational challenges faced when reading out human DNA.
-In particular, reads of the DNA are commonly aligned with the help of a reference string.
-In this thesis, the opportunities and difficulties of instead using a graph reference are explored. \\
-Several approaches for using graph references have already been proposed,
-but none of them are used widely in the field.
-In this thesis the existing approaches are therefore compared and
-new algorithms for working with genomic graphs are developed which are intended to help spread
-the usage of graph references further.
-These algorithms are then collected into the Graph Merging Library GML,
-which can be used to visualize their behaviour to further the understanding
-of these methods.
-In addition to being used for the alignment of reads to reference graphs,
+The focus of this thesis is on the computational challenges faced when reading out human DNA.
+In particular, the reads of the DNA are commonly aligned with the help of a reference string.
+In this thesis, the opportunities and difficulties when using a graph reference instead are explored. \\
+Several approaches for using graph references have already been proposed, 
+but none of them are used widely in this field.
+Therefore here we compare the existing approaches and 
+develop new algorithms for working with genomic graphs. 
+This is intended to further help spread the usage of graph references.
+In particular, we develop algorithms for merging 
+and fusing flat XBW tables, which represent genomic graphs.
+We implement these algorithms in the Graph Merging Library GML, 
+which can be used to visualize their behaviour 
+to further the understanding of these methods.
+In addition to being used for the alignment of reads to reference graphs, 
 genomic graphs can also arise in other situations.
-The newly implemented algorithms are general enough to also be of use in these scenarios. \\
-Overall, this thesis constitutes a step in the direction of adopting
-the more complicated but also more powerful graphs rather than the sequential string data
-within the field of DNA analysis.
+Our newly developed algorithms are general enough to also be of use in these scenarios. \\
+Overall, this thesis constitutes a step in the direction 
+of adopting the more complicated but more powerful 
+graphs rather than sequential string data within the field of DNA sequencing.
 
 \vspace*{1cm}
 \section*{\huge Útdráttur}
@@ -825,7 +860,24 @@ within the field of DNA analysis.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-(imagine some text here)
+Þessi ritgerð er um tölvufræðilegar áskoranir sem blasa við lestur úr erfðaefni manna.
+Einkum, röð af DNA-inu eru almennt í samræmi með aðstoð strengatilvísun.
+Í þessari ritgerð eru tækifæri og erfiðleikar með því að nota netatilvísun rannsakað. \\
+Nokkrar aðferðir til að nota netatilvísanir hafa þegar verið lagt, 
+en enginn af þeim eru notuð víða á sviði.
+Því í þessari ritgerð við berum saman núverandi 
+aðferðir og þróa nýjar reiknirit til að vinna með erfðamenginet, 
+sem ætlað er til frekari hjálpa dreifa notkun af netatilvísanir.
+Einkum, þróa við reiknirit fyrir sameiningu og samtvínna flattar XBW töflur, 
+sem tákna erfðamenginet.
+Við framkvæma þessi reiknirit í Net-Samruna-Bókasafn, sem við köllum GML. 
+Það er hægt að vera notað til að sjón hegðun þeirra til að efla skilning á þessum aðferðum.
+Auk þess að vera notað fyrir jöfnun röð að netatilvísanir, 
+erfðamenginet getur einnig komið upp í öðrum tilvikum.
+Okkar nýlega þróað reiknirit eru nógu almenn til að einnig vera nýtast í þessum tilfellum. \\
+Á heildina litið, þetta ritgerð telst skref í átt að 
+samþykkja flóknari en einnig öflugri net frekar 
+en myndaröð streng á sviði DNA raðgreiningu.
 
 \newpage
 
@@ -1099,9 +1151,9 @@ are going to be sequenced from an individual's DNA soon.
 % TODO :: citation needed
 Therefore, the software tools used for working on the reads also need to continuously be improved, 
 to make better use of the data generated by the sequencing process. 
-One way of doing so is by aligning the sequenced reads against a reference graph rather than a reference string against. \\
+One way of doing so is by aligning the sequenced reads against a reference graph rather than against a reference string. \\
 Such a reference string 
-represents the average DNA of individuals whose DNA has previously been read out,
+represents the average DNA of individuals whose DNA has previously been sequenced,
 as the DNA of one individual should be similar to the DNA of others. 
 % TODO :: add picture: reference string generated from several references (that is, the picture contains lots of references,
 % that are then mushed into one... leaving out some details.
@@ -1152,10 +1204,11 @@ It is rather straightforward to use such a reference string.
 Each location within the string can clearly be identified by its position---that is,
 its distance from the start. \\
 Also, there are very simple file formats available to work with
-such references. One of these is the FASTA format, which includes the genomic
+such references. One of these is the 
+FASTA format\footnote{\,\,\,\url{http://www.cse.unsw.edu.au/~binftools/birch/birchhomedir/doc/fasta/fasta20.doc}}, 
+which includes the genomic
 strings together with lines for free text comments and with line breaks which
 make it easier to display the file in even low level text editors.
-% TODO :: citation or link needed for FASTA (also, is it called FATA
 
 The simplicity of reference strings however also has disadvantages.
 Most importantly, when aligning reads to a reference string, we can only align
@@ -1164,7 +1217,7 @@ variations of the human genome at once.
 Not taking the known variations into account can lead to worse alignment results
 than would be possible otherwise, as the average genomic string may simply not
 include the particular mutations that have occurred for both the individual
-whose DNA is supposed to be read out as well as for another individual whose
+whose DNA is supposed to be sequenced as well as for another individual whose
 variations from the reference are known.
 
 This is not just a theoretical consideration.
@@ -1197,9 +1250,12 @@ ideally just note which path has been taken through the reference graph instead 
 explicitly state which differences have been found in which positions. \\
 Using a reference graph also makes it possible to pick up combinations of variants
 which would currently be lost in the alignment step.
-Especially the calling of indels, which are usually harder to find and identify than edits,
-can benefit from having local access to several alternative references which contain
-already known variants \citep{Albers2010}.
+Indels, short for insertions and deletions of nucleobases, 
+are usually harder to find and identify than edit operations, 
+which are simple replacements of one nucleobase by another. 
+Therefore, the calling of indels can especially 
+benefit from having local access to several alternative references which contain
+already known variants \citep{Albers2010}. 
 
 Another advantage of using a reference graph presents itself when the continuous use of
 references over time is considered.
@@ -1241,7 +1297,7 @@ within the scope of various parts of the analysis pipeline.
 %                                                                                                                           BACKGROUND
 % ====================================================================================================================================
 
-Nowadays there are many approaches for aligning short reads to a reference string,
+There are many approaches for aligning short reads to a reference string,
 and even some work into the alignment of reads to a reference graph has already been
 undertaken.
 We will first focus on the Burrows--Wheeler Transform, or BWT, for strings. 
@@ -1250,6 +1306,7 @@ which use the extended Burrows--Wheeler Transform,
 or XBW.
 
 \section{Burrows--Wheeler Transform for Strings}
+\label{sec:bwt_for_strings}
 
 The core problem of read alignment to a reference string is simply that a
 lot of data needs to be worked on, as both the reference itself is very big
@@ -1258,17 +1315,22 @@ We therefore wish to pre-process either the reads or the reference in a certain 
 ensuring that the work which needs to be performed in each step gets reduced. 
 Practically, it often makes sense to choose to pre-process the reference, 
 as the same reference can be used to align reads for several individuals, 
-and therefore the computationally expensive pre-processing only needs to be done once.
+and therefore the computationally expensive pre-processing only needs to be done once. 
+This approach is taken by some highly optimized current alignment tools, 
+such as BWA-MEM \citep{Li2013}.
 
 A common way for pre-processing the reference is to apply the BWT to it, 
-and to then use it in conjunction with a suffix array. This allows us to 
+and to then use it in conjunction with a data structure 
+called the suffix array \citep{Puglisi2007}, which contains
+information about the locations within the reference represented by the BWT.
+This allows us to 
 perform fast lookups of patterns in the reference, which is exactly what we want 
 to do to find the locations at which we can align the reads. \\
 The BWT, or Burrows--Wheeler Transform \citep{Burrows1994}, 
 first emerged as a tool used in string compression techniques. 
 It is a reversible reordering of a
-repetitive text with few runs into a text of the same length that contains more runs
-and can therefore be easily compressed by run-length encoding or other encoding schemes.
+repetitive text with few runs of same characters into a text of the same length that contains more runs
+and can therefore more easily be compressed by run-length encoding or other encoding schemes.
 A simple example of this behaviour of achieving more easily compressable strings through the application of the BWT
 can be seen in table~\ref{table:evo_background_bwt_run_enc}.
 \begin{table}[htb]
@@ -1324,7 +1386,7 @@ Instead of adding a distinctly different character to the end of the string,
 it is therefore also possible, although not customary, to simply store an integer with the BWT containing
 the number of the row within the matrix which contains the original string \citep{Nelson1996}.
 
-As mentioned before, it is crucial that the BWT is a reversible reordering of a string,
+It is crucial that the BWT is a reversible reordering of a string,
 such that the original string can be obtained from the BWT.
 A simple algorithm for recreating the original string given its BWT starts by reconstructing the alphabetically sorted
 matrix of cyclic rotations as empty $ n {\: \times \:} n $ matrix, where $ n $ is the length of the BWT.
@@ -1342,43 +1404,103 @@ usually the dollar sign.
 
 As noted before, although the BWT originally came into use to aide in compressing strings, 
 we actually use it for a different reason. 
-\citet{Ferragina2000} proposed to combine the BWT with a structure known as a suffix array, 
-to form the FM-index, or Full-text index in Minute space. 
+\citet{Ferragina2000} proposed to combine the BWT the suffix array 
+to form the \textit{FM-index}, or Full-text index in Minute space. 
 The advantage of doing so is that we get an overall data structure which is not much larger 
 than the string which we encode, but which allows us to perform fast lookup operations 
-on it which enables us to quickly align reads to a reference string encoded in such a way.
-Therefore, many current alignment tools such as BWA-MEM \citep{Li2013} and Bowtie \citep{Langmead2009} use
-the BWT to encode the reference and work on it in this compressed form directly.
+on itself. 
+% ... show how this allows to perform these lookup operations
+This enables us to quickly align reads to a reference string encoded in such a way. \\
+More recently, the name \textit{self-index} has been 
+introduced for structures such as the BWT with the corresponding suffix array. 
+In general, a self-index is a data structure that contains compressed data and makes it possible
+to work on that data directly in its compressed form \citep{Navarro2007}.
+
+In practice, the process of aligning reads to a reference encoded using the BWT 
+is not quite as straightforward as described here, 
+as the reads are not actually patterns which are exactly found in the reference. 
+Instead, the reads contain variations from the reference, corresponding to the 
+variations from the reference in the individual's DNA. 
+In addition to that, sequencing errors mean that the reads also contain additional variations 
+from the reference which do not correspond to actual variations in the individual's DNA. 
+The process described here can however be used as the basis on which 
+algorithms for aligning reads in a real-world scenario can be developed.
+Therefore, many current alignment tools such as BWA \citep{Li2009} and Bowtie \citep{Langmead2009} use
+the BWT to encode the reference and work on it directly in this compressed form. \\
+After the reads have been aligned, special tools such as 
+GATK \citep{McKenna2010} or FreeBayes \citep{Garrison2012} can 
+be used to generate a list of differences between the aligned reads 
+and the reference.
 
 \section{The Role of Graphs in Read Alignment}
 
-Initial use of graphs in read alignment was restricted to representing
-the outcome of the alignment phase, in particular the fully assembled DNA \citep{Myers2005}.
+Graphs have been used in various ways for read alignments already. 
+A method to create graphs based on several similar genomic strings 
+was proposed by \citet{Lee2002}. 
+Hereby each of the input strings is a path through the resulting graph and 
+the result is independent of the order in which these strings
+are added to the emerging graph.
+This algorithm can be used to compress a collection of very similar genomic strings, 
+such as a collection of reads which are aligned to the same location. 
 
-Short reads usually do not make it possible to fully infer the actual structure of the genome that is read out,
-as different possible structures could have lead to the same reads, especially when considering that
-there are many errors within the reads that need to be accounted for. \\
-Therefore, often the reads are aligned to a reference and the best fitting position is simply
-assumed to be the real origin of the read. However, as the decision to choose one position over
-another can be quite arbitrary, graphs can be used as read alignment output which indicate how the reads
-are linked together. The true individual DNA that was read out is then one possible path through the graph,
+Another proposed use of graphs when aligning reads to a reference 
+has been to represent the outcome of the alignment phase as a graph \citet{Myers2005}.
+That is, instead of reporting a list of variations from the reference, 
+the alignment pipeline gives out a graph which contains the reads and their assumed positions 
+relative to each other. 
+To create such a graph, long reads need to be used, for which large overlaps 
+between adjacent reads can be achieved, as short reads would present too many 
+possibilities to erroneously link up completely unrelated reads. \\
+If this graph is assembled correctly, then the true individual DNA which was sequenced 
+is one possible path through the graph,
 while other possible paths through the graph exist that are merely artefacts of the sequencing process. \\
 As such a graph can be quite difficult to work with, not many alignment tools are producing these
-structures. Instead, the default is usually to just choose the best fitting position and
-create a read out DNA string. This string will most likely also contain some sequencing artefacts,
-but will be vastly easier to work with in later steps.
+structures. Instead, the default is usually to choose the best fitting position and
+report all variations at that location between the aligned read and the reference. 
+The list containing the reported variations most likely also contains sequencing artefacts, 
+but is easier to work with in later steps.
 
-Graphs are currently also starting to be used as a way to reduce the size of several read out human
-genomes \citep{Li2014}. \\
-The idea stems from the fact that companies or institutions that read out the DNA of several individuals
-and want to store them can run in problems with the immense file size when storing or transmitting the reads and their
-aligned locations. Instead, the original read data could be discarded and only the alignment result could be saved and shared---that
-however would mean that the original data cannot later on be re-interpreted by better algorithms, and can in general
+Graphs have however not only been used to indicate the results of the read alignment.
+The alignment of short reads to a reference graph rather than to a linear reference has
+also been proposed several times. \\
+Storing several very similar references at the same time in a way that not only minimizes
+the storage space, but also enables efficient pattern searches directly on the
+stored data was proposed by \citet{Makinen2010}. 
+The aim of these techniques is to
+minimize both the overhead in storage space and the needed time to perform typical work
+on the references, such as aligning reads to them. \\
+This group of authors continued working with scenarios in which
+several references are merged into a graph, with reads being directly
+aligned to the graph rather than to each reference on its own \citep{Siren2014}. \\
+The alignment of reads against the data structure incorporating several references
+is done in a way that is inspired by the Burrows--Wheeler Transform.
+
+Graphs are currently also starting to be used as a way to reduce the size of several sequenced human genomes. 
+Companies or institutions that read out the DNA of several individuals
+and want to store them can run into problems with the immense file size when storing or transmitting the reads 
+together with their aligned locations. 
+If the original read data would be discarded and only the alignment result would be saved and shared, 
+then the original data could not later on be re-interpreted by better algorithms, and could in general
 not be used any more. \\
-Using a graph in this case can allow several agreeing reads to be combined into long sequences of unambiguous data,
-while the locations at which uncertainties exist could still be encoded with all the possible alternatives as
+One way of dealing with this problem is to use formats such as 
+BAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/SAMv1.pdf}, page 11} or 
+CRAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/CRAMv3.pdf}}, 
+which allow us to store the alignment result in a file together with the sequenced reads. 
+In the case of CRAM, this file is even further compressed by only saving the differences 
+between the reads and the reference in addition to the alignment result. 
+In both cases, the original reads can be reconstructed from the data, 
+and they are not lost forever. \\
+\citet{Li2014} proposed to solve this problem in a different way, by using a graph 
+representing the reads of several sequenced individual genomes in one file. 
+This graph allows several agreeing reads to be combined into long sequences of unambiguous data,
+while the locations at which uncertainties exist are encoded with all the possible alternatives as
 different paths through the graph. Therefore, all complicated read data behaviour is contained in the resulting
-graph, but the size is still vastly reduced when compared to using all reference strings of the population.
+graph, and the size is vastly reduced when compared to storing all individual sequencing results separately.
+
+As graphs are by now used for many different application in the field of genome sequencing, 
+work has also been undertaken to examine the different existing approaches and 
+to highlight their differences as well as their similarities \citep{Kehr2014}. 
+Such insights can be used to design graphs unifying the strengths of several different approaches.
 
 \section{Formal Graph Definition}
 \label{sec:graph_definition}
@@ -1420,118 +1542,50 @@ We refer to such a structure of sequentially connected
 nodes $ u_1, u_2, ..., u_n $ as \textit{path} $ P = u_1 u_2 ... u_n $. 
 The label $ l ( P ) $ of this path is then the word $ l ( u_1 ) l( u_2 ) ... l ( u_n ) $ formed by the labels of each node.
 
-\section{Burrows--Wheeler Transform for Graphs}
+\section{Read Alignment Without an Actual Graph}
 
-Graphs have not only been used to indicate the results of the read alignment.
-The alignment of short reads to a reference graph rather than to a linear reference has
-also been proposed several times.
-
-A necessary prerequisite for aligning reads to a reference graph is
-being able to actually create such a graph in the first place. \\
-One of these ways is to take several similar genomic strings and create a graph based
-on them, such that each of the input strings is a path through the resulting graph.
-\citet{Lee2002} proposed a method to create such a graph from input strings,
-independent of the order in which these strings
-are added to the emerging graph.
-
-Storing several very similar references at the same time in a way that not only minimizes
-the storage space, but also enables efficient pattern searches directly on the
-stored data was proposed by \citet{Makinen2010}. \\
-The aim of these techniques is to
-minimize both the overhead in storage space and the needed time to perform typical work
-on the references, such as aligning reads to them. \\
-This group of authors continued working with scenarios in which
-several references are merged into a graph, with reads being directly
-aligned to the graph rather than to each reference on its own \citep{Siren2014}. \\
-The alignment of reads against the data structure incorporating several references
-is done in a way that is inspired by the Burrows--Wheeler Transform.
-
-In particular, to be able to use the Burrows--Wheeler Transform for read alignment,
-a data structure called the suffix array \citep{Puglisi2007} is commonly used, which contains
-information about the locations within the reference.
-Using the suffix array makes it easier to work on the BWT in its compressed form,
-rather than having to reconstruct the original string from it to perform work.
-That is, the BWT together with its suffix array forms a self-index,
-which is a data structure that contains compressed data and makes it possible
-to work on that data directly in its compressed form \citep{Navarro2007}. \\
-As indexing a graph based on several references is not as straightforward as
-indexing a single string, which provides an inherent indexing mechanism by
-simply stating the position within the string, the regular suffix array cannot
-be used in the case of encoding a graph rather than a string. \\
-However, the plain suffix array is often not used in a practical sense
-without any changes anyway. Instead, it is often compressed in some way or another.
-The reason for that is the immense size of the regular suffix array.
-A common compression technique is to leave out many of the suffix array's parts
-and instead compute them dynamically
-when they are being used rather than storing the entire array in memory.
-
-When using a reference graph for read alignment with the BWT, it is therefore common
-already to use a structure that simply behaves similar to the suffix array.
-Such a suffix-array-like data structure can also be constructed for graph references. \\
-In particular, efficient support of the following operations is necessary for such a data structure \citep{Siren2014}: \\
-Given a pattern, the range within the data structure
-that corresponds to all suffixes of the reference graph that are prefixed with that pattern needs to be found.
-This essentially provides a functionality for finding arbitrary texts, and is used when aligning reads to
-the reference, as that is basically a search for the read itself or similar patterns within the reference. \\
-Given a location within the data structure, the corresponding location within the
-reference needs to be located. \\
-Finally, given a location within the reference, the actual text at that position
-needs to be extracted.
-
-The main idea is therefore to create a structure capable of fulfilling these requirements,
-as the remainder of the alignment step is then very similar to the alignment against a reference string.
-
-\section{Alignment Without an Actual Graph}
+We will now investigate different methods for aligning reads to reference graphs and to graph-like structures 
+which have already been proposed.
 
 To avoid the complications arising when working with
-a complete graph made from several references, other methods have been proposed
-to achieve similar results without explicitly constructing a reference graph. \\
+a complete graph made from several references, methods have been proposed
+to achieve graph-like results without explicitly constructing a reference graph. \\
 One of these is the alignment tool BWBBLE which
 was created by \citet{Huang2013}. 
 It works on the core assumption that most differences between two references
 are snips, which can be encoded with a specific extended alphabet.
 Then, a modification to the Burrows--Wheeler Transform is made to
 be able to work with a single string reference containing this extended alphabet. \\
-BWBBLE also supports insertions and deletions which means that it does support
-more graph-like behaviour, but the core functionality of it is aimed at the extended string reference.
+BWBBLE also supports insertions and deletions, which means that it does support
+even more graph-like behaviour. 
+However, this functionality is implemented in a very simplistic way, 
+which is not designed to handle large and complex graphs, 
+as its core functionality is aimed at the slightly extended string reference. 
 
-In addition, there have been efforts to more efficiently create the BWT
+Furthermore, there have been efforts to more efficiently create the BWT
 of several strings rather than just concatenating them into a single one.
 These can help in understanding the challenges of building the BWT of several references \citep{Holt2014}.
 
 \section{Using Hashes to Encode a Graph}
 
-The hashing approach focuses also on a certain way of pre-processing the references
-to create a certain structure that the reads can then be aligned against. \\
-To use this approach, a specific length $ k $ is given, up to which we keep track of
-sequences in the reference graph.
-
-In the pre-processing step, among all the possible references one main reference is chosen.
+\citet{Schneeberger2009} proposed to 
+align short reads to several references at once 
+by constructing a graph based on several individuals' genomes 
+and aligning the reads to this graph. \\
+For this to be achieved, all references are pre-processed in a special way, with one being taken as the
+main reference and the other references being stored as variations from this main reference.
 Then a hash table based on the references is created which
-assigns each $ k $-mer the positions at which it can be found.
+assigns each $ k $-mer the positions at which it can be found, 
+where $ k $ is a specific length given to the software tool as a parameter.
 Such a position is not as straightforward as a
 plain integer that gives the index within a string, as the data can lie on branches
 off the main reference string. \\
-This is solved by using an integer together with minor extra information.
-The integer points towards a data block, which can be a part of the main
+This is solved by splitting all the encoded references into blocks of a given size. 
+Indexing a position within the overall data structure is then achieved 
+by using an integer augmented with additional information. 
+Hereby the integer points towards a data block, which can be a part of the main
 reference or a branch of any of the other references that differs from the
-main sequence. The extra information then points towards the location within the block.
-
-In particular, aligning reads to several references at once
-in this way has been proposed by \citet{Schneeberger2009}. \\
-In this case, the references are taken together to form a graph
-rather than being used as separate reference strings.
-For this to be achieved, all references are pre-processed in a special way, with one being taken as the
-main reference and the other references being stored as changes to this main reference.
-The pre-processing step results in a data structure that uses $ k $-mers as hashes pointing
-to the specific location at which these $ k $-mers can be found. Reads can therefore be aligned
-by finding parts of them in the hash table, looking up the locations that are associated with
-them, and checking if the entire read can be aligned to that location. \\
-The location here is not just an integer pointing to a character within a string,
-as it would be for a single reference, but actually
-a pointer to the particular reference and the location within it.
-To make this indexing possible, the references are split into blocks that
-can quickly be addressed with an integer and locations within those blocks.
+main sequence. The extra information points towards the location within that block.
 
 When the reads are aligned against the data structure, the output of the alignment step
 can be generated in two ways---either with each read being aligned to the particular reference
@@ -1542,11 +1596,71 @@ built for a reference string, not a reference graph, if losing some of the benef
 the graph alignment is acceptable. However, to fully utilize all the graph information,
 the rest of the pipeline has to be adapted as well.
 
-\section{Extending the Burrows---Wheeler Transform}
+The hashing approach has been further improved by alignment-free implementations such as 
+Sailfish \citep{Patro2014} and even more so kallisto \citep{Bray2015}. 
+These tools use large sets of references and provide accurate results very quickly. 
+The main downside of these approaches is that they rely $ k $-mer hashes 
+where the size of $ k $ is constant during the execution. 
+Therefore, if this parameter is not chosen in an optimal way, 
+then it cannot be guaranteed that the results will have a high quality.
 
-Efforts involving changes to and generalizations of the BWT
-are also aided by the development of the XBW, or extended Burrows--Wheeler Transform. 
-This is a method of compressing trees similar to how the 
+\section{Burrows--Wheeler Transform for Graphs}
+
+In general, the BWT consists of the letters preceding the alphabetically sorted cyclic rotations 
+in the cyclic rotation matrix, as shown in section~\ref{sec:bwt_for_strings}. 
+Therefore we can think of the BWT as a mapping from a list of alphabetically 
+sorted substrings of a text to the character preceding each substring. 
+Therefore, when working with genomic graphs in which each character is the label 
+of a node, the BWT represents a mapping from an ordered list of nodes 
+to the nodes preceding each node on the list. 
+In the case of a BWT encoding a string, each substring has exactly one preceding character. 
+However, in a graph, a node can have several preceding characters, 
+therefore making it necessary to augment the traditional BWT.
+
+Possibilities to augment the BWT are to adjust the suffix array, 
+which is used together with the BWT already, 
+or to introduce entirely new arrays similar to the suffix array, 
+which help in providing the necessary functionality to be able to encode graphs. 
+This is not unusually difficult, 
+as it is already common in real-world alignment tools 
+to use structures that simply behave similar to the suffix array, 
+instead of using real suffix arrays without any changes. 
+Most often, these structures are compressed in some way or another, 
+the reason for which is the immense size of the regular suffix array.
+A common compression technique is to leave out many fields of the array
+and instead compute them dynamically
+when they are being used rather than storing the entire array in memory. \\
+Such a suffix-array-like data structure can also be constructed for graph references. 
+In particular, efficient support of the following operations is necessary for such a data structure \citep{Siren2014}:
+
+\begin{itemize}
+\item Given a pattern $ P $, the range $ [sp, ep] $ within the data structure
+corresponding to all suffixes of the reference graph that are prefixed with $ P $ needs to be found.
+\item Given a location within the data structure, the corresponding location within the
+reference needs to be found.
+\item Given a location within the reference, the actual text at that position
+needs to be extracted.
+\end{itemize}
+
+The first of these requirements 
+essentially provides a functionality for finding arbitrary patterns $ P $ within the graph. 
+As aligning reads to the reference 
+is in principle a search for the read itself within the reference, 
+this functionality is very helpful. 
+The algorithms used in a real-world application however need to 
+account for variations between the reads and the reference and 
+are therefore more complex than straightforward applications 
+of the finding functionality would be.
+
+Overall, the main idea when using a BWT-based reference graph for read alignment 
+is to create a structure capable of fulfilling the aforementioned requirements. 
+This structure can then be used instead of the regular suffix array 
+in conjunction with the BWT.
+
+\section{The Extended Burrows--Wheeler Transform}
+
+One particular generalization of the BWT is the XBW, or extended Burrows--Wheeler Transform. 
+This is a method for compressing trees similar to how the 
 BWT is used to compress sequential data \citep{Ferragina2009}. \\
 Each node in the tree has a label that is one character long.
 These labels are stored in the XBW together with a special bit vector,
