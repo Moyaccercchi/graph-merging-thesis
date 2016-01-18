@@ -860,10 +860,10 @@ graphs rather than sequential string data within the field of DNA sequencing.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. Í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð.
-Stungið hefur verið upp á nokkrum leiðir til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
-Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum.
-Í heildina er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á sviði DNA raðgreininga.
+Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð.
+Stungið hefur verið upp á nokkrum leiðir til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
+Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum.
+í heildina er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á sviði DNA raðgreininga.
 
 % Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
 % Venjulega er lestri á DNA samraðað með hjálp strengatilvísana.
@@ -1235,7 +1235,7 @@ Considering that many alternative references are available and a lot of short va
 it becomes clear that the human genome should be thought of as a collection of individual genomes
 rather than a single rigid reference genome.
 
-Algorithmically, this corresponds to viewing the reference as a graph rather than a linear genome.
+Algorithmically, this corresponds to viewing the reference as a directed acyclic graph rather than a linear genome.
 In this graph, each variation can be represented as a branch which points to the available alternatives.
 Thereby each personal genome is represented by a path through this variation graph,
 as can be seen in figure~\ref{fig:evo_intro_three_ref_seq_align}. \\
@@ -1367,7 +1367,7 @@ The $ n $th cyclic rotation of a string is a reordering of the string in which i
 are taken away from the beginning of the string and are instead inserted at its end. \\
 To generate the BWT of a string $ s = c_1 c_2 ... c_k $ of characters $ c_i $,
 we can generate all the cyclic rotations from $ n = 0 $ up to $ n = k - 1 $, and
-put the resulting strings on a list.
+put the resulting strings in a list.
 We then sort this list alphabetically, and write out the resulting list of strings
 in such a fashion as to have each of the strings on its own row, exactly underneath each other.
 This creates a matrix of characters, of which we take the last column.
@@ -1778,11 +1778,13 @@ The value of the cell $ M $ in column $ i $ is a sequence of bits whose length c
 the amount of successor nodes of $ v_i $, or equally the amount of outgoing edges of node $ v_i $.
 This sequence always starts with the bit “1” and is then followed
 by as many “0” bits as are necessary to achieve the desired length.
-In addition to bit vector $ M $, a second bit vector designed as $ F $ can be used within a node table.
+In addition to bit vector $ M $, a second bit vector designated as $ F $ can be used within a node table.
 The value of $ F $ in column $ i $ is a bit sequence whose length corresponds to
-the amount of predecessor nodes of node $ v_i $.
+the amount of predecessor nodes of node $ v_i $. \\
 The reason why using the $ F $ bit vector is not strictly necessary is that its information
-for any column $ i $ is already encoded in the length of the BWT cell of column $ i $.
+for any column $ i $ is already encoded in the length of the BWT cell of column $ i $. 
+However, when considering flat XBW tables, we will not be able to leave out the bit vector $ F $. 
+It is therefore helpful to already get used to its presence when considering the simpler XBW node tables. \\
 When implementing $ M $ and $ F $, it is possible to think of them as arrays of strings,
 with each string containing the characters “1” and “0”, for ease of implementation.
 
@@ -1816,10 +1818,10 @@ we usually calculate three further data structures based
 on the BWT, $ M $ and $ F $ rows.
 We call these “$ \Sigma $”, “ord” and “$ C $”. \\
 $ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters in the BWT. \\
-The ord array has the characters of the alphabet as keys and their
-positions in the alphabetically sorted $ \Sigma $ as indices. \\
-The array $ C $ also has the characters of the alphabet as keys.
-Its values are the indices of the first occurrences of these characters within FC.
+The ord array has the characters of the alphabet as keys. 
+Its values are their positions in the alphabetically sorted $ \Sigma $. \\
+The array $ C $ also has the characters of the alphabet as keys, 
+with its values being the indices of the first occurrences of these characters within FC.
 Using $ C $, we can completely reconstruct FC, and accessing an arbitrary cell in the FC row
 via an iteration over $ C $ is a very quick operation.
 Therefore, we do not need to explicitly store FC in any other way.
@@ -1869,31 +1871,6 @@ How cells in a flat table relate to actual nodes in a graph is illustrated via s
 cells in table~\ref{table:flat_table_with_ct}, which corresponds to the graph with highlighted nodes
 in figure~\ref{fig:evo_fig_flat_table_with_ct}.
 
-{
-% reduce whitespace in this table (default might be 6pt)
-% \renewcommand{\tabcolsep}{5pt}
-% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
-\begin{table}[htb]
-\centering
-\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, $\#$} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{$\#$} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{$\#$} {\, \Rightarrow \,} 17 ] $.}
-\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
-\hline
-G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & $\#$ & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline
-\$ & A & C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C & G & G &\cellcolor{green_bg}\color{green_fx}G & G & G & G & G &\cellcolor{red_bg}\color{red_fx}T & T & T &\cellcolor{blue_bg}\color{blue_fx}T & $\#$ & \textbf{FC} \\ \hline
-1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{purple_bg}\color{purple_fx}0 &\cellcolor{purple_bg}\color{purple_fx}0 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline
-1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & 1 & 0 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{green_bg}\color{green_fx}0 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline
-\end{tabular}
-\label{table:flat_table_with_ct}
-\end{table}
-}
-% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG, with colors inverted, just like above
-\begin{figure}[!htb]
-\centering
-\includegraphics[width=\textwidth]{evo_fig_flat_table_with_ct.pdf}
-\caption[Graph corresponding to a flat table]{Graph corresponding to flat table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
-\end{figure}
-% TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
-
 More formally, we can observe that
 if we have a cell in column $ i $ of the FC row, and want to find the other cells corresponding to
 the node which this cell belongs to, then we first of all check the value of $ M $ in column $ i $.
@@ -1920,6 +1897,32 @@ and finally know that the node which we were interested in corresponds to the
 FC and $ M $ values in columns $ j $ until $ k - 1 $ and to the BWT and $ F $ values in columns $ h $ until $ g - 1 $. \\
 Similar operations can be performed to find the range in FC and $ M $ given an index into the BWT,
 namely ranking the index in $ F $ and calling a select operation on $ M $ to find the corresponding start.
+
+{
+% reduce whitespace in this table (default might be 6pt)
+% \renewcommand{\tabcolsep}{5pt}
+% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
+\begin{table}[htb]
+\centering
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, $\#$} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{$\#$} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{$\#$} {\, \Rightarrow \,} 17 ] $.}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & $\#$ & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline
+\$ & A & C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C &\cellcolor{purple_bg}\color{purple_fx}C & G & G &\cellcolor{green_bg}\color{green_fx}G & G & G & G & G &\cellcolor{red_bg}\color{red_fx}T & T & T &\cellcolor{blue_bg}\color{blue_fx}T & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 &\cellcolor{purple_bg}\color{purple_fx}0 &\cellcolor{purple_bg}\color{purple_fx}0 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline
+1 & 1 & 1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & 1 & 0 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{green_bg}\color{green_fx}0 & 1 & 1 & 1 & 1 &\cellcolor{red_bg}\color{red_fx}1 & 1 & 1 &\cellcolor{blue_bg}\color{blue_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline
+\end{tabular}
+\label{table:flat_table_with_ct}
+\end{table}
+}
+% GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG, with colors inverted, just like above
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_flat_table_with_ct.pdf}
+\caption[Graph corresponding to a flat table]{Graph corresponding to flat table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
+\end{figure}
+% TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+% -> we did this right now by putting it a paragraph later than usual
 
 The previous approach assumed that we were given the index $ i $ of a cell in the FC row,
 and were interested in finding all other cells corresponding to the same node as that cell.
@@ -2409,7 +2412,11 @@ within each data block, which can encode as complex a graph as is necessary
 as long as it does not contain any loops.
 Also, this is inspired by the actual needs for a huge graph reference,
 in which the overall structure is linear and all perturbations are on a
-rather local scale. \\
+rather local scale.
+
+% TODO :: check if this break still makes sense
+\pagebreak
+
 Figure~\ref{fig:evo_fig_ffx_example_fused} contains an example for
 how several graphs can be encoded in the FFX format as a single fused graph.
 
