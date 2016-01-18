@@ -835,21 +835,21 @@ Reykjavik, Iceland, \thesismonth~\thesisyear \\
 The focus of this thesis is on the computational challenges faced when reading out human DNA.
 In particular, the reads of the DNA are commonly aligned with the help of a reference string.
 In this thesis, the opportunities and difficulties when using a graph reference instead are explored. \\
-Several approaches for using graph references have already been proposed, 
+Several approaches for using graph references have already been proposed,
 but none of them are used widely in this field.
-Therefore here we compare the existing approaches and 
-develop new algorithms for working with genomic graphs. 
+Therefore here we compare the existing approaches and
+develop new algorithms for working with genomic graphs.
 This is intended to further help spread the usage of graph references.
-In particular, we develop algorithms for merging 
+In particular, we develop algorithms for merging
 and fusing flat XBW tables, which represent genomic graphs.
-We implement these algorithms in the Graph Merging Library GML, 
-which can be used to visualize their behaviour 
+We implement these algorithms in the Graph Merging Library GML,
+which can be used to visualize their behaviour
 to further the understanding of these methods.
-In addition to being used for the alignment of reads to reference graphs, 
+In addition to being used for the alignment of reads to reference graphs,
 genomic graphs can also arise in other situations.
 Our newly developed algorithms are general enough to also be of use in these scenarios. \\
-Overall, this thesis constitutes a step in the direction 
-of adopting the more complicated but more powerful 
+Overall, this thesis constitutes a step in the direction
+of adopting the more complicated but more powerful
 graphs rather than sequential string data within the field of DNA sequencing.
 
 \vspace*{1cm}
@@ -860,21 +860,26 @@ graphs rather than sequential string data within the field of DNA sequencing.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
-Venjulega er lestri á DNA samraðað með hjálp strengatilvísana. 
-Í þessari ritgerð verða hinsvegar tækifæri og erfiðleikar með notkun netatilvísana skoðaðir. \\
-Stungið hefur verið upp á nokkrar leiðir til að nota netatilvísanir en ekkert þeirra hefur komast í almenna notkun.
-Ætlum við því að bera saman núverandi nálganir og þróa ný reiknirit til að vinna með erfðamengisnet.
-Er það því markmiðið að hjálpa við að útbreiða notkun á netatilvísunum. 
-Þá sérstaklega höfum við þróað reiknrit sem að sameina 
-og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet.
-Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library GML, og er hægt í því að
-sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim.
-Auk þess að nota þau til samröðunar á lestri með hjálp netatilvísana geta erfðamengisnet nýst annara hluta.
-Okkar nýþróðuðu reiknrit eru næginlega almenn til að nýtast í þeim tilfellum. \\
-Í heildina er þessi ritgerð skref í átt að 
-koma í notkun flóknari og öflugri netum í stað að 
-nota raðbundna strengi í sviði DNA raðgreininga.
+Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. Í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð.
+Stungið hefur verið upp á nokkrum leiðir til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
+Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum.
+Í heildina er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á sviði DNA raðgreininga.
+
+% Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
+% Venjulega er lestri á DNA samraðað með hjálp strengatilvísana.
+% Í þessari ritgerð verða hinsvegar tækifæri og erfiðleikar með notkun netatilvísana skoðaðir. \\
+% Stungið hefur verið upp á nokkrar leiðir til að nota netatilvísanir en ekkert þeirra hefur komast í almenna notkun.
+% Ætlum við því að bera saman núverandi nálganir og þróa ný reiknirit til að vinna með erfðamengisnet.
+% Er það því markmiðið að hjálpa við að útbreiða notkun á netatilvísunum.
+% Þá sérstaklega höfum við þróað reiknrit sem að sameina
+% og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet.
+% Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library GML, og er hægt í því að
+% sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim.
+% Auk þess að nota þau til samröðunar á lestri með hjálp netatilvísana geta erfðamengisnet nýst annara hluta.
+% Okkar nýþróðuðu reiknrit eru næginlega almenn til að nýtast í þeim tilfellum. \\
+% Í heildina er þessi ritgerð skref í átt að
+% koma í notkun flóknari og öflugri netum í stað að
+% nota raðbundna strengi í sviði DNA raðgreininga.
 
 \newpage
 
@@ -1109,7 +1114,7 @@ Thank you all.
 %                                                                                                                         INTRODUCTION
 % ====================================================================================================================================
 
-The aim of this thesis is to develop algorithms for merging and fusing flat XBW tables, 
+The aim of this thesis is to develop algorithms for merging and fusing flat XBW tables,
 which will be introduced in section~\ref{sec:flat_table_definition}. \\
 We developed these algorithms to help improve current approaches from the field of human genome sequencing,
 in which the genome of an individual human being is read out using a combination of
@@ -1122,36 +1127,35 @@ diagnosis of uncommon diseases.
 
 \section{The Role of the Reference}
 
-Many technological advances in recent years have already made it possible to sequence the whole genome 
-of an individual for under \$ 1000 USD. 
+Many technological advances in recent years have already made it possible to sequence the whole genome
+of an individual for under \$1000 USD.
 % TODO :: citation needed
-The process currently most often used to do so 
+The process currently most often used to do so
 % TODO :: citation needed
-is based on a machine sequencing several strands of the
-individual's DNA, short for deoxyribonucleic acid. 
-The sequencing process however does not directly produce a data structure 
-representing the entire individual's DNA. 
-Instead, it produces a large collection of short pieces, called reads. 
-Such reads are strings consisting of the four letters A, C, G and T, 
+is based on a machine sequencing several fragments of the
+individual's DNA, short for deoxyribonucleic acid.
+The sequencing process however does not directly produce the entire individual's DNA.
+Instead, it produces a large collection of short pieces, called reads.
+Such reads are strings consisting of the four letters A, C, G and T,
 which represent the four nucleobases adenine, cytosine, guanine and thymine, respectively. \\
-Having sequenced the reads, 
-a pipeline of several software tools is used to align them to a reference genome. 
+Having sequenced the reads,
+a pipeline of several software tools is used to align the reads to a reference genome.
 The aim of this alignment is to either generate the full individual DNA or a list of variations
 from the reference that has been used. \\
 % TODO :: have a picture that shows this?
-However, the sequencing process still generates many errors. 
-While work is continuously being undertaken 
-to improve the quality of the sequencing results, 
+However, the sequencing process still generates many errors.
+While work is continuously being undertaken
+to improve the quality of the sequencing results,
 % TODO :: citation needed
-it is not expected that completely error-free reads 
-are going to be sequenced from an individual's DNA soon. 
+it is not expected that completely error-free reads
+are going to be sequenced from an individual's DNA in the near future.
 % TODO :: citation needed
-Therefore, the software tools used for working on the reads also need to continuously be improved, 
-to make better use of the data generated by the sequencing process. 
+Therefore, the software tools used for working on the reads also need to continuously be improved,
+to make better use of the data generated by the sequencing process.
 One way of doing so is by aligning the sequenced reads against a reference graph rather than against a reference string. \\
-Such a reference string 
-represents the average DNA of individuals whose DNA has previously been sequenced,
-as the DNA of one individual should be similar to the DNA of others. 
+Such a reference string
+represents the consensus DNA of individuals whose DNA has previously been sequenced,
+as the DNA of one individual should be similar to the DNA of others.
 % TODO :: add picture: reference string generated from several references (that is, the picture contains lots of references,
 % that are then mushed into one... leaving out some details.
 It is necessary to use such a reference genome, as
@@ -1201,8 +1205,8 @@ It is rather straightforward to use such a reference string.
 Each location within the string can clearly be identified by its position---that is,
 its distance from the start. \\
 Also, there are very simple file formats available to work with
-such references. One of these is the 
-FASTA format\footnote{\,\,\,\url{http://www.cse.unsw.edu.au/~binftools/birch/birchhomedir/doc/fasta/fasta20.doc}}, 
+such references. One of these is the
+FASTA format\footnote{\,\,\,\url{http://www.cse.unsw.edu.au/~binftools/birch/birchhomedir/doc/fasta/fasta20.doc}},
 which includes the genomic
 strings together with lines for free text comments and with line breaks which
 make it easier to display the file in even low level text editors.
@@ -1223,7 +1227,7 @@ These annotated variations can be found in databases of common variations, such 
 dbSNP\footnote{\,\,\,\url{http://www.ncbi.nlm.nih.gov/SNP/}}
 and SNPedia\footnote{\,\,\,\url{http://www.snpedia.com/}}.
 Even the latest release of the Human Reference Genome,
-which is designated 
+which is designated
 GRCh38\footnote{\,\,\,\url{http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/}},
 contains alternative haplotypes for some complex regions,
 which are essentially known variations of the rigid reference string. \\
@@ -1232,7 +1236,7 @@ it becomes clear that the human genome should be thought of as a collection of i
 rather than a single rigid reference genome.
 
 Algorithmically, this corresponds to viewing the reference as a graph rather than a linear genome.
-On this graph, each variation can be represented as a branch which points to the available alternatives.
+In this graph, each variation can be represented as a branch which points to the available alternatives.
 Thereby each personal genome is represented by a path through this variation graph,
 as can be seen in figure~\ref{fig:evo_intro_three_ref_seq_align}. \\
 % TODO :: in the following picture, also add a graph interpretation underneath what I am seeing
@@ -1247,12 +1251,12 @@ ideally just note which path has been taken through the reference graph instead 
 explicitly state which differences have been found in which positions. \\
 Using a reference graph also makes it possible to pick up combinations of variants
 which would currently be lost in the alignment step.
-Indels, short for insertions and deletions of nucleobases, 
-are usually harder to find and identify than edit operations, 
-which are simple replacements of one nucleobase by another. 
-Therefore, the calling of indels can especially 
+Indels, short for insertions and deletions of nucleobases,
+are usually harder to find and identify than edit operations,
+which are simple replacements of one nucleobase by another.
+Therefore, the calling of indels can especially
 benefit from having local access to several alternative references which contain
-already known variants \citep{Albers2010}. 
+already known variants \citep{Albers2010}.
 
 Another advantage of using a reference graph presents itself when the continuous use of
 references over time is considered.
@@ -1276,10 +1280,10 @@ as well as changing the internal algorithmic logic of these tools to work on gra
 The focus of this thesis is therefore on the creation of an overview of the existing
 approaches that can be used for the implementation of genomic graphs,
 as well as on the exploration of new ways of working with genomic graphs,
-such as merging compressed graphs implicitly or explicitly. 
-We picked the problem of merging compressed graphs, 
-as this ultimately enables us to generate large graphs 
-based on existing sequential data together with local perturbations. 
+such as merging compressed graphs implicitly or explicitly.
+We picked the problem of merging compressed graphs,
+as this ultimately enables us to generate large graphs
+based on existing sequential data together with local perturbations.
 An example for this scenario is shown in figure~\ref{fig:evo_fig_add_perturbations_to_long_seq}. \\
 The goal hereby is not mainly to create a new read alignment tool that uses
 a reference graph, but rather to create and implement new algorithms that can
@@ -1307,34 +1311,34 @@ within the scope of various parts of the analysis pipeline.
 There are many approaches for aligning short reads to a reference string,
 and even some work into the alignment of reads to a reference graph has already been
 undertaken.
-We will first focus on the \textit{Burrows--Wheeler Transform}, or BWT, which is a commonly used string transformation. 
-It is also the basis for the more advanced approaches for genomic graphs considered later on, 
+We will first focus on the \textit{Burrows--Wheeler Transform}, or BWT, which is a commonly used string transformation.
+It is also the basis for the more advanced approaches for genomic graphs considered later on,
 which use the \textit{extended Burrows--Wheeler Transform}, or XBW.
 
 \section{Burrows--Wheeler Transform for Strings}
 \label{sec:bwt_for_strings}
 
 The core problem of read alignment to a reference string is simply that a
-lot of data needs to be worked on, as both the reference itself is very big
+lot of data needs to be processed, as both the reference itself is very big
 and the amount of reads is enormous. \\
-We therefore wish to pre-process either the reads or the reference in a certain way, 
-ensuring that the work which needs to be performed in each step gets reduced. 
-Practically, it often makes sense to choose to pre-process the reference, 
-as the same reference can be used to align reads for several individuals, 
-and therefore the computationally expensive pre-processing only needs to be done once. 
-This approach is taken by some highly optimized current alignment tools, 
+We therefore wish to pre-process either the reads or the reference in a certain way,
+ensuring that the work which needs to be performed in each step gets reduced.
+Practically, it often makes sense to choose to pre-process the reference,
+as the same reference can be used to align reads for several individuals,
+and therefore the computationally expensive pre-processing only needs to be done once.
+This approach is taken by some highly optimized current alignment tools,
 such as BWA-MEM \citep{Li2013}.
 
-A common way for pre-processing the reference is to apply the Burrows--Wheeler Transform \citep{Burrows1994} to it. 
-The BWT is then used in conjunction with a data structure 
-called the \textit{suffix array} \citep{Puglisi2007}, which 
-is an array of indexes corresponding to the alphabetically sorted suffixes 
+A common way for pre-processing the reference is to apply the Burrows--Wheeler Transform \citep{Burrows1994} to it.
+The BWT is then used in conjunction with a data structure
+called the \textit{suffix array} \citep{Puglisi2007}, which
+is an array of indexes corresponding to the alphabetically sorted suffixes
 within the reference represented by the BWT.
-This allows us to 
-perform fast lookups of patterns in the reference, which is exactly what we want 
+This allows us to
+perform fast lookups of patterns in the reference, which is exactly what we want
 to do to find the locations at which we can align the reads. \\
-The Burrows--Wheeler Transform 
-first emerged as a tool used in string compression techniques. 
+The Burrows--Wheeler Transform
+first emerged as a tool used in string compression techniques.
 It is a reversible reordering of a
 repetitive text with few runs of same characters into a text of the same length that contains more runs
 and can therefore more easily be compressed by run-length encoding or other encoding schemes.
@@ -1368,11 +1372,11 @@ We then sort this list alphabetically, and write out the resulting list of strin
 in such a fashion as to have each of the strings on its own row, exactly underneath each other.
 This creates a matrix of characters, of which we take the last column.
 Read from the top to the bottom, this last column is the BWT of string $ s $. \\
-We find the suffix array of $ s $ by using the ordering which maps 
-the cyclic rotations to the matrix of alphabetically sorted rotations, 
-and applying this ordering to the list of increasing indexes representing 
+We find the suffix array of $ s $ by using the ordering which maps
+the cyclic rotations to the matrix of alphabetically sorted rotations,
+and applying this ordering to the list of increasing indexes representing
 the start of each cyclic rotation. \\
-This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}. 
+This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
 More efficient algorithms for creating the BWT of a string exist
 which do not require building up the entire matrix of cyclic rotations.
 
@@ -1384,7 +1388,7 @@ which do not require building up the entire matrix of cyclic rotations.
 
 It is customary to append a certain character to the end of the string before generating its BWT,
 with that character being different from all other characters in the string.
-A usual choice for this character is the dollar sign “\$”, 
+A usual choice for this character is the dollar sign “\$”,
 which is assumed to be lexicographically smaller than all characters in the original string. \\
 The reason for appending such a character is the requirement of being able to reconstruct the original string
 from the BWT, which allows us to discard the original string after encoding it using the BWT
@@ -1413,62 +1417,62 @@ usually the dollar sign.
 
 % TODO :: add figure to the BWT reverting?
 
-As noted before, although the BWT originally came into use to aide in compressing strings, 
-we actually use it for a different reason. 
-\citet{Ferragina2000} proposed to combine the BWT with the suffix array 
-to form the \textit{FM-index}, or Full-text index in Minute space. 
-The advantage of doing so is that we get an overall data structure which is not much larger 
-than the string which we encode, but which allows us to perform fast lookup operations 
-on itself. 
+As noted before, although the BWT originally came into use to aide in compressing strings,
+we actually use it for a different reason.
+\citet{Ferragina2000} proposed to combine the BWT with the suffix array
+to form the \textit{FM-index}, or Full-text index in Minute space.
+The advantage of doing so is that we get an overall data structure which is not much larger
+than the string which we encode, but which allows us to perform fast lookup operations
+on itself.
 % ... show how this allows to perform these lookup operations
 This enables us to quickly align reads to a reference string encoded in such a way. \\
-More recently, the name \textit{self-index} has been 
-introduced for structures such as the BWT with the corresponding suffix array. 
+More recently, the name \textit{self-index} has been
+introduced for structures such as the BWT with the corresponding suffix array.
 In general, a self-index is a data structure that contains compressed data and makes it possible
 to work on that data directly in its compressed form \citep{Navarro2007}.
 
-In practice, the process of aligning reads to a reference encoded using the BWT 
-is not quite as straightforward as described here, 
-as the reads are not actually patterns which are exactly found in the reference. 
-Instead, the reads contain variations from the reference, corresponding to the 
-variations from the reference in the individual's DNA. 
-In addition to that, sequencing errors mean that the reads also contain additional variations 
-from the reference which do not correspond to actual variations in the individual's DNA. 
-The process described here can however be used as the basis on which 
+In practice, the process of aligning reads to a reference encoded using the BWT
+is not quite as straightforward as described here,
+as the reads are not actually patterns which are exactly found in the reference.
+Instead, the reads contain variations from the reference, corresponding to the
+variations from the reference in the individual's DNA.
+In addition to that, sequencing errors mean that the reads also contain additional variations
+from the reference which do not correspond to actual variations in the individual's DNA.
+The process described here can however be used as the basis on which
 algorithms for aligning reads in a real-world scenario can be developed.
 Therefore, many current alignment tools such as BWA \citep{Li2009} and Bowtie \citep{Langmead2009} use
 the BWT to encode the reference and work on it directly in this compressed form. \\
-After the reads have been aligned, special tools such as 
-GATK \citep{McKenna2010} or FreeBayes \citep{Garrison2012} can 
-be used to generate a list of differences between the aligned reads 
+After the reads have been aligned, special tools such as
+GATK \citep{McKenna2010} or FreeBayes \citep{Garrison2012} can
+be used to generate a list of differences between the aligned reads
 and the reference.
 
 \section{The Role of Graphs in Read Alignment}
 
-Graphs have been used in various ways for read alignments already. 
-A method to create graphs based on several similar genomic strings 
-was proposed by \citet{Lee2002}. 
-Hereby each of the input strings is a path through the resulting graph and 
+Graphs have been used in various ways for read alignments already.
+A method to create graphs based on several similar genomic strings
+was proposed by \citet{Lee2002}.
+In this setting, each of the input strings is a path through the resulting graph and
 the result is independent of the order in which these strings
 are added to the emerging graph.
-This algorithm can be used to compress a collection of very similar genomic strings, 
-such as a collection of reads which are aligned to the same location. 
+This algorithm can be used to compress a collection of very similar genomic strings,
+such as a collection of reads which are aligned to the same location.
 
-Another proposed use of graphs when aligning reads to a reference 
+Another proposed use of graphs when aligning reads to a reference
 has been to represent the outcome of the alignment phase as a graph \citet{Myers2005}.
-That is, instead of reporting a list of variations from the reference, 
-the alignment pipeline gives out a graph which contains the reads and their assumed positions 
-relative to each other. 
-To create such a graph, long reads need to be used, for which large overlaps 
-between adjacent reads can be achieved, as short reads would present too many 
+That is, instead of reporting a list of variations from the reference,
+the alignment pipeline gives out a graph which contains the reads and their assumed positions
+relative to each other.
+To create such a graph, long reads need to be used, for which large overlaps
+between adjacent reads can be achieved, as short reads would present too many
 possibilities to erroneously link up completely unrelated reads. \\
-If this graph is assembled correctly, then the true individual DNA which was sequenced 
+If this graph is assembled correctly, then the true individual DNA which was sequenced
 is one possible path through the graph,
 while other possible paths through the graph exist that are merely artefacts of the sequencing process. \\
 As such a graph can be quite difficult to work with, not many alignment tools are producing these
 structures. Instead, the default is usually to choose the best fitting position and
-report all variations at that location between the aligned read and the reference. 
-The list containing the reported variations most likely also contains sequencing artefacts, 
+report all variations at that location between the aligned read and the reference.
+The list containing the reported variations most likely also contains sequencing artefacts,
 but is easier to work with in later steps.
 
 Graphs have however not only been used to indicate the results of the read alignment.
@@ -1476,7 +1480,7 @@ The alignment of short reads to a reference graph rather than to a linear refere
 also been proposed several times. \\
 Storing several very similar references at the same time in a way that not only minimizes
 the storage space, but also enables efficient pattern searches directly on the
-stored data was proposed by \citet{Makinen2010}. 
+stored data was proposed by \citet{Makinen2010}.
 The aim of these techniques is to
 minimize both the overhead in storage space and the needed time to perform typical work
 on the references, such as aligning reads to them. \\
@@ -1486,31 +1490,31 @@ aligned to the graph rather than to each reference on its own \citep{Siren2014}.
 The alignment of reads against the data structure incorporating several references
 is done in a way that is inspired by the Burrows--Wheeler Transform.
 
-Graphs are currently also starting to be used as a way to reduce the size of several sequenced human genomes. 
+Graphs are currently also starting to be used as a way to reduce the size of several sequenced human genomes.
 Companies or institutions that read out the DNA of several individuals
-and want to store them can run into problems with the immense file size when storing or transmitting the reads 
-together with their aligned locations. 
-If the original read data would be discarded and only the alignment result would be saved and shared, 
+and want to store them can run into problems with the immense file size when storing or transmitting the reads
+together with their aligned locations.
+If the original read data would be discarded and only the alignment result would be saved and shared,
 then the original data could not later on be re-interpreted by better algorithms, and could in general
 not be used any more. \\
-One way of dealing with this problem is to use formats such as 
-BAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/SAMv1.pdf}, page 11} or 
-CRAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/CRAMv3.pdf}}, 
-which allow us to store the alignment result in a file together with the sequenced reads. 
-In the case of CRAM, this file is even further compressed by only saving the differences 
-between the reads and the reference in addition to the alignment result. 
-In both cases, the original reads can be reconstructed from the data, 
+One way of dealing with this problem is to use formats such as
+BAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/SAMv1.pdf}, page 11} or
+CRAM\footnote{\,\,\,\url{http://samtools.github.io/hts-specs/CRAMv3.pdf}},
+which allow us to store the alignment result in a file together with the sequenced reads.
+In the case of CRAM, this file is even further compressed by only saving the differences
+between the reads and the reference in addition to the alignment result.
+In both cases, the original reads can be reconstructed from the data,
 and they are not lost forever. \\
-\citet{Li2014} proposed to solve this problem in a different way, by using a graph 
-representing the reads of several sequenced individual genomes in one file. 
+\citet{Li2014} proposed to solve this problem in a different way, by using a graph
+representing the reads of several sequenced individual genomes in one file.
 This graph allows several agreeing reads to be combined into long sequences of unambiguous data,
 while the locations at which uncertainties exist are encoded with all the possible alternatives as
 different paths through the graph. Therefore, all complicated read data behaviour is contained in the resulting
 graph, and the size is vastly reduced when compared to storing all individual sequencing results separately.
 
-As graphs are by now used for many different application in the field of genome sequencing, 
-work has also been undertaken to examine the different existing approaches and 
-to highlight their differences as well as their similarities \citep{Kehr2014}. 
+As graphs are by now used for many different application in the field of genome sequencing,
+work has also been undertaken to examine the different existing approaches and
+to highlight their differences as well as their similarities \citep{Kehr2014}.
 Such insights can be used to design graphs unifying the strengths of several different approaches.
 
 \section{Formal Graph Definition}
@@ -1521,7 +1525,7 @@ Such insights can be used to design graphs unifying the strengths of several dif
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We define a \textit{graph} $ G = (V, E) $ as a collection of a set
 of \textit{nodes} $ V = \{ v_1, ..., v_n \} $, where $ n = |V| $, and a set of edges $ E {\: \subseteq \:} V {\: \times \:} V $.
-Each one of these edges is a set $ (u, v) {\: \in \:} E $, 
+Each one of these edges is a set $ (u, v) {\: \in \:} E $,
 which we call an edge from node $ u {\: \in \:} V $ to node $ v {\: \in \:} V $.
 As the graphs we are working with are considered to be \textit{directed},
 we assume edge $ (u, v) {\: \in \:} E $ to
@@ -1550,28 +1554,28 @@ but we limit each label to exactly one character as we wish to
 represent a word formed by characters from $ \Sigma $ as a sequence of nodes
 connected by edges. \\
 We refer to such a structure of sequentially connected
-nodes $ u_1, u_2, ..., u_n $ as \textit{path} $ P = u_1 u_2 ... u_n $. 
+nodes $ u_1, u_2, ..., u_n $ as \textit{path} $ P = u_1 u_2 ... u_n $.
 The label $ l ( P ) $ of this path is then the word $ l ( u_1 ) l( u_2 ) ... l ( u_n ) $ formed by the labels of each node.
 
 \section{Read Alignment Without an Actual Graph}
 
-We will now investigate different methods for aligning reads to reference graphs and to graph-like structures 
+We will now investigate different methods for aligning reads to reference graphs and to graph-like structures
 which have already been proposed.
 
 To avoid the complications arising when working with
 a complete graph made from several references, methods have been proposed
 to achieve graph-like results without explicitly constructing a reference graph. \\
 One of these is the alignment tool BWBBLE which
-was created by \citet{Huang2013}. 
+was created by \citet{Huang2013}.
 It works on the core assumption that most differences between two references
 are snips, which can be encoded with a specific extended alphabet.
 Then, a modification to the Burrows--Wheeler Transform is made to
 be able to work with a single string reference containing this extended alphabet. \\
 BWBBLE also supports insertions and deletions, which means that it does support
-even more graph-like behaviour. 
-However, this functionality is implemented in a very simplistic way, 
-which is not designed to handle large and complex graphs, 
-as its core functionality is aimed at the slightly extended string reference. 
+even more graph-like behaviour.
+However, this functionality is implemented in a very simplistic way,
+which is not designed to handle large and complex graphs,
+as its core functionality is aimed at the slightly extended string reference.
 
 Furthermore, there have been efforts to more efficiently create the BWT
 of several strings rather than just concatenating them into a single one.
@@ -1579,21 +1583,21 @@ These can help in understanding the challenges of building the BWT of several re
 
 \section{Using Hashes to Encode a Graph}
 
-\citet{Schneeberger2009} proposed to 
-align short reads to several references at once 
-by constructing a graph based on several individuals' genomes 
+\citet{Schneeberger2009} proposed to
+align short reads to several references at once
+by constructing a graph based on several individuals' genomes
 and aligning the reads to this graph. \\
 For this to be achieved, all references are pre-processed in a special way, with one being taken as the
 main reference and the other references being stored as variations from this main reference.
 Then a hash table based on the references is created which
-assigns each $ k $-mer the positions at which it can be found, 
+assigns each $ k $-mer the positions at which it can be found,
 where $ k $ is a specific length given to the software tool as a parameter.
 Such a position is not as straightforward as a
 plain integer that gives the index within a string, as the data can lie on branches
 off the main reference string. \\
-This is solved by splitting all the encoded references into blocks of a given size. 
-Indexing a position within the overall data structure is then achieved 
-by using an integer augmented with additional information. 
+This is solved by splitting all the encoded references into blocks of a given size.
+Indexing a position within the overall data structure is then achieved
+by using an integer augmented with additional information.
 Hereby the integer points towards a data block, which can be a part of the main
 reference or a branch of any of the other references that differs from the
 main sequence. The extra information points towards the location within that block.
@@ -1607,46 +1611,47 @@ built for a reference string, not a reference graph, if losing some of the benef
 the graph alignment is acceptable. However, to fully utilize all the graph information,
 the rest of the pipeline has to be adapted as well.
 
-The hashing approach has been further improved by alignment-free implementations such as 
-Sailfish \citep{Patro2014} and even more so kallisto \citep{Bray2015}. 
-These tools use large sets of references and provide accurate results very quickly. 
-The main downside of these approaches is that they rely $ k $-mer hashes 
-where the size of $ k $ is constant during the execution. 
-Therefore, if this parameter is not chosen in an optimal way, 
-then it cannot be guaranteed that the results will have a high quality.
+The hashing approach has been further improved by alignment-free implementations such as
+%Sailfish \citep{Patro2014} and even more so  -- sailfish is not graph based
+kallisto \citep{Bray2015}.
+These tools use large sets of references and provide accurate results very quickly.
+The main downside of these approaches is that they rely $ k $-mer hashes
+where the size of $ k $ is fixed once the index is constructed and cannot be changed during execution.
+%Therefore, if this parameter is not chosen in an optimal way,
+%then it cannot be guaranteed that the results will have a high quality. -- skip
 
 \section{Burrows--Wheeler Transform for Graphs}
 
-In general, the BWT consists of the letters preceding the alphabetically sorted cyclic rotations 
-in the cyclic rotation matrix, as shown in section~\ref{sec:bwt_for_strings}. 
-Therefore we can think of the transformation itself as a mapping from a list of alphabetically 
-sorted substrings of a text to the character preceding each substring. 
-Equivalently, when working with genomic graphs, in which each character is the label 
-of a node, this transformations represents a mapping from an ordered list of nodes 
-to the nodes preceding each node on the list. 
-This means that the resulting BWT string represents the labels of the nodes 
+In general, the BWT consists of the letters preceding the alphabetically sorted cyclic rotations
+in the cyclic rotation matrix, as shown in section~\ref{sec:bwt_for_strings}.
+Therefore we can think of the transformation itself as a mapping from a list of alphabetically
+sorted substrings of a text to the character preceding each substring.
+Equivalently, when working with genomic graphs, in which each character is the label
+of a node, this transformations represents a mapping from an ordered list of nodes
+to the nodes preceding each node on the list.
+This means that the resulting BWT string represents the labels of the nodes
 preceding the nodes on an ordered list. \\
-When considering the Burrows--Wheeler Transform for graphs it is therefore necessary 
+When considering the Burrows--Wheeler Transform for graphs it is therefore necessary
 to decide on an ordering for the list of nodes.
-Also, in the case of a BWT encoding a string, each substring has exactly one preceding character. 
-However, in a graph, a node can have several preceding characters. 
-This makes it necessary to augment the traditional BWT with additional information telling 
-us about the amount of preceding nodes.
+Also, in the case of a BWT encoding a string, each substring has exactly one preceding character.
+However, in a graph, a node can have several preceding characters.
+This makes it necessary to augment the traditional BWT with additional information telling
+us about the number of preceding nodes.
 
-Possibilities to augment the BWT are to adjust the suffix array, 
-which is used together with the BWT already, 
-or to introduce entirely new arrays similar to the suffix array, 
-which help in providing the necessary functionality to be able to encode graphs. 
-Adjusting the suffix array is hereby not a completely new idea, 
-as it is already common in real-world alignment tools 
-to use structures that simply behave similar to the suffix array, 
-instead of using real suffix arrays without any changes. 
-Most often, these structures are compressed in some way or another, 
+Possibilities to augment the BWT are to adjust the suffix array,
+which is used together with the BWT already,
+or to introduce entirely new arrays similar to the suffix array,
+which help in providing the necessary functionality to be able to encode graphs.
+Adjusting the suffix array is hereby not a completely new idea,
+as it is already common in real-world alignment tools
+to use structures that simply behave similar to the suffix array,
+instead of using real suffix arrays without any changes.
+Most often, these structures are compressed in some way or another,
 the reason for which is the immense size of the regular suffix array.
 A common compression technique is to leave out many fields of the array
 and instead compute them dynamically
 when they are being used rather than storing the entire array in memory. \\
-Such a suffix-array-like data structure can also be constructed for graph references. 
+Such a suffix-array-like data structure can also be constructed for graph references.
 In particular, efficient support of the following operations is necessary for such a data structure \citep{Siren2014}:
 
 \begin{itemize}
@@ -1658,25 +1663,25 @@ reference needs to be found.
 needs to be extracted.
 \end{itemize}
 
-The first of these requirements 
-essentially provides a functionality for finding arbitrary patterns $ P $ within the graph. 
-As aligning reads to the reference 
-is in principle a search for the read itself within the reference, 
-this functionality is very helpful. 
-The algorithms used in a real-world application however need to 
-account for variations between the reads and the reference and 
-are therefore more complex than straightforward applications 
+The first of these requirements
+essentially provides a functionality for finding arbitrary patterns $ P $ within the graph.
+As aligning reads to the reference
+is in principle a search for the read itself within the reference,
+this functionality is very helpful.
+The algorithms used in a real-world application however need to
+account for variations between the reads and the reference and
+are therefore more complex than straightforward applications
 of the finding functionality would be.
 
-Overall, the main idea when using a BWT-based reference graph for read alignment 
-is to create a structure capable of fulfilling the aforementioned requirements. 
-This structure can then be used instead of the regular suffix array 
+Overall, the main idea when using a BWT-based reference graph for read alignment
+is to create a structure capable of fulfilling the aforementioned requirements.
+This structure can then be used instead of the regular suffix array
 in conjunction with the BWT.
 
 \section{The Extended Burrows--Wheeler Transform}
 
-One particular generalization of the BWT is the XBW, or extended Burrows--Wheeler Transform. 
-This is a method for compressing trees similar to how the 
+One particular generalization of the BWT is the XBW, or extended Burrows--Wheeler Transform.
+This is a method for compressing trees similar to how the
 BWT is used to compress sequential data \citep{Ferragina2009}. \\
 Each node in the tree has a label that is one character long.
 These labels are stored in the XBW together with a special bit vector,
@@ -1686,33 +1691,33 @@ of its branch. If a node does not have a successor, then the bit vector takes th
 
 \citet{Siren2014} extended the XBW even further, by introducing a second bit vector that enables nodes
 to have multiple predecessors as well as multiple successors. Therefore, this extended XBW can not only
-store trees, but instead can encode graphs. 
-In particular, any prefix-sorted reverse-deterministic 
+store trees, but instead can encode graphs.
+In particular, any prefix-sorted reverse-deterministic
 acyclic connected finite graph can be encoded in this way. \\
-The graph being finite means that 
-it needs to contain a finite amount of nodes and edges. It being connected means that all 
-nodes need to be reachable by all other nodes, when being allowed to follow edges in both ways. 
-Finally, the graph being acyclic means that it is 
-not allowed to contain any cycles, which are paths on which we leave a node, follow one 
-or more directed edges, and arrive at the same node again. 
-The requirements of the graph being reverse-deterministic and prefix sorted 
-will be defined in sections~\ref{sec:why_rev_det} and \ref{sec:prefix_sorting}, respectively. 
-As seen in these sections, 
-these requirements are not actually limiting us in practice, 
-as we can convert any acyclic connected finite graph 
+The graph being finite means that
+it needs to contain a finite amount of nodes and edges. It being connected means that all
+nodes need to be reachable by all other nodes, when being allowed to follow edges in both ways.
+Finally, the graph being acyclic means that it is
+not allowed to contain any cycles, which are paths on which we leave a node, follow one
+or more directed edges, and arrive at the same node again.
+The requirements of the graph being reverse-deterministic and prefix sorted
+will be defined in sections~\ref{sec:why_rev_det} and \ref{sec:prefix_sorting}, respectively.
+As seen in these sections,
+these requirements are not actually limiting us in practice,
+as we can convert any acyclic connected finite graph
 into a prefix-sorted reverse-deterministic one. \\
 In the paper, the extended XBW is stored in two different kinds of data structures,
 which have not been given explicit names there. We refer to these structures as
-XBW node tables and flat XBW tables. 
-Each such table unambiguously encodes exactly one graph, but a given graph 
+XBW node tables and flat XBW tables.
+Each such table unambiguously encodes exactly one graph, but a given graph
 can usually be encoded by different tables. \\
-Before a graph can be encoded by an XBW table, we append an \textit{end node} $ v_e $ with the label “\$” 
-to its end,  
-like we did for encoding a string using the BWT. 
-By appending it to the end we refer to creating an edge from each node with outdegree zero to the new node. 
-We also insert a \textit{start node} $ v_s $ with the label “$\#$” at the beginning of the graph, 
-where we assume that the hash tag character is lexicographically bigger 
-than all characters contained in the other node labels. 
+Before a graph can be encoded by an XBW table, we append an \textit{end node} $ v_e $ with the label “\$”
+to its end,
+like we did for encoding a string using the BWT.
+By appending it to the end we refer to creating an edge from each node with outdegree zero to the new node.
+We also insert a \textit{start node} $ v_s $ with the label “$\#$” at the beginning of the graph,
+where we assume that the hash tag character is lexicographically bigger
+than all characters contained in the other node labels.
 This means that we create an edge from the new node to each node with indegree zero.
 
 \subsection{Node Tables}
@@ -1725,7 +1730,7 @@ node of the graph represented by the extended XBW. \\
 More formally, we define:
 
 \textbf{Definition} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT,
-the prefixes, the values of the bit vector $ M $, and optionally the values of the bit vector $ F $. 
+the prefixes, the values of the bit vector $ M $, and optionally the values of the bit vector $ F $.
 These rows together represent an acyclic finite graph with each column of the table corresponding
 to exactly one node of the graph.
 
@@ -1790,7 +1795,7 @@ This name is inspired by the fact that the data of each row is not
 nested in an array with elements of various lengths,
 but instead stored as a flat sequence of characters which can be encoded as a string,
 or as an array with elements of fixed size. \\
-The definition reveals that despite their differences, 
+The definition reveals that despite their differences,
 flat tables are nevertheless similar to node tables:
 
 \textbf{Definition} A \textit{flat XBW table}\label{def:flat_table} is a table with rows for the BWT,
@@ -1804,23 +1809,23 @@ We decided to refer to the row containing the node labels as first column row, o
 The reasoning behind this name is that the row of node labels of the graph relates to the BWT row,
 as the first column in the matrix of sorted cyclic rotations does to the last row, which is the traditional BWT.
 That is, the node labels are also the alphabetically sorted BWT, and in fact the columns are sorted in such a
-way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well. 
+way that when the prefixes are generated for each column in turn, they are sorted alphabetically as well.
 This means that the FC row can easily be calculated by sorting the BWT row alphabetically. \\
-In addition to the FC row 
-we usually calculate three further data structures based 
-on the BWT, $ M $ and $ F $ rows. 
+In addition to the FC row
+we usually calculate three further data structures based
+on the BWT, $ M $ and $ F $ rows.
 We call these “$ \Sigma $”, “ord” and “$ C $”. \\
 $ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters in the BWT. \\
 The ord array has the characters of the alphabet as keys and their
 positions in the alphabetically sorted $ \Sigma $ as indices. \\
-The array $ C $ also has the characters of the alphabet as keys. 
+The array $ C $ also has the characters of the alphabet as keys.
 Its values are the indices of the first occurrences of these characters within FC.
-Using $ C $, we can completely reconstruct FC, and accessing an arbitrary cell in the FC row 
-via an iteration over $ C $ is a very quick operation. 
+Using $ C $, we can completely reconstruct FC, and accessing an arbitrary cell in the FC row
+via an iteration over $ C $ is a very quick operation.
 Therefore, we do not need to explicitly store FC in any other way.
 Of course, we can do so anyway for a particularly simple implementation. \\
-$ \Sigma $, ord and $ C $, which represents FC, are all very small data structures and do not take up a lot of space. 
-We therefore usually keep them pre-calculated in memory, 
+$ \Sigma $, ord and $ C $, which represents FC, are all very small data structures and do not take up a lot of space.
+We therefore usually keep them pre-calculated in memory,
 instead of generating them on the fly based on the BWT, $ M $ and $ F $ again and again.
 
 The bit vectors $ M $ and $ F $ are exactly the same as the corresponding bit vectors in the node table,
@@ -1831,7 +1836,7 @@ of these outgoing edges shares the same node $ u $ in which it originates, there
 which is precisely the content of the FC row. \\
 On the other hand, each cell in the $ F $ vector corresponds to a cell, or character, in the BWT.
 The reason for this is that the graph we are working on is necessarily reverse deterministic
-for this encoding to function properly, meaning that each node has no two predecessors with the same label. 
+for this encoding to function properly, meaning that each node has no two predecessors with the same label.
 This is explored in further depth in section~\ref{sec:why_rev_det}.
 Due to that, the label $ l (u_i) $ for each incoming edge $ (u_i, v) $ into a node $ v $ is distinct,
 as the graph would otherwise not be reverse deterministic.
@@ -2263,14 +2268,14 @@ of a FASTA file, which is already widely used. \\
 Namely, a GML file can contain comments and data, with different blocks of data being separated
 by comments. A comment in turn consists of the character “>” to indicate the start of a comment,
 the name of the following data block, followed by a space character and any free text that
-can be used as is deemed necessary when the file is created. 
+can be used as is deemed necessary when the file is created.
 If a GML file contains no comments at all,
-then all the rows are simply interpreted as one contiguous data block. 
-The very first comment in the file is special, 
-as it contains an additional magic string right after the starting “>”. 
-This string indicates the 
-file format and version, e.g. \texttt{gml.1} for GML version 1. 
-It is followed by a space character and then the usual comment, that is, the data block identifier 
+then all the rows are simply interpreted as one contiguous data block.
+The very first comment in the file is special,
+as it contains an additional magic string right after the starting “>”.
+This string indicates the
+file format and version, e.g. \texttt{gml.1} for GML version 1.
+It is followed by a space character and then the usual comment, that is, the data block identifier
 and other optional text. \\
 An example for how several graphs can be encoded in the GML format
 can be seen in figure~\ref{fig:evo_fig_second_gml_example}.
@@ -2369,7 +2374,7 @@ An FFX example file and the graph that it represents can be seen in figure~\ref{
 \end{figure}
 
 The basic structure of an FFX file is again inspired by FASTA,
-having a starting comment which contains a magic string indicating the 
+having a starting comment which contains a magic string indicating the
 file format and the version, e.g. \texttt{ffx.1} for FFX version 1, an identifier for
 the contents of the file and other text that can be used freely.
 The comment is then followed by one or several data blocks,
@@ -2972,7 +2977,7 @@ the algorithm always jumps into the first of the successors of the current node.
 Therefore, before a graph can be passed to the visualization function,
 it needs to be ensured that its hash tag node is stored in the very first position
 and that the node labelled with the dollar sign can be reached by always travelling
-along the first of the successors, which is given if the graph is acyclic. 
+along the first of the successors, which is given if the graph is acyclic.
 A separate function called \texttt{makeAutomatonPretty} is used to ensure that this is always the case,
 by traversing all possible paths and picking one path which leads to the dollar sign node.
 In the options it can be chosen whether this function
@@ -2995,19 +3000,19 @@ node upon starting at the hash tag node leads directly to the dollar sign node.
 It is also notable how exactly the iteration over the nodes works out.
 In line 43 we iterate over all edges that have been added to further\_edges,
 an array which keeps track of edges which we have not been drawn yet. \\
-Line 46 ensures that we only proceed with an edge 
-if it starts in a node which has already been drawn. 
-However, the edge might lead to a node which has or has not yet been drawn. 
-If the node it leads into has already been drawn, then we simply connect 
+Line 46 ensures that we only proceed with an edge
+if it starts in a node which has already been drawn.
+However, the edge might lead to a node which has or has not yet been drawn.
+If the node it leads into has already been drawn, then we simply connect
 the start and end node of this edge in line 68. \\
-If the node it leads into has not yet been drawn, then the iteration in line 51 is 
-used to append nodes to current\_path until we read a node which has been drawn, 
-therefore giving us an entire path of nodes which all have not been drawn, 
+If the node it leads into has not yet been drawn, then the iteration in line 51 is
+used to append nodes to current\_path until we read a node which has been drawn,
+therefore giving us an entire path of nodes which all have not been drawn,
 starting in a drawn node and ending in a drawn node. \\
 Algorithmically it would be much more straightforward to simply iterate over all nodes
 and draw them when we encounter them, but in that case we would not have a good idea about
 where it might make sense to draw them. The approach of iterating over edges
-that have not been worked on and nesting into this an iteration over nodes which have not been drawn 
+that have not been worked on and nesting into this an iteration over nodes which have not been drawn
 allows us to instead draw entire parts of paths at once, so that we have a good idea
 where exactly to put the nodes on the display when drawing them, as they can simply
 be arranged next to each other.
@@ -3883,23 +3888,23 @@ This functionality is provided through a second parameter which $ \Psi $ takes
 in addition to the index of the node we are examining.
 The second parameter determines which edge we take out of that node,
 and the index of the single node which we reach upon using that edge is returned. \\
-More formally, when $ i $ is the absolute index of a node $ v_i $ in the flat XBW table, 
-and $ k $ is an integer, then $ \Psi (i, k) $ returns the absolute index of the $ k $th node 
-succeeding the node $ v_i $. So if the node $ v_i $ has two outgoing edges, 
-then $ \Psi (i, 0) $ returns the absolute index of the node reached when following 
-the first of these edges, while $ \Psi (i, 1) $ returns the absolute index of the node reached when 
+More formally, when $ i $ is the absolute index of a node $ v_i $ in the flat XBW table,
+and $ k $ is an integer, then $ \Psi (i, k) $ returns the absolute index of the $ k $th node
+succeeding the node $ v_i $. So if the node $ v_i $ has two outgoing edges,
+then $ \Psi (i, 0) $ returns the absolute index of the node reached when following
+the first of these edges, while $ \Psi (i, 1) $ returns the absolute index of the node reached when
 taking the second outgoing edge. \\
-The $ \Psi $ function described here differs slightly from the one proposed by \citet{Siren2014}. 
-One of the differences is that we convert from absolute indexing to FC-indexing first, 
-and then get the character $ c $, as we directly take $ c $ from the FC row instead 
-of using another structure which corresponds to the FC row without entries for which $ M $ is zero. 
-The second difference is that we use $ k = 0 $ to indicate the first outgoing edge, 
-while their function starts with $ k = 1 $. 
-Finally, in our version we actually made the select operation in the beginning and the rank operation in 
-the end optional by introducing the parameters do\_select and do\_rank, 
-just as we did with the \texttt{LF} function. 
-This in particular allows the caller to combine the parameters $ i $ and $ k $ into one value 
-when calling with FC-indexing by setting do\_select to \texttt{false}, 
+The $ \Psi $ function described here differs slightly from the one proposed by \citet{Siren2014}.
+One of the differences is that we convert from absolute indexing to FC-indexing first,
+and then get the character $ c $, as we directly take $ c $ from the FC row instead
+of using another structure which corresponds to the FC row without entries for which $ M $ is zero.
+The second difference is that we use $ k = 0 $ to indicate the first outgoing edge,
+while their function starts with $ k = 1 $.
+Finally, in our version we actually made the select operation in the beginning and the rank operation in
+the end optional by introducing the parameters do\_select and do\_rank,
+just as we did with the \texttt{LF} function.
+This in particular allows the caller to combine the parameters $ i $ and $ k $ into one value
+when calling with FC-indexing by setting do\_select to \texttt{false},
 therefore preventing unnecessary indexing method conversions.
 
 % TODO :: maybe add a table or figure showing an example run of LF and Psi?
@@ -4123,9 +4128,9 @@ as they are not directly given out.
 
 The merging of flat XBW tables is in principle similar to the merging of node tables.
 We again iterate over all nodes of all involved graphs and construct a new table
-based on them. Throughout this section we will illustrate the merging process 
-by applying it to the flat XBW tables shown in 
-table~\ref{table:evo_fig_flat_merge_step_zero}. 
+based on them. Throughout this section we will illustrate the merging process
+by applying it to the flat XBW tables shown in
+table~\ref{table:evo_fig_flat_merge_step_zero}.
 Figure~\ref{fig:evo_fig_flat_merge_step_zero} contains the corresponding graphs.
 
 \begin{table}[htb]
@@ -4136,20 +4141,20 @@ Figure~\ref{fig:evo_fig_flat_merge_step_zero} contains the corresponding graphs.
 \renewcommand{\tabcolsep}{5pt}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & $\boldsymbol{i}$ \\ \hline 
-T & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & C & T & T & $\#$ & \textbf{FC} \\ \hline 
-1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & $\boldsymbol{i}$ \\ \hline
+T & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline
+\$ & A & A & A & A & C & T & T & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 \quad
 \begin{tabular}{ | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & $\boldsymbol{i}$ \\ \hline 
-C & A & A & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & C & $\#$ & \textbf{FC} \\ \hline 
-1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
-1 & 0 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & $\boldsymbol{i}$ \\ \hline
+C & A & A & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
+\$ & A & A & A & A & C & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline
+1 & 0 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 }
 \label{table:evo_fig_flat_merge_step_zero}
@@ -4196,7 +4201,7 @@ we again use an aftersort array.
 The reason for using it is that the ordering of the nodes within the first input table is not necessarily the
 same as their ordering within the merged table, necessitating this adjustment to the order of comparison
 for the construction of prefixes and the splitting of nodes. \\
-Table~\ref{table:evo_fig_flat_merge_step_one} shows the results of the first step in the merging algorithm being applied 
+Table~\ref{table:evo_fig_flat_merge_step_one} shows the results of the first step in the merging algorithm being applied
 to the example tables, and figure~\ref{fig:evo_fig_flat_merge_step_one} shows the corresponding graphs.
 
 \begin{table}[htb]
@@ -4207,20 +4212,20 @@ to the example tables, and figure~\ref{fig:evo_fig_flat_merge_step_one} shows th
 \renewcommand{\tabcolsep}{5pt}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & $\boldsymbol{i}$ \\ \hline 
-T & $\#$ & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & C & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & $\boldsymbol{i}$ \\ \hline
+T & $\#$ & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline
+\$ & A & A & A & A & C & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 \quad
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & $\boldsymbol{i}$ \\ \hline 
-C & A & A & $\#$ & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & C & $\#$ & $\#$ & \textbf{FC} \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
-1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & $\boldsymbol{i}$ \\ \hline
+C & A & A & $\#$ & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
+\$ & A & A & A & A & C & $\#$ & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 }
 \label{table:evo_fig_flat_merge_step_one}
@@ -4247,8 +4252,8 @@ and advances to the next set of nodes.
 It never has to return recommended splitting nodes instead of advancing to the next
 set of nodes, as the actions of the first step ensure that the two input tables
 can be merged in the second step without unambiguous prefixes occurring. \\
-Table~\ref{table:evo_fig_flat_merge_step_two} shows the results of the 
-second and main part of the merging algorithm being applied 
+Table~\ref{table:evo_fig_flat_merge_step_two} shows the results of the
+second and main part of the merging algorithm being applied
 to the example tables.
 
 % AACT|,0,AAT,4 and AAC|,0,AA,4
@@ -4260,11 +4265,11 @@ to the example tables.
 \renewcommand{\tabcolsep}{5pt}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & $\boldsymbol{i}$ \\ \hline 
-C & A & T & A & $\#_0$ & $\#_0$ & $\#$ & $\#$ & A & A & A & A & A & C & T & A & $\$_0$ & \$ & \textbf{BWT} \\ \hline 
-\$ & $\$_0$ & A & A & A & A & A & A & A & A & C & C & T & T & $\#$ & $\#$ & $\#_0$ & $\#_0$ & \textbf{FC} \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
-1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & $\boldsymbol{i}$ \\ \hline
+C & A & T & A & $\#_0$ & $\#_0$ & $\#$ & $\#$ & A & A & A & A & A & C & T & A & $\$_0$ & \$ & \textbf{BWT} \\ \hline
+\$ & $\$_0$ & A & A & A & A & A & A & A & A & C & C & T & T & $\#$ & $\#$ & $\#_0$ & $\#_0$ & \textbf{FC} \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & $\boldsymbol{M}$ \\ \hline
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 }
 \label{table:evo_fig_flat_merge_step_two}
@@ -4278,8 +4283,8 @@ These nodes could have also not been added to the merged table in the first plac
 making it unnecessary to perform an extra step in the end.
 This however would have increased the complexity of the second step, which is why we
 decided to perform it as a separate step in the end. \\
-The results of the third step for our merge example are shown in 
-table~\ref{table:evo_fig_flat_merge_step_three}. 
+The results of the third step for our merge example are shown in
+table~\ref{table:evo_fig_flat_merge_step_three}.
 Figure~\ref{fig:evo_fig_flat_merge_step_three} contains the corresponding graphs.
 
 \begin{table}[htb]
@@ -4290,11 +4295,11 @@ Figure~\ref{fig:evo_fig_flat_merge_step_three} contains the corresponding graphs
 \renewcommand{\tabcolsep}{5pt}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
-0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & $\boldsymbol{i}$ \\ \hline 
-C & A & A & T & T & $\#$ & $\#$ & A & A & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
-\$ & A & A & A & A & A & A & A & A & C & C & T & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline 
-1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
-1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & $\boldsymbol{i}$ \\ \hline
+C & A & A & T & T & $\#$ & $\#$ & A & A & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline
+\$ & A & A & A & A & A & A & A & A & C & C & T & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
 }
 \label{table:evo_fig_flat_merge_step_three}
@@ -4569,15 +4574,15 @@ Just as with regular flat XBW tables, we can also use the $ \Psi $ and \texttt{L
 to navigate through each table to find preceding and succeeding nodes.
 However, while the behaviour of these functions themselves within each table does not need to change
 at all, we do not call them directly in a fused graph. \\
-Instead, we wrap them in special functions provided by the host XBW environment. 
-In particular, we can call the function $\Psi$ in the host environment with the same arguments 
-as the regular $ \Psi $ function for a flat table, except for the first parameter 
-in which we use a pair $ (i, j) $ to address the node 
-we are interested in instead of a plain integer $ i $. 
-These same arguments include the optional parameters do\_select and do\_rank. 
-The result of the function is also slightly different, again being a pair $ (i, j) $ to 
-properly address a node within the fused graph instead of a plain integer $ i $. 
-The approach on which the $ \Psi $ function within the host environment is based 
+Instead, we wrap them in special functions provided by the host XBW environment.
+In particular, we can call the function $\Psi$ in the host environment with the same arguments
+as the regular $ \Psi $ function for a flat table, except for the first parameter
+in which we use a pair $ (i, j) $ to address the node
+we are interested in instead of a plain integer $ i $.
+These same arguments include the optional parameters do\_select and do\_rank.
+The result of the function is also slightly different, again being a pair $ (i, j) $ to
+properly address a node within the fused graph instead of a plain integer $ i $.
+The approach on which the $ \Psi $ function within the host environment is based
 is shown in algorithm~\ref{alg:host_psi}. \\
 \begin{algorithm}
 \caption[$\Psi$ function in a host environment for fused graphs]{$\Psi$ function in a host environment for fused graphs. It takes in a pair $ (i, j) $ containing an absolute index and an integer representing a table within the fused graph. In addition to that, it takes in the integer $ k $. This function gives out a pair $ (i, j) $, where $ i $ is the absolute index of the $ k $th node succeeding the node with index $ i $ in the $ j $th fused table.}
@@ -4606,8 +4611,8 @@ is shown in algorithm~\ref{alg:host_psi}. \\
 
 \end{algorithmic}
 \end{algorithm}
-Similarly we have the function \texttt{LF} which when called in the host environment accepts a range of nodes 
-and the index of a table as $ ([sp, ep], j) $ and gives out such a structure as well. 
+Similarly we have the function \texttt{LF} which when called in the host environment accepts a range of nodes
+and the index of a table as $ ([sp, ep], j) $ and gives out such a structure as well.
 It is shown in algorithm~\ref{alg:host_lf}.
 \begin{algorithm}
 \caption[\texttt{LF} function in a host environment for fused graphs]{\texttt{LF} function in a host environment for fused graphs. It takes in a pair $ ([sp, ep], j) $ containing a absolutely indexed range and an integer representing a table within the fused graph. In addition to that, it takes in a character $ c $. This function gives out a pair $ ([sp, ep], j) $, where $ [sp, ep] $ is the absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in the $ j $th fused table.}
@@ -4637,10 +4642,10 @@ It is shown in algorithm~\ref{alg:host_lf}.
 
 \end{algorithmic}
 \end{algorithm}
-As with the $\Psi$ function, which had to be called on one table within the fused graph in particular, 
-it can be seen that this function does not allow us to specify a range spanning more 
-than one table. If calculations need to be performed on 
-several of the fused tables, such as for pattern searching across the entire graph, 
+As with the $\Psi$ function, which had to be called on one table within the fused graph in particular,
+it can be seen that this function does not allow us to specify a range spanning more
+than one table. If calculations need to be performed on
+several of the fused tables, such as for pattern searching across the entire graph,
 then the \texttt{LF} function needs to be called on each of the fused tables separately.
 
 \subsection{Prefix Construction}
@@ -5036,22 +5041,22 @@ the merge result can become unnecessarily large.
 %                                                                                         RESULTS: Fusing XBWs Instead of Merging Them
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When merging flat XBW tables, we perform node splitting to ensure that the 
-merged graph is prefix sorted. 
-However, each node that is split increases the overall amount of edges 
-and nodes in the graph. 
-Therefore, unless no node splitting is necessary at all, 
-the merged graph has a size larger than the total size of the 
-original graphs. An example for intense node splitting behaviour can 
-be seen in figure~\ref{fig:evo_fig_massive_split}. 
-In this example, we have two input graphs with 23 edges in total. 
-To save these together as fused graph, each graph is stored individually, 
-such that 23 columns are stored altogether. 
-However, if these were merged instead, we would obtain a graph with 50 edges, 
-such that more than twice as many columns would need to be stored to save the 
-merged graph. 
-In addition to that, this is also an example in which the node splitting spills over 
-across merging boundaries, which means that the merging algorithms proposed earlier 
+When merging flat XBW tables, we perform node splitting to ensure that the
+merged graph is prefix sorted.
+However, each node that is split increases the overall amount of edges
+and nodes in the graph.
+Therefore, unless no node splitting is necessary at all,
+the merged graph has a size larger than the total size of the
+original graphs. An example for intense node splitting behaviour can
+be seen in figure~\ref{fig:evo_fig_massive_split}.
+In this example, we have two input graphs with 23 edges in total.
+To save these together as fused graph, each graph is stored individually,
+such that 23 columns are stored altogether.
+However, if these were merged instead, we would obtain a graph with 50 edges,
+such that more than twice as many columns would need to be stored to save the
+merged graph.
+In addition to that, this is also an example in which the node splitting spills over
+across merging boundaries, which means that the merging algorithms proposed earlier
 in this thesis would not be able to merge this graph anyway.
 
 % AGAGAGAG vs. ACCTG|,1,,3;,1,,5;,1,CT,4 ;p1,1,C,5;,2,,p1:0
@@ -5062,13 +5067,13 @@ in this thesis would not be able to merge this graph anyway.
 \caption[Node splitting resulting in large merged graph]{Node splitting resulting in a large merged graph. The top and middle graph are the input graphs, and the bottom shows the merged graph, which is much larger than each input individually. When fusing the input graphs together, no node splitting needs to occur, and their smaller sizes can be preserved in the resulting data structure.} \label{fig:evo_fig_massive_split}
 \end{figure}
 
-The method of fusing flat XBW tables together as proposed in section~\ref{sec:fusing_flat_tables} omits 
-the need for an increased file size, 
-as all input graphs are stored exactly as they are without having to perform additional node splitting. 
-This not only makes it easier to store the data compared to storing a merged graph, 
-but also means that working on 
-a fused graph can be quicker as having less data means that fewer operations are necessary to construct 
-distinct prefixes, to traverse all possible paths, and so on. 
+The method of fusing flat XBW tables together as proposed in section~\ref{sec:fusing_flat_tables} omits
+the need for an increased file size,
+as all input graphs are stored exactly as they are without having to perform additional node splitting.
+This not only makes it easier to store the data compared to storing a merged graph,
+but also means that working on
+a fused graph can be quicker as having less data means that fewer operations are necessary to construct
+distinct prefixes, to traverse all possible paths, and so on.
 
 However, fusing flat XBW tables also has downsides.
 One of them is related to indexing.
