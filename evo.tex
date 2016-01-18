@@ -860,24 +860,21 @@ graphs rather than sequential string data within the field of DNA sequencing.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-Þessi ritgerð er um tölvufræðilegar áskoranir sem blasa við lestur úr erfðaefni manna.
-Einkum, röð af DNA-inu eru almennt í samræmi með aðstoð strengatilvísun.
-Í þessari ritgerð eru tækifæri og erfiðleikar með því að nota netatilvísun rannsakað. \\
-Nokkrar aðferðir til að nota netatilvísanir hafa þegar verið lagt, 
-en enginn af þeim eru notuð víða á sviði.
-Því í þessari ritgerð við berum saman núverandi 
-aðferðir og þróa nýjar reiknirit til að vinna með erfðamenginet, 
-sem ætlað er til frekari hjálpa dreifa notkun af netatilvísanir.
-Einkum, þróa við reiknirit fyrir sameiningu og samtvínna flattar XBW töflur, 
-sem tákna erfðamenginet.
-Við framkvæma þessi reiknirit í Net-Samruna-Bókasafn, sem við köllum GML. 
-Það er hægt að vera notað til að sjón hegðun þeirra til að efla skilning á þessum aðferðum.
-Auk þess að vera notað fyrir jöfnun röð að netatilvísanir, 
-erfðamenginet getur einnig komið upp í öðrum tilvikum.
-Okkar nýlega þróað reiknirit eru nógu almenn til að einnig vera nýtast í þessum tilfellum. \\
-Á heildina litið, þetta ritgerð telst skref í átt að 
-samþykkja flóknari en einnig öflugri net frekar 
-en myndaröð streng á sviði DNA raðgreiningu.
+Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
+Venjulega er lestri á DNA samraðað með hjálp strengatilvísana. 
+Í þessari ritgerð verða hinsvegar tækifæri og erfiðleikar með notkun netatilvísana skoðaðir. \\
+Stungið hefur verið upp á nokkrar leiðir til að nota netatilvísanir en ekkert þeirra hefur komast í almenna notkun.
+Ætlum við því að bera saman núverandi nálganir og þróa ný reiknirit til að vinna með erfðamengisnet.
+Er það því markmiðið að hjálpa við að útbreiða notkun á netatilvísunum. 
+Þá sérstaklega höfum við þróað reiknrit sem að sameina 
+og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet.
+Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library GML, og er hægt í því að
+sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim.
+Auk þess að nota þau til samröðunar á lestri með hjálp netatilvísana geta erfðamengisnet nýst annara hluta.
+Okkar nýþróðuðu reiknrit eru næginlega almenn til að nýtast í þeim tilfellum. \\
+Í heildina er þessi ritgerð skref í átt að 
+koma í notkun flóknari og öflugri netum í stað að 
+nota raðbundna strengi í sviði DNA raðgreininga.
 
 \newpage
 
@@ -2113,6 +2110,27 @@ A file in the GFA format consists of several lines of tab-delimited plain text, 
 Each line hereby starts with a character which indicates what kind of a line it is \citep{specGFAnew}.
 Figure~\ref{fig:evo_fig_gfa_example} contains an example graph encoded in the GFA format.
 
+The lines of the file header start with the character “\texttt{H}” and can be followed by tags which tell us about the
+version number or the quality of the data.
+Other line types include ones with character “\texttt{S}” representing sequences, which
+contain the name of the sequence and the genomic sequence itself,
+lines with character “\texttt{C}” for containments
+and lines with character “\texttt{L}”.
+These represent links between sequences which are identified by their names and orientations.
+The links are augmented by CIGAR strings.
+In general, such a CIGAR string is a sequence of lengths and operations
+associated with these lengths that is used when aligning one string to another \citep{specSAM}.
+% a really, REALLY good explanation for CIGAR strings (that I can sadly not quote as it is "just some random wiki":
+% http://genome.sph.umich.edu/wiki/SAM#What_is_a_CIGAR.3F
+% however, the thing that I actually am citing here (the SAM specification) is at least not too bad either,
+% as it nicely defines how the CIGAR is built up
+Commonly, such a string can contain the operations \texttt{M} for direct match/mismatch,
+\texttt{I} for insertions and \texttt{D} for deletions. \\
+% TODO :: check (just like with the floating container) if this line break here still makes sense
+However, many additional operations for skipping bases,
+clipping, padding and much more have been proposed
+for various projects \citep{specGFA1,SAM2009}.
+
 % ACAAGGTGTCC|,3,CG,7;,5,,9 without # and $ nodes
 % H   VN:Z:1.0
 % S   1   ACA
@@ -2151,26 +2169,7 @@ Figure~\ref{fig:evo_fig_gfa_example} contains an example graph encoded in the GF
 \includegraphics[width=\textwidth]{evo_fig_gfa_example.pdf}
 \caption[GFA example file]{GFA example file together with the graph that the file represents.} \label{fig:evo_fig_gfa_example}
 \end{figure}
-
-The lines of the file header start with the character “\texttt{H}” and can be followed by tags which tell us about the
-version number or the quality of the data.
-Other line types include ones with character “\texttt{S}” representing sequences, which
-contain the name of the sequence and the genomic sequence itself,
-lines with character “\texttt{C}” for containments
-and lines with character “\texttt{L}”.
-These represent links between sequences which are identified by their names and orientations.
-The links are augmented by CIGAR strings.
-In general, such a CIGAR string is a sequence of lengths and operations
-associated with these lengths that is used when aligning one string to another \citep{specSAM}.
-% a really, REALLY good explanation for CIGAR strings (that I can sadly not quote as it is "just some random wiki":
-% http://genome.sph.umich.edu/wiki/SAM#What_is_a_CIGAR.3F
-% however, the thing that I actually am citing here (the SAM specification) is at least not too bad either,
-% as it nicely defines how the CIGAR is built up
-Commonly, such a string can contain the operations \texttt{M} for direct match/mismatch,
-\texttt{I} for insertions and \texttt{D} for deletions.
-However, many additional operations for skipping bases,
-clipping, padding and much more have been proposed
-for various projects \citep{specGFA1,SAM2009}.
+% TODO :: check if the position of this float still makes sense... we took it down to not have two words hanging after it
 
 \subsection{Bubble Format}
 
@@ -2458,8 +2457,7 @@ we wrote several scripts in Python.
 These scripts support simplified versions of each step in a complete read alignment pipeline.
 The goal here was not to achieve a software package that could compete with
 the already commonly used alignment solutions, but rather to have a
-simple test bed for trying out different algorithmic approaches and file formats.
-
+simple test bed for trying out different algorithmic approaches and file formats. \\
 Section~\ref{sec:results_data_formats} contains the results gained by
 implementing the different data formats.
 
@@ -2817,6 +2815,11 @@ which is capable of displaying simple graphs nicely.
 Algorithm~\ref{alg:visualize} shows how this function works in general.
 The basic approach of this algorithm is inspired by the function \texttt{automatonToGMLdata},
 which we use to convert an automaton into a GML data block.
+
+% TODO :: check if this pagebreak still makes sense
+% (without it, right now the algorithm would start for like one sentence on this page...)
+\pagebreak
+
 \begin{breakablealgorithm}
 \caption[Visualize a graph]{Visualize a graph by first displaying one path from
 the start node to the end node, referred to as main path,
@@ -3594,7 +3597,8 @@ of the nodes of the first input table can be changed within the merged table.
 The reason for this is that their prefixes, which within the first input table ended at the
 end node $ v_e $ of the first graph, can now spill over into the second graph,
 thereby giving different relative orderings.
-This concept is illustrated in figure~\ref{fig:evo_fig_node_merge_aftersort} and table~\ref{table:node_merge_aftersort}. \\
+This concept is illustrated in figure~\ref{fig:evo_fig_node_merge_aftersort} and table~\ref{table:node_merge_aftersort}.
+
 % GAAT|,1,CT,3 and CAA|,1,,3
 \begin{table}[htb]
 \centering
@@ -3639,6 +3643,7 @@ A & A|C & C & G & A|T & T & G & $\#$ &\cellcolor{purple_bg}\color{purple_fx}C &\
 \caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
+
 We can see that in the input table at the top, the green node with prefix T\$$\#$C is sorted
 before the purple node with prefix TA,
 as the dollar sign is lexicographically smaller
@@ -4118,7 +4123,43 @@ as they are not directly given out.
 
 The merging of flat XBW tables is in principle similar to the merging of node tables.
 We again iterate over all nodes of all involved graphs and construct a new table
-based on them.
+based on them. Throughout this section we will illustrate the merging process 
+by applying it to the flat XBW tables shown in 
+table~\ref{table:evo_fig_flat_merge_step_zero}. 
+Figure~\ref{fig:evo_fig_flat_merge_step_zero} contains the corresponding graphs.
+
+\begin{table}[htb]
+\centering
+\caption[Flat XBW tables before merging]{Flat XBW tables corresponding to graphs in figure~\ref{fig:evo_fig_flat_merge_step_zero} before merging.}
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{5pt}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & $\boldsymbol{i}$ \\ \hline 
+T & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & C & T & T & $\#$ & \textbf{FC} \\ \hline 
+1 & 1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\quad
+\begin{tabular}{ | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & $\boldsymbol{i}$ \\ \hline 
+C & A & A & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & C & $\#$ & \textbf{FC} \\ \hline 
+1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{M}$ \\ \hline 
+1 & 0 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+}
+\label{table:evo_fig_flat_merge_step_zero}
+\end{table}
+% AACT|,1,AT,4 and AAC|,1,A,4
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_flat_merge_step_zero.pdf}
+\caption[Graphs before merging]{Graphs corresponding to table~\ref{table:evo_fig_flat_merge_step_zero} before merging.} \label{fig:evo_fig_flat_merge_step_zero}
+\end{figure}
 
 A big difference to the merging of the node tables is that we no longer have
 a data structure available to store the computed prefixes of all columns.
@@ -4154,7 +4195,42 @@ Just as when merging XBW node tables as described in section~\ref{sec:gml_mergin
 we again use an aftersort array.
 The reason for using it is that the ordering of the nodes within the first input table is not necessarily the
 same as their ordering within the merged table, necessitating this adjustment to the order of comparison
-for the construction of prefixes and the splitting of nodes.
+for the construction of prefixes and the splitting of nodes. \\
+Table~\ref{table:evo_fig_flat_merge_step_one} shows the results of the first step in the merging algorithm being applied 
+to the example tables, and figure~\ref{fig:evo_fig_flat_merge_step_one} shows the corresponding graphs.
+
+\begin{table}[htb]
+\centering
+\caption[Flat XBW tables after first merge step]{Flat XBW tables corresponding to graphs in figure~\ref{fig:evo_fig_flat_merge_step_one} after first merge step.}
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{5pt}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & $\boldsymbol{i}$ \\ \hline 
+T & $\#$ & $\#$ & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & C & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+\quad
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & $\boldsymbol{i}$ \\ \hline 
+C & A & A & $\#$ & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & C & $\#$ & $\#$ & \textbf{FC} \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+}
+\label{table:evo_fig_flat_merge_step_one}
+\end{table}
+% AACT|,0,AAT,4 and AAC|,0,AA,4
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_flat_merge_step_one.pdf}
+\caption[Graphs after first merge step]{Graphs corresponding to tables~\ref{table:evo_fig_flat_merge_step_one} after first merge step. In this step, both nodes with prefix “AA” have been split apart.} \label{fig:evo_fig_flat_merge_step_one}
+\end{figure}
 
 As the second and main part of the merging algorithm
 we then construct the merged table by again advancing through the
@@ -4170,7 +4246,29 @@ It then appends the node with the lexicographically lowest prefix to the emergin
 and advances to the next set of nodes.
 It never has to return recommended splitting nodes instead of advancing to the next
 set of nodes, as the actions of the first step ensure that the two input tables
-can be merged in the second step without unambiguous prefixes occurring.
+can be merged in the second step without unambiguous prefixes occurring. \\
+Table~\ref{table:evo_fig_flat_merge_step_two} shows the results of the 
+second and main part of the merging algorithm being applied 
+to the example tables.
+
+% AACT|,0,AAT,4 and AAC|,0,AA,4
+\begin{table}[htb]
+\centering
+\caption[Flat XBW table after second merge step]{Flat XBW table after second merge step.}
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{5pt}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & $\boldsymbol{i}$ \\ \hline 
+C & A & T & A & $\#_0$ & $\#_0$ & $\#$ & $\#$ & A & A & A & A & A & C & T & A & $\$_0$ & \$ & \textbf{BWT} \\ \hline 
+\$ & $\$_0$ & A & A & A & A & A & A & A & A & C & C & T & T & $\#$ & $\#$ & $\#_0$ & $\#_0$ & \textbf{FC} \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+}
+\label{table:evo_fig_flat_merge_step_two}
+\end{table}
 
 The third and final step in our implementation for merging flat XBW tables
 is to clean up the merged table by removing the end node of the first input graph
@@ -4179,7 +4277,34 @@ This is done in the function \texttt{finalizeMerge}.
 These nodes could have also not been added to the merged table in the first place,
 making it unnecessary to perform an extra step in the end.
 This however would have increased the complexity of the second step, which is why we
-decided to perform it as a separate step in the end.
+decided to perform it as a separate step in the end. \\
+The results of the third step for our merge example are shown in 
+table~\ref{table:evo_fig_flat_merge_step_three}. 
+Figure~\ref{fig:evo_fig_flat_merge_step_three} contains the corresponding graphs.
+
+\begin{table}[htb]
+\centering
+\caption[Flat XBW merging result]{Flat XBW table merging result, corresponding to graph in figure~\ref{fig:evo_fig_flat_merge_step_three}.}
+{
+% reduce whitespace in this table (default might be 6pt)
+\renewcommand{\tabcolsep}{5pt}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
+\hline
+0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & $\boldsymbol{i}$ \\ \hline 
+C & A & A & T & T & $\#$ & $\#$ & A & A & A & A & A & C & T & A & \$ & \textbf{BWT} \\ \hline 
+\$ & A & A & A & A & A & A & A & A & C & C & T & T & T & $\#$ & $\#$ & \textbf{FC} \\ \hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & 0 & $\boldsymbol{M}$ \\ \hline 
+1 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 & $\boldsymbol{F}$ \\ \hline 
+\end{tabular}
+}
+\label{table:evo_fig_flat_merge_step_three}
+\end{table}
+% AACT|,0,AAT,4 and AAC|,0,AA,4
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{evo_fig_flat_merge_step_three.pdf}
+\caption[Graph merging result]{Graph merging result, corresponding to tables~\ref{table:evo_fig_flat_merge_step_three}.} \label{fig:evo_fig_flat_merge_step_three}
+\end{figure}
 
 % TODO :: add algorithms! like, all of them!
 
