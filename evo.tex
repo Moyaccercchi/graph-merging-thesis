@@ -26,7 +26,7 @@
 %
 % TODO :: das ganze Dokument durchsuchen und "Burrows-Wheeler", "Burrows---Wheeler", "Burrows - Wheeler"
 %         durch "Burrows--Wheeler" ersetzen sowie "preprocess" durch "pre-process" ersetzen (oder andersrum,
-%         aber jedenfalls nicht andauernd hin und her springen ^^), "bit-vector" durch "bit vector" ersetzen
+%         aber jedenfalls nicht andauernd hin und her springen ^^), "bit vector" durch "bit-vector" ersetzen
 %         und schließlich auch noch "\cite{" durch "\citep{" sowie "Javascript" durch "JavaScript" (CamelCase, yay! ^^)
 %
 % TODO :: decide whether to use SNPs or snips, and then stick with one ;) (just now I used "snips", but seriously, check that!)
@@ -687,7 +687,7 @@
 \def\thesistutors{Páll Melsted \\ Kristján Jónasson}					% TODO :: Make sure these people really are the advisors
 \def\thesisrepresentative{Birte Kehr}				% TODO :: Make sure this person really is the representative
 \def\thesiscommittee{XXNN4 \\ XXNN5}			% (Committee name, not in use)
-\def\thesiskeywords{genome sequencing, pan-genome indexing, read alignment, Burrows-Wheeler transform, graph indexing}		% TODO :: Read over keywords and make sure they actually correspond to what we are doing here
+\def\thesiskeywords{genome sequencing, pan-genome indexing, read alignment, Burrows--Wheeler transform, graph indexing}		% TODO :: Read over keywords and make sure they actually correspond to what we are doing here
 \def\thesisdedication{“And above all, watch with glittering eyes the whole world around you,\\
 because the greatest secrets are always hidden in the most unlikely places.\\
 Those who don't believe in magic will never find it.”\\
@@ -860,9 +860,9 @@ graphs rather than sequential string data within the field of DNA sequencing.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð.
+Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. Í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð. \\
 Stungið hefur verið upp á nokkrum leiðir til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
-Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum.
+Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum. \\
 í heildina er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á sviði DNA raðgreininga.
 
 % Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
@@ -938,9 +938,8 @@ Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höf
 % Gefið kaflanum nafn við hæfi, t.d. Skammstafanir eða Breytuheiti. Þessum kafla má sleppa ef hans er ekki þörf. \\
 % The section could be titled: Abbreviations, Glossary, Variable Names, etc.
 
-
 % TODO: Finish all TODO's
-\begin{tabular}{r p{12cm}}
+\begin{tabular}{r p{12.2cm}}
 
 % TODO :: maybe also add the following:
 % edits
@@ -988,7 +987,7 @@ See page \pageref{def:fc_indexing}.
 \\ \\
 
 \textbf{flat table:} & A \textit{flat XBW table} is a data structure consisting of a BWT string,
-two bit vectors and some additional information. This structure completely represents a graph
+two bit-vectors and some additional information. This structure completely represents a graph
 and can be used to store the graph in a file or to perform work on it, such as navigating between
 nodes and finding texts within the graph.
 See page \pageref{def:flat_table}.
@@ -1007,10 +1006,10 @@ A nucleotide sequence of length $ k $.
 
 \end{tabular}
 
-\begin{tabular}{r p{12cm}}
+\begin{tabular}{r p{12.2cm}}
 
 \textbf{node table:} & An \textit{XBW node table} is a data structure consisting of a BWT row,
-a prefix row and one or two bit vector rows. Hereby the cells within each column do not need to have the same lengths.
+a prefix row and one or two bit-vector rows. Hereby the cells within each column do not need to have the same lengths.
 This structure completely represents a graph
 and can be used to store the graph in a file or to perform work on it, such as navigating between
 nodes and finding texts within the graph.
@@ -1333,7 +1332,7 @@ such as BWA-MEM \citep{Li2013}.
 A common way for pre-processing the reference is to apply the Burrows--Wheeler Transform \citep{Burrows1994} to it.
 The BWT is then used in conjunction with a data structure
 called the \textit{suffix array} \citep{Puglisi2007}, which
-is an array of indexes corresponding to the alphabetically sorted suffixes
+is an array of indices corresponding to the alphabetically sorted suffixes
 within the reference represented by the BWT.
 This allows us to
 perform fast lookups of patterns in the reference, which is exactly what we want
@@ -1375,7 +1374,7 @@ This creates a matrix of characters, of which we take the last column.
 Read from the top to the bottom, this last column is the BWT of string $ s $. \\
 We find the suffix array of $ s $ by using the ordering which maps
 the cyclic rotations to the matrix of alphabetically sorted rotations,
-and applying this ordering to the list of increasing indexes representing
+and applying this ordering to the list of increasing indices representing
 the start of each cyclic rotation. \\
 This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
 More efficient algorithms for creating the BWT of a string exist
@@ -1685,12 +1684,12 @@ One particular generalization of the BWT is the XBW, or extended Burrows--Wheele
 This is a method for compressing trees similar to how the
 BWT is used to compress sequential data \citep{Ferragina2009}. \\
 Each node in the tree has a label that is one character long.
-These labels are stored in the XBW together with a special bit vector,
+These labels are stored in the XBW together with a special bit-vector,
 which keeps track of whether a given node is a leaf node or not.
-That is, if a node has a successor, then this bit vector takes the value 0, as that node is not the last node
-of its branch. If a node does not have a successor, then the bit vector takes the value 1 for that node.
+That is, if a node has a successor, then this bit-vector takes the value 0, as that node is not the last node
+of its branch. If a node does not have a successor, then the bit-vector takes the value 1 for that node.
 
-\citet{Siren2014} extended the XBW even further, by introducing a second bit vector that enables nodes
+\citet{Siren2014} extended the XBW even further, by introducing a second bit-vector that enables nodes
 to have multiple predecessors as well as multiple successors. Therefore, this extended XBW can not only
 store trees, but instead can encode graphs.
 In particular, any prefix-sorted reverse-deterministic
@@ -1731,7 +1730,7 @@ node of the graph represented by the extended XBW. \\
 More formally, we define:
 
 \textbf{Definition} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT,
-the prefixes, the values of the bit vector $ M $, and optionally the values of the bit vector $ F $.
+the prefixes, the values of the bit-vector $ M $, and optionally the values of the bit-vector $ F $.
 These rows together represent an acyclic finite graph with each column of the table corresponding
 to exactly one node of the graph.
 
@@ -1779,12 +1778,12 @@ The value of the cell $ M $ in column $ i $ is a sequence of bits whose length c
 the amount of successor nodes of $ v_i $, or equally the amount of outgoing edges of node $ v_i $.
 This sequence always starts with the bit “1” and is then followed
 by as many “0” bits as are necessary to achieve the desired length.
-In addition to bit vector $ M $, a second bit vector designated as $ F $ can be used within a node table.
+In addition to bit-vector $ M $, a second bit-vector designated as $ F $ can be used within a node table.
 The value of $ F $ in column $ i $ is a bit sequence whose length corresponds to
 the amount of predecessor nodes of node $ v_i $. \\
-The reason why using the $ F $ bit vector is not strictly necessary is that its information
+The reason why using the $ F $ bit-vector is not strictly necessary is that its information
 for any column $ i $ is already encoded in the length of the BWT cell of column $ i $. 
-However, when considering flat XBW tables, we will not be able to leave out the bit vector $ F $. 
+However, when considering flat XBW tables, we will not be able to leave out the bit-vector $ F $. 
 It is therefore helpful to already get used to its presence when considering the simpler XBW node tables. \\
 When implementing $ M $ and $ F $, it is possible to think of them as arrays of strings,
 with each string containing the characters “1” and “0”, for ease of implementation.
@@ -1806,7 +1805,7 @@ the node labels and the values of $ M $ and $ F $,
 representing an acyclic finite graph.
 The table is arranged such that each cell contains exactly one character
 for the BWT and the node labels, and such that each cell contains exactly
-one bit for the bit vectors $ M $ and $ F $.
+one bit for the bit-vectors $ M $ and $ F $.
 
 We decided to refer to the row containing the node labels as first column row, or short “FC”.
 The reasoning behind this name is that the row of node labels of the graph relates to the BWT row,
@@ -1831,7 +1830,7 @@ $ \Sigma $, ord and $ C $, which represents FC, are all very small data structur
 We therefore usually keep them pre-calculated in memory,
 instead of generating them on the fly based on the BWT, $ M $ and $ F $ again and again.
 
-The bit vectors $ M $ and $ F $ are exactly the same as the corresponding bit vectors in the node table,
+The bit-vectors $ M $ and $ F $ are exactly the same as the corresponding bit-vectors in the node table,
 and are each strongly related to one of the other rows.
 In particular, each cell in the $ M $ vector corresponds to a cell, or character, in the FC row,
 as each outgoing edge $ (u, v_i) $ of a node $ u $ corresponds to another cell in the $ M $ vector, and each
@@ -1844,7 +1843,7 @@ This is explored in further depth in section~\ref{sec:why_rev_det}.
 Due to that, the label $ l (u_i) $ for each incoming edge $ (u_i, v) $ into a node $ v $ is distinct,
 as the graph would otherwise not be reverse deterministic.
 Therefore, for every node $ v $ there are as many entries in the BWT, which contains the labels of the preceding nodes,
-as there are entries in the $ F $ bit vector, which keeps track of the amount of incoming edges.
+as there are entries in the $ F $ bit-vector, which keeps track of the amount of incoming edges.
 
 Encoding the same graphs both as flat XBW tables and as node tables
 shows that flat XBW tables are much smaller and therefore easier to store.
@@ -1886,7 +1885,7 @@ the left until we reach $ j $, and count the occurrences of ones in $ M $.
 We refer to this operation as computing the \textit{rank} of character 1 in sequence $ M $ until the limit $ j $,
 which we denote as $ \textrm{rank}_1 ( M, j ) $ \citep{Siren2009}.\label{def:rank}
 We then iterate over the columns of the table again from the beginning on the left,
-increasing a counter every time that the bit vector $ F $ contains a one, until we reach
+increasing a counter every time that the bit-vector $ F $ contains a one, until we reach
 the result that the rank operation gave us.
 We refer to this as a \textit{select} operation, selecting character 1 in sequence $ F $ until the limit $ l $,
 where $ l $ in this case is set as the result of the rank operation before. In general,
@@ -2444,7 +2443,7 @@ how several graphs can be encoded in the FFX format as a single fused graph.
 \caption[FFX example file containing fused graphs]{FFX example file containing two graphs (top) together with the fused graph that is represented by the file (middle) and the graph that the fused graph represents (bottom).} \label{fig:evo_fig_ffx_example_fused}
 \end{figure}
 
-In FFX, each data block consists of lines for the BWT, the $ M $ and $ F $ bit vectors,
+In FFX, each data block consists of lines for the BWT, the $ M $ and $ F $ bit-vectors,
 as well as lines for the ord and $ C $ arrays.
 Both of these arrays could be constructed on the fly from just the BWT.
 This however takes up a lot of time while they both only take up a small
@@ -2454,8 +2453,8 @@ lengthy process of computing them does not need to be repeated again and again
 whenever the file is opened. \\
 In particular, the BWT is contained in a line starting with the letter “\texttt{B}” followed
 by a tab character.
-Similarly, the bit vector $ M $ is contained in a line starting with “\texttt{M}” and
-the bit vector $ F $ in a line starting with “\texttt{F}”.
+Similarly, the bit-vector $ M $ is contained in a line starting with “\texttt{M}” and
+the bit-vector $ F $ in a line starting with “\texttt{F}”.
 Finally, the ord and $ C $ arrays are
 contained in lines starting with “\texttt{O}” and “\texttt{C}”, respectively.
 
