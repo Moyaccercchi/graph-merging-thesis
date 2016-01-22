@@ -293,7 +293,7 @@
 % genutzt
 % SAM2009 is reference [4] from the grant proposal.
 @article{SAM2009,
-    author =       "Heng Li and Bob Handsaker and Alec Wysoker and Tim Fennell and Jue Ruan and Nils Homer and Gabor Marth and Goncalo Abecasis and Richard Durbin and 1000 Genome Project Data Processing Subgroup",
+    author =       "Heng Li and Bob Handsaker and Alec Wysoker and Tim Fennell and Jue Ruan and Nils Homer and Gabor Marth and Goncalo Abecasis and Richard Durbin and {1000 Genome Project Data Processing Subgroup}",
     title =        "The Sequence Alignment/Map format and {SAMtools}",
     journal =      "Bioinformatics",
     volume =       "25",
@@ -1115,7 +1115,7 @@ Thank you all.
 % ====================================================================================================================================
 
 The aim of this thesis is to develop algorithms for merging and fusing flat XBW tables,
-which will be introduced in section~\ref{sec:flat_table_definition}. \\
+which will be introduced in Section~\ref{sec:flat_table_definition}. \\
 We developed these algorithms to help improve current approaches from the field of human genome sequencing,
 in which the genome of an individual human being is read out using a combination of
 powerful machines and complex software algorithms.
@@ -1162,7 +1162,7 @@ It is necessary to use such a reference genome, as
 building up the individual DNA just from the reads themselves without a reference is a highly complex problem
 which cannot be solved unambiguously due to many repetitive regions within the DNA.
 Even reconstructing a very short genomic string just from the reads without a reference can lead to drastically wrong
-results, as can be seen in figure~\ref{fig:evo_intro_assembly_wo_reference}.
+results, as can be seen in Figure~\ref{fig:evo_intro_assembly_wo_reference}.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_intro_assembly_wo_reference.png}
@@ -1182,7 +1182,7 @@ as these might be known to be associated with a specific disease.
 By aligning the reads to the reference, the software pipeline can keep track
 of the encountered differences and in the end give out a list of differences between the individual and the reference.
 An example for the process leading to such a list of differences
-can be seen in figure~\ref{fig:evo_intro_general_variation_calling_process}.
+can be seen in Figure~\ref{fig:evo_intro_general_variation_calling_process}.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_intro_general_variation_calling_process.png}
@@ -1238,7 +1238,7 @@ rather than a single rigid reference genome.
 Algorithmically, this corresponds to viewing the reference as a directed acyclic graph rather than a linear genome.
 In this graph, each variation can be represented as a branch which points to the available alternatives.
 Thereby each personal genome is represented by a path through this variation graph,
-as can be seen in figure~\ref{fig:evo_intro_three_ref_seq_align}. \\
+as can be seen in Figure~\ref{fig:evo_intro_three_ref_seq_align}. \\
 % TODO :: in the following picture, also add a graph interpretation underneath what I am seeing
 %         (I want to see nodes and edges!)
 \begin{figure}[!htb]
@@ -1284,7 +1284,7 @@ such as merging compressed graphs implicitly or explicitly.
 We picked the problem of merging compressed graphs,
 as this ultimately enables us to generate large graphs
 based on existing sequential data together with local perturbations.
-An example for this scenario is shown in figure~\ref{fig:evo_fig_add_perturbations_to_long_seq}. \\
+An example for this scenario is shown in Figure~\ref{fig:evo_fig_add_perturbations_to_long_seq}. \\
 The goal hereby is not mainly to create a new read alignment tool that uses
 a reference graph, but rather to create and implement new algorithms that can
 be used in conjunction with such graphs in the future.
@@ -1343,7 +1343,7 @@ It is a reversible reordering of a
 repetitive text with few runs of same characters into a text of the same length that contains more runs
 and can therefore more easily be compressed by run-length encoding or other encoding schemes.
 A simple example of this behaviour of achieving more easily compressable strings through the application of the BWT
-can be seen in table~\ref{table:evo_background_bwt_run_enc}.
+can be seen in Table~\ref{table:evo_background_bwt_run_enc}.
 \begin{table}[htb]
 \centering
 \caption[Run-length encoding comparison between a repetitive string and its BWT]{Run-length encoding comparison between a highly repetitive string and its BWT. In this example, the run-length encoding of the string itself does not reduce the size, while the run-length encoding of the BWT reduces the size by 29\%.}
@@ -1376,7 +1376,7 @@ We find the suffix array of $ s $ by using the ordering which maps
 the cyclic rotations to the matrix of alphabetically sorted rotations,
 and applying this ordering to the list of increasing indices representing
 the start of each cyclic rotation. \\
-This algorithm is also illustrated in figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
+This algorithm is also illustrated in Figure~\ref{fig:evo_fig_bwt_with_cyclic_rotations}.
 More efficient algorithms for creating the BWT of a string exist
 which do not require building up the entire matrix of cyclic rotations.
 
@@ -1530,7 +1530,7 @@ which we call an edge from node $ u {\: \in \:} V $ to node $ v {\: \in \:} V $.
 As the graphs we are working with are considered to be \textit{directed},
 we assume edge $ (u, v) {\: \in \:} E $ to
 be distinct from edge $ (v, u) {\: \in \:} E $.
-An example of such a graph can be seen in figure~\ref{fig:evo_fig_graph_example}.
+An example of such a graph can be seen in Figure~\ref{fig:evo_fig_graph_example}.
 
 % GACGT|,2,T,4;,3,,5 vs. ACCTG|,1,,5;,1,,3 without start and end nodes
 \begin{figure}[!htb]
@@ -1623,7 +1623,7 @@ where the size of $ k $ is fixed once the index is constructed and cannot be cha
 \section{Burrows--Wheeler Transform for Graphs}
 
 In general, the BWT consists of the letters preceding the alphabetically sorted cyclic rotations
-in the cyclic rotation matrix, as shown in section~\ref{sec:bwt_for_strings}.
+in the cyclic rotation matrix, as shown in Section~\ref{sec:bwt_for_strings}.
 Therefore we can think of the transformation itself as a mapping from a list of alphabetically
 sorted substrings of a text to the character preceding each substring.
 Equivalently, when working with genomic graphs, in which each character is the label
@@ -1701,7 +1701,7 @@ Finally, the graph being acyclic means that it is
 not allowed to contain any cycles, which are paths on which we leave a node, follow one
 or more directed edges, and arrive at the same node again.
 The requirements of the graph being reverse-deterministic and prefix sorted
-will be defined in sections~\ref{sec:why_rev_det} and \ref{sec:prefix_sorting}, respectively.
+will be defined in Sections~\ref{sec:why_rev_det} and \ref{sec:prefix_sorting}, respectively.
 As seen in these sections,
 these requirements are not actually limiting us in practice,
 as we can convert any acyclic connected finite graph
@@ -1729,7 +1729,7 @@ table containing the extended XBW which contains exactly one column for each
 node of the graph represented by the extended XBW. \\
 More formally, we define:
 
-\textbf{Definition} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT,
+\textbf{Definition.} An \textit{XBW node table}\label{def:node_table} is a table with rows for the BWT,
 the prefixes, the values of the bit-vector $ M $, and optionally the values of the bit-vector $ F $.
 These rows together represent an acyclic finite graph with each column of the table corresponding
 to exactly one node of the graph.
@@ -1744,15 +1744,15 @@ To make it clearer that a BWT containing several characters actually
 stands for any of these characters, instead of standing for the string
 formed by the characters, we decided to display BWT values containing
 more than one character separated by pipe characters, as can be
-seen in figure~\ref{fig:evo_fig_node_table_example} which is represented
-by node table~\ref{table:evo_node_table_example}. \\
+seen in Figure~\ref{fig:evo_fig_node_table_example} which is represented
+by the node table in Table~\ref{table:evo_node_table_example}. \\
 % GCTGGCGAG|,2,TT,5;,2,TGG,7
 {
 % reduce whitespace in this table (default might be 6pt)
 \renewcommand{\tabcolsep}{2pt}
 \begin{table}[htb]
 \centering
-\caption[Node table corresponding to a graph]{Node table corresponding to the graph in figure~\ref{fig:evo_fig_node_table_example}.}
+\caption[Node table corresponding to a graph]{Node table corresponding to the graph in Figure~\ref{fig:evo_fig_node_table_example}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 G & G & G & G & A & C|G & G|T & $\#$ & G & T & T & T & C & C & C & \$ & \textbf{BWT} \\ \hline
@@ -1767,7 +1767,7 @@ G & G & G & G & A & C|G & G|T & $\#$ & G & T & T & T & C & C & C & \$ & \textbf{
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_node_table_example.pdf}
-\caption[Graph corresponding to a node table]{Graph corresponding to node table~\ref{table:evo_node_table_example}. The prefixes of the nodes have been provided in small print above the nodes, to make it easier to identify which node in the graph corresponds to which column in the table.} \label{fig:evo_fig_node_table_example}
+\caption[Graph corresponding to a node table]{Graph corresponding to node Table~\ref{table:evo_node_table_example}. The prefixes of the nodes have been provided in small print above the nodes, to make it easier to identify which node in the graph corresponds to which column in the table.} \label{fig:evo_fig_node_table_example}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
 The value of the prefix in column $ i $ is precisely the prefix of node $ v_i $ in the graph,
@@ -1800,7 +1800,7 @@ or as an array with elements of fixed size. \\
 The definition reveals that despite their differences,
 flat tables are nevertheless similar to node tables:
 
-\textbf{Definition} A \textit{flat XBW table}\label{def:flat_table} is a table with rows for the BWT,
+\textbf{Definition.} A \textit{flat XBW table}\label{def:flat_table} is a table with rows for the BWT,
 the node labels and the values of $ M $ and $ F $,
 representing an acyclic finite graph.
 The table is arranged such that each cell contains exactly one character
@@ -1839,7 +1839,7 @@ which is precisely the content of the FC row. \\
 On the other hand, each cell in the $ F $ vector corresponds to a cell, or character, in the BWT.
 The reason for this is that the graph we are working on is necessarily reverse deterministic
 for this encoding to function properly, meaning that each node has no two predecessors with the same label.
-This is explored in further depth in section~\ref{sec:why_rev_det}.
+This is explored in further depth in Section~\ref{sec:why_rev_det}.
 Due to that, the label $ l (u_i) $ for each incoming edge $ (u_i, v) $ into a node $ v $ is distinct,
 as the graph would otherwise not be reverse deterministic.
 Therefore, for every node $ v $ there are as many entries in the BWT, which contains the labels of the preceding nodes,
@@ -1868,8 +1868,8 @@ We use the $ M $ and $ F $ rows to
 find these cell clusters across different rows, which for graphs with high in- and outdegrees
 are not necessarily located in columns that are even close together.
 How cells in a flat table relate to actual nodes in a graph is illustrated via specifically highlighted
-cells in table~\ref{table:flat_table_with_ct}, which corresponds to the graph with highlighted nodes
-in figure~\ref{fig:evo_fig_flat_table_with_ct}.
+cells in Table~\ref{table:flat_table_with_ct}, which corresponds to the graph with highlighted nodes
+in Figure~\ref{fig:evo_fig_flat_table_with_ct}.
 
 More formally, we can observe that
 if we have a cell in column $ i $ of the FC row, and want to find the other cells corresponding to
@@ -1904,7 +1904,7 @@ namely ranking the index in $ F $ and calling a select operation on $ M $ to fin
 % GCTGGCGAG|,2,TT,5;,2,TGG,7, searching for CTTG
 \begin{table}[htb]
 \centering
-\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, $\#$} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{$\#$} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{$\#$} {\, \Rightarrow \,} 17 ] $.}
+\caption[Flat table corresponding to a graph]{A flat XBW table with cells highlighted that correspond to four nodes in the graph in Figure~\ref{fig:evo_fig_flat_table_with_ct} represented by this table. The alphabet for this table, including the labels of the start and end node, is $ \Sigma = \{ \textup{\$, A, C, G, T, $\#$} \} $. The \textup{ord} array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 3, \textup{T} {\, \Rightarrow \,} 4, \textup{$\#$} {\, \Rightarrow \,} 5 ] $ and the $ C $ array is $ [ \$ {\, \Rightarrow \,} 0, \textup{A} {\, \Rightarrow \,} 1, \textup{C} {\, \Rightarrow \,} 2, \textup{G} {\, \Rightarrow \,} 6, \textup{T} {\, \Rightarrow \,} 13, \textup{$\#$} {\, \Rightarrow \,} 17 ] $.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green_bg}\color{green_fx}G &\cellcolor{green_bg}\color{green_fx}T & $\#$ & G & T & T &\cellcolor{red_bg}\color{red_fx}T & C & C &\cellcolor{blue_bg}\color{blue_fx}C & \$ & \textbf{BWT} \\ \hline
@@ -1919,7 +1919,7 @@ G & G & G &\cellcolor{purple_bg}\color{purple_fx}G & A & C & G &\cellcolor{green
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_flat_table_with_ct.pdf}
-\caption[Graph corresponding to a flat table]{Graph corresponding to flat table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
+\caption[Graph corresponding to a flat table]{Graph corresponding to flat Table~\ref{table:flat_table_with_ct}. The nodes highlighted in this graph correspond to the cells highlighted in the flat table.} \label{fig:evo_fig_flat_table_with_ct}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
 % -> we did this right now by putting it a paragraph later than usual
@@ -1951,7 +1951,7 @@ we can use an integer index corresponding to a column in the BWT row,
 which we will refer to as \textit{BWT-indexing}\label{def:bwt_indexing},
 and we can use an integer index corresponding to the position of a node in the table,
 which we will refer to as \textit{absolute indexing}\label{def:absolute_indexing}. \\
-As an example, we can consider the node highlighted in green in table~\ref{table:flat_table_with_ct}.
+As an example, we can consider the node highlighted in green in Table~\ref{table:flat_table_with_ct}.
 Its FC-index is 8, as we start to count from 0 and the first green column in the FC row is in position 8.
 Its BWT-index is 7, as the first green column in the BWT row is in position 7.
 Finally, its absolute index is 6, as there are 6 nodes preceding it to the left, one
@@ -2045,7 +2045,7 @@ the data, which describes the overall structure of the entire graph,
 into which linear sequences and local graphs are embedded.
 All of this is then surrounded by specific begin and end lines which identify the file as being
 in the FASTG format.
-An example for a graph encoded in the FASTG format can be seen in figure~\ref{fig:evo_fig_fastg_example}.
+An example for a graph encoded in the FASTG format can be seen in Figure~\ref{fig:evo_fig_fastg_example}.
 
 % GACGT|,2,T,4 without # and $   and   AAGT|,1,,4 without # and $ (flipped arrow)
 \begin{figure}[!htb]
@@ -2074,7 +2074,7 @@ or a linear part, and its ends can be attached to other data blocks. They howeve
 be attached to other data blocks, such that it is also possible to encode graphs in the FASTG format
 which are not connected, meaning that not all nodes within the graph need to be reachable from all other nodes. \\
 The linear structure of the data is encoded via special commands right inside the data block.
-Examples for some common local commands are shown in table~\ref{table:fastg_local_examples}.
+Examples for some common local commands are shown in Table~\ref{table:fastg_local_examples}.
 
 \begin{table}[htb]
 \centering
@@ -2205,7 +2205,7 @@ Any sort of graph representation in this format is based on bubbles, which can b
 and can be nested. A bubble is started with a “(” character and ended
 with a “)” character. Alternatives within the bubbles are marked with “{\!\pipe}”
 characters.
-A representation of a short and simple graph in bubble notation can be seen in figure~\ref{fig:evo_fig_STPUbubble_f}.
+A representation of a short and simple graph in bubble notation can be seen in Figure~\ref{fig:evo_fig_STPUbubble_f}.
 
 % ACGTCTTATTTC|,4,AG,8    nicer: AG against C - CGTAGATTC|,4,C,7 (without $ and #)
 \begin{figure}[!htb]
@@ -2215,7 +2215,7 @@ A representation of a short and simple graph in bubble notation can be seen in f
 \end{figure}
 
 Insertions and deletions are represented as bubbles whose alternative route is empty.
-One such deletion can be seen in figure~\ref{fig:evo_fig_STPUinsertion_f}.
+One such deletion can be seen in Figure~\ref{fig:evo_fig_STPUinsertion_f}.
 
 % ACGTATTTC|,4,AG,5    nicer: deletion - CGTAGATTC|,4,,7 (without $ and #)
 \begin{figure}[!htb]
@@ -2225,7 +2225,7 @@ One such deletion can be seen in figure~\ref{fig:evo_fig_STPUinsertion_f}.
 \end{figure}
 
 As remarked before, this format cannot be used to represent arbitrary graphs.
-An example for which it fails to provide a correct encoding can be seen in figure~\ref{fig:evo_fig_STPUcycle_f}.
+An example for which it fails to provide a correct encoding can be seen in Figure~\ref{fig:evo_fig_STPUcycle_f}.
 Nevertheless, the bubble format is sufficient for simple algorithmic tests.
 
 % CGTAGATTC|,7,,4 (without $ and #)
@@ -2248,7 +2248,7 @@ the graphs which could be expressed too much.
 As can be seen with the success of FASTA files for sequential data,
 the simplicity of a data format is rather important, as it makes it more likely
 for future tools to be designed with inbuilt support for the format. \\
-An example graph encoded in the GML format can be seen in figure~\ref{fig:evo_fig_first_gml_example}.
+An example graph encoded in the GML format can be seen in Figure~\ref{fig:evo_fig_first_gml_example}.
 
 % GAGTCGAT|p1,1,TGG,5;,p1:1,T,mp:6
 \begin{figure}[!htb]
@@ -2281,7 +2281,7 @@ file format and version, e.g. \texttt{gml.1} for GML version 1.
 It is followed by a space character and then the usual comment, that is, the data block identifier
 and other optional text. \\
 An example for how several graphs can be encoded in the GML format
-can be seen in figure~\ref{fig:evo_fig_second_gml_example}.
+can be seen in Figure~\ref{fig:evo_fig_second_gml_example}.
 
 % CAA|,1,CG,3 and TGTC|,1,,4;,1,,3
 \begin{figure}[!htb]
@@ -2350,14 +2350,14 @@ In the process of creating GML, we finally designed one more data format for
 genomic graphs. The idea behind FFX, the Flat Fused XBW format, is to enable saving
 a flat XBW table directly, without having to convert it to some other format
 first. \\
-As shown in section~\ref{sec:fusing_flat_tables},
+As shown in Section~\ref{sec:fusing_flat_tables},
 it can be helpful to fuse several separate graphs together
 instead of merging them completely. Therefore, FFX is designed
 to specifically accommodate for these kinds of fused structures as well.
 It does not however impose these fused structures on the user,
 as non-fused graphs can simply be stored as single data blocks within
 an FFX file.
-An FFX example file and the graph that it represents can be seen in figure~\ref{fig:evo_fig_ffx_example}.
+An FFX example file and the graph that it represents can be seen in Figure~\ref{fig:evo_fig_ffx_example}.
 
 % AGAgctTAC|,2,AC,6;,3,,8
 \begin{figure}[!htb]
@@ -2390,7 +2390,7 @@ second table, the end node of the second leading into the start node of the
 third, and so on.
 For a more detailed explanation of how fused
 flat tables work and the motivation behind using them,
-see section~\ref{sec:fusing_flat_tables}. \\
+see Section~\ref{sec:fusing_flat_tables}. \\
 As more complex formats are less likely to become
 used by the community at large as it would be harder to re-implement them
 in various situations, these fused data structures are required to be strictly linear.
@@ -2409,7 +2409,7 @@ entire FFX file must use every edge between the data blocks exactly once. \\
 At the first glance, this might seem like a rather limiting constraint.
 However, it should be noted that much more complex behaviour is very possible
 within each data block, which can encode as complex a graph as is necessary
-as long as it does not contain any loops.
+as long as it does not contain any cycles.
 Also, this is inspired by the actual needs for a huge graph reference,
 in which the overall structure is linear and all perturbations are on a
 rather local scale.
@@ -2488,7 +2488,7 @@ we created the Graph Merging Library.
 \end{figure}
 This is a software library written in JavaScript, with a graphical user interface written in HTML and CSS,
 that can be used to more explicitly understand how various algorithms for working with genomic graphs work.
-A screenshot of user interface can be seen in figure~\ref{fig:evo_gml_3}. \\
+A screenshot of user interface can be seen in Figure~\ref{fig:evo_gml_3}. \\
 In particular, GML includes different methods for merging and fusing genomic graphs,
 which may be helpful to other future projects.
 
@@ -2507,7 +2507,7 @@ In particular, graphs considered in GML are finite automata.
 \subsection{Graph Properties}
 
 A graph $ G = (V, E) $ used in the Graph Merging Library is generally considered to consist of labelled nodes
-and directed edges, as introduced in section~\ref{sec:graph_definition}. \\
+and directed edges, as introduced in Section~\ref{sec:graph_definition}. \\
 We assume that the graph is \textit{connected}.
 % GACGT|,2,T,4;,3,,5 vs. ACCTG|,1,,5;,1,,3 with no start and end nodes, and taking out the edge in the middle
 \begin{figure}[!htb]
@@ -2518,7 +2518,7 @@ We assume that the graph is \textit{connected}.
 We define a graph to be connected if every node of the graph is connected to every other node of the graph through some edges,
 even if not every node is reachable from every other node. This means that every
 set of two nodes needs to be connected by a series of edges, but not all of them need to face in the same direction.
-An example for a graph violating this assumption can be seen in figure~\ref{fig:evo_fig_assume_connectedness}.
+An example for a graph violating this assumption can be seen in Figure~\ref{fig:evo_fig_assume_connectedness}.
 Also, the edges in the graph need to be \textit{unique}.
 % GACGTACCT|,3,,5;,6,,8 to get the arrows and then also
 \begin{figure}[!htb]
@@ -2528,9 +2528,9 @@ Also, the edges in the graph need to be \textit{unique}.
 \end{figure}
 This means that no two directed edges $ (u_1, v_1) {\: \in \:} E $ and $ (u_2, v_2) {\: \in \:} E $ are allowed to
 exist within the same graph for which both $ u_1 = u_2 $ and $ v_1 = v_2 $ are true.
-A graph not obliging with this requirement is shown in figure~\ref{fig:evo_fig_assume_unique_edges}. \\
+A graph not obliging with this requirement is shown in Figure~\ref{fig:evo_fig_assume_unique_edges}. \\
 Graphs within the Graph Merging Library are supposed to be \textit{acyclic},
-meaning that they are not allowed to contain any loops. These are paths along
+meaning that they are not allowed to contain any cycles. These are paths along
 the directed edges which lead from a node onto itself, either directly or along a sequence of edges through other nodes. \\
 % TODO FIGFIGFIG :: inifinite loops
 The alphabet $ \Sigma $ is assumed to contain only upper case English letters for graphs within GML.
@@ -2577,7 +2577,7 @@ whether it is a special character.
 \caption[Graph fulfilling core assumptions of GML]{A graph fulfilling the core assumptions of GML.} \label{fig:evo_fig_assume_all_good}
 \end{figure}
 
-A graph which is not violating any of aforementioned assumptions can be seen in figure~\ref{fig:evo_fig_assume_all_good}.
+A graph which is not violating any of aforementioned assumptions can be seen in Figure~\ref{fig:evo_fig_assume_all_good}.
 
 \subsection{Additional Assumptions for Merging Graphs}
 
@@ -2602,7 +2602,7 @@ However, we need to encode them as single characters when working with flat tabl
 which do not allow some cells to have different lengths.
 Therefore, we internally encode “$\$_0$” as the percent sign “\%” and
 we internally encode “$\#_0$” as the underscore sign “\_”. \\
-A clear lineup of all special characters which we use in GML can be found in table~\ref{table:special_characters}.
+A clear lineup of all special characters which we use in GML can be found in Table~\ref{table:special_characters}.
 \begin{table}[htb]
 \centering
 \caption[Special characters in GML]{Special characters in GML together with information about how they are encoded internally as well as remarks about their use.}
@@ -2657,14 +2657,14 @@ and how likely it is to add more info blocks after adding the first.
 When a GML file is being opened, then some work still needs to be undertaken
 to convert the opened graph into the extended XBW format, and the graph is stored
 in a different format internally at first before this conversion occurs. \\
-That is, each graph is stored as array which contains all nodes as elements.
+That is, each graph is stored as an array which contains all nodes as elements.
 Every node here is an object which has the properties \texttt{c}, \texttt{n}, \texttt{p} and
-possibly \texttt{f}. The \texttt{c} property contains one character, which is the label of the node.
-The \texttt{f} property, if it is defined, contains the prefix of the node. Until the prefixes have
+possibly \texttt{f}. The property \texttt{c} contains one character, which is the label of the node.
+The property \texttt{f}, if it is defined, contains the prefix of the node. Until the prefixes have
 been calculated, these properties can be missing. \\
-The \texttt{n} property contains an array of integers, with each integer being the index
+The property \texttt{n} contains an array of integers, with each integer being the index
 of a node in the array representing the graph. It represents a list of all succeeding nodes.
-Similarly, the \texttt{p} property is a list of preceding nodes, implemented as array of integers,
+Similarly, the property \texttt{p} is a list of preceding nodes, implemented as array of integers,
 with each integer again being the index of a preceding node in the graph array. \\
 The start node with label “$\#$” is assumed to be found as the first element
 of the graph array. Apart from this node, the positions of the other nodes within
@@ -2684,12 +2684,12 @@ The main path as specified in the GML file is then added as one possible way
 of traversing the graph from the $\#$ node to the \$ node, which is added at the end of the main path. \\
 Finally, the info blocks are iterated over, and their contents are added as edges and nodes which are part
 of paths off the main path.
-% TODO :: add algorithm: The entire process is illustrated in algorithm~\ref{alg:...}.
+% TODO :: add algorithm: The entire process is illustrated in Algorithm~\ref{alg:...}.
 
 \section{Sanitizing the Graph}
 
 If graphs which are used as inputs for the GML merging conform to the assumptions
-stated in section~\ref{sec:gml_core_assumptions},
+stated in Section~\ref{sec:gml_core_assumptions},
 then they can be worked on and results can be given out.
 However, in case of inputs not conforming to these assumptions, the results of the GML algorithms
 are not useful or even no results are given out, as infinite loops are encountered.
@@ -2702,7 +2702,7 @@ To perform this check of the core assumptions, the function \texttt{sanitizeAuto
 whenever an input graph string is newly converted to an internal automaton data structure representing it.
 It in turn calls several functions which check one assumption at a time. \\
 The first one of these functions is called \texttt{eliminateMultipleEdgesInAutomaton}.
-Its underlying functionality can be found in algorithm~\ref{alg:eliminateMultipleEdgesInAutomaton}.
+Its underlying functionality can be found in Algorithm~\ref{alg:eliminateMultipleEdgesInAutomaton}.
 \begin{algorithm}
 \caption[Unify multiple edges in a graph]{Unify multiple edges in a graph.}
 \addtocontents{loa}{\vskip 15pt}
@@ -2738,7 +2738,7 @@ edges $ (u_1, v_1) {\: \in \:} E $ and $ (u_2, v_2) {\: \in \:} E $ for which bo
 It does not actually throw an error if such edges are encountered, but simply deletes one edge of the pair, until none
 of these pairs of edges are left. \\
 The next function is \texttt{checkAutomatonForCycles}.
-Its general approach is shown in algorithm~\ref{alg:checkAutomatonForCycles}.
+Its general approach is shown in Algorithm~\ref{alg:checkAutomatonForCycles}.
 \begin{algorithm}
 \caption[Check if graph contains cycles]{Check if a graph contains cycles.}
 \addtocontents{loa}{\vskip 15pt}
@@ -2777,7 +2777,7 @@ and checks for each new node added to a path if that node has already been trave
 If such a node is encountered which is traversed several times within one path, then an
 error is given out and the invalid input warning is displayed to the user. \\
 Finally, the function \texttt{checkAutomatonForIncorrectChars} as shown in
-automaton~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of the automaton
+Algorithm~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of the automaton
 \begin{algorithm}
 \caption[Check if graph labels contain invalid characters]{Check if graph labels contain invalid characters.}
 \addtocontents{loa}{\vskip 15pt}
@@ -2994,7 +2994,7 @@ When it is instructed to find one of the longest paths, it will however still ig
 paths including cycles, as it might otherwise be trapped in the cycle indefinitely,
 trying to find yet longer paths.
 An example for how this choice affects
-the visualized graph can be seen in figure~\ref{fig:evo_fig_visualize_short_vs_long}.
+the visualized graph can be seen in Figure~\ref{fig:evo_fig_visualize_short_vs_long}.
 % merge GACGT|,2,T,4;,3,,5 vs. ACCT|,1,,4;,1,,3, once with normal settings, once with forcing shortest path
 \begin{figure}[!htb]
 \centering
@@ -3032,7 +3032,7 @@ for the direct merging of flat XBW tables.
 However, it is helpful to be able to quickly check whether this merging of tables
 was successful.
 We therefore developed the function \texttt{mergeAutomata},
-the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
+the general approach of which is shown in Algorithm~\ref{alg:mergeAutomata}.
 \begin{algorithm}
 \caption[Merge two graphs]{Merge two graphs in a simple manner. The input consists of graph\_1 and graph\_2, which are to be merged.}
 \addtocontents{loa}{\vskip 15pt}
@@ -3107,7 +3107,7 @@ the general approach of which is shown in algorithm~\ref{alg:mergeAutomata}.
 \end{algorithmic}
 \end{algorithm}
 It is used to merge two input graphs which are stored in the internal graph format
-outlined in section~\ref{sec:internal_graph_format}. \\
+outlined in Section~\ref{sec:internal_graph_format}. \\
 The function operates by first copying every node from graph\_1 into the newly created graph,
 except for the end node with label “\$”. A list of all nodes which have outgoing edges leading to that node
 is hereby stored in the array out\_of\_1.
@@ -3147,7 +3147,7 @@ Before being able to encode the graph as either XBW node table or as flat XBW ta
 it should be ensured that it actually is reverse deterministic.
 
 For any node within the graph, we can construct a prefix,
-which is the sequence of its own label concatenated with the labels of the nodes which are
+which is the sequence of its own label concatenated to the labels of the nodes which are
 traversed when exiting that node.
 % TODO :: insert image about prefixes and how they are generated
 % (even through strands that are split apart, but have identical labels)
@@ -3166,7 +3166,7 @@ at least two nodes not being able to be unambiguously sorted by their prefixes,
 we can recall the definition of a reverse deterministic graph:
 
 % \begin{moyadef}
-\textbf{Definition} A graph is \textit{reverse deterministic} if and only if each node has no two predecessors with the same label.
+\textbf{Definition.} A graph is \textit{reverse deterministic} if and only if each node has no two predecessors with the same label.
 % \end{moyadef}
 
 % What we want to prove is the following theorem.
@@ -3197,7 +3197,7 @@ all of its nodes unambiguously alphabetically by its prefixes. \qed
 
 The program therefore first needs to check if the opened graph is reverse deterministic.
 This can easily done by comparing the labels of every nodes' predecessors, as can be seen
-in algorithm~\ref{alg:isAutomatonReverseDeterministic}.
+in Algorithm~\ref{alg:isAutomatonReverseDeterministic}.
 
 \begin{algorithm}
 \caption[Check if a graph is reverse deterministic]{Checks if a graph is reverse deterministic.}
@@ -3249,7 +3249,7 @@ If this requirement is fulfilled, then we call the graph prefix sorted. \\
 The graph is already reverse deterministic, but that does not mean that all the nodes
 necessarily have unique prefixes which make them unambiguously sortable.
 An example for a graph which is reverse deterministic but contains several nodes
-with the same prefixes can be seen in figure~\ref{fig:evo_gml_rev_det_but_not_prev_sort}.
+with the same prefixes can be seen in Figure~\ref{fig:evo_gml_rev_det_but_not_prev_sort}.
 % CGTACGTAA|,2,A,4;,6,G,8 - do not alternate sides; print first graph with prefixes
 \begin{figure}[!htb]
 \centering
@@ -3265,7 +3265,7 @@ we write a special character such as the exclamation point at the character in t
 to note that this character can not be unambiguously determined. \\
 The process of achieving a prefix sorted graph is therefore based on iterating through
 the nodes and reducing the amount of
-prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:workOnAutomatonPrefixes}.
+prefixes which end on exclamation points, as can be seen in Algorithm~\ref{alg:workOnAutomatonPrefixes}.
 \begin{algorithm}
 \caption[Prefix sort a graph]{Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
 \addtocontents{loa}{\vskip 15pt}
@@ -3304,25 +3304,25 @@ prefixes which end on exclamation points, as can be seen in algorithm~\ref{alg:w
 \end{algorithmic}
 \end{algorithm}
 In line 18 of this algorithm, a node with more than one successor is split into several nodes.
-Such a node needs to exist there, as we reach this point in the algorithm due to a prefix
+Such a node needs to exist, as we reach this point in the algorithm due to a prefix
 not being unambiguously constructable, and the only way for this to happen is if a node has
 several successors with different prefixes. Therefore, we must be able to find a node with
 several successors for which splitting it enables us to build longer prefixes. \\
 The exact approach for splitting a node $ N $ is to replace $ N $ by as many new nodes as $ N $ has
 outgoing edges.
 Every one of the nodes replacing $ N $ has exactly one outgoing edge, leading to
-one of the successors of $ N $.
-In this fashion, every successor of $ N $ obtains one of the nodes replacing $ N $ as predecessors.
+one distinct successor of $ N $.
+In this fashion, every successor of $ N $ is preceded by one of the nodes replacing $ N $.
 Every one of the new nodes also obtains incoming edges to all the nodes that are predecessors of $ N $.
 Finally, every one of the nodes replacing $ N $ is given the label of $ N $.
-The process of splitting a node is shown in figure~\ref{fig:evo_fig_node_splitting}.
+The process of splitting a node is shown in Figure~\ref{fig:evo_fig_node_splitting}.
 
 % GACCTAATG|,5,C,8;,1,AG,5 - here we did a bit of work manually; this is about the splitting of the T node,
 % but the position looks better after the splitting of the C node, so we copied some arrows manually in inkscape etc.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_node_splitting.pdf}
-\caption[Node splitting example]{Node splitting example. On the top, the graph is visualized before the splitting of the central node with label \textup{“T”} and prefix \textup{“T!”}. On the bottom, the same graph can be seen after node splitting occurred. The node has been replaced with one node with prefix \textup{“TC”} and one node with prefix \textup{“TA”}. Both nodes have all the incoming edges that the original node had.} \label{fig:evo_fig_node_splitting}
+\caption[Node splitting example]{Node splitting example. On the top, the graph is visualized before the splitting of the central node with label \textup{“T”} and prefix \textup{“T!”}. On the bottom, the same graph can be seen after node splitting occurred. The node has been replaced by one node with prefix \textup{“TC”} and one node with prefix \textup{“TA”}. Both nodes got all the incoming edges that the original node had.} \label{fig:evo_fig_node_splitting}
 \end{figure}
 
 It should be noted that we do not wish to remove all exclamation points entirely,
@@ -3342,9 +3342,9 @@ However, in this section we first consider node tables, which share several char
 with flat XBW tables.
 Node tables are easier to understand and to use as they are more closely related to the
 underlying graph, which means that the visualized graph can be used to understand their behaviour.
-The definition of a node table can be found in section~\ref{sec:node_table_definition}.
+The definition of a node table can be found in Section~\ref{sec:node_table_definition}.
 
-To create a node table when a prefix sorted graph such as the one in figure~\ref{fig:evo_fig_node_construct_prefixes} is given,
+To create a node table when a prefix sorted graph such as the one in Figure~\ref{fig:evo_fig_node_construct_prefixes} is given,
 % ACTAGTGAT|,5,T,8;,2,,4;,2,T,5
 \begin{figure}[!htb]
 \centering
@@ -3353,11 +3353,11 @@ To create a node table when a prefix sorted graph such as the one in figure~\ref
 \end{figure}
 we can first create
 an alphabetically sorted list of all prefixes of the nodes in the graph.
-Such as list is shown in table~\ref{table:node_construct_prefixes_1}.
+Such as list is shown in Table~\ref{table:node_construct_prefixes_1}.
 
 \begin{table}[htb]
 \centering
-\caption[Alphabetically sorted prefix list]{Alphabetically sorted prefix list for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\caption[Alphabetically sorted prefix list]{Alphabetically sorted prefix list for the graph in Figure~\ref{fig:evo_fig_node_construct_prefixes}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 \$ & AC & AG & AT & C & GA & GT & T\$ & TAG & TAT & TGA & TGT & \textbf{\#} & \textbf{Prefix} \\ \hline
@@ -3372,11 +3372,11 @@ We store the labels of all nodes immediately
 preceding $ v_i $ in the BWT cell,
 and a string starting with a one followed by some amount of zeroes
 such that its overall length is equal to the outdegree of $ v_i $ in the $ M $ cell. \\
-This gives us a table containing the prefixes, BWT and $ M $, such as table~\ref{table:node_construct_prefixes_2}.
+This gives us a table containing the prefixes, BWT and $ M $, such as Table~\ref{table:node_construct_prefixes_2}.
 
 \begin{table}[htb]
 \centering
-\caption[Node table with BWT, prefixes and $ M $]{Node table with BWT, prefixes and $ M $ for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\caption[Node table with BWT, prefixes and $ M $]{Node table with BWT, prefixes and $ M $ for the graph in Figure~\ref{fig:evo_fig_node_construct_prefixes}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 T & \textbf{\#} & T|C & G|T & A & T & A|T & A & C & G & G & C & \$ & \textbf{BWT} \\ \hline
@@ -3390,11 +3390,11 @@ We can finally also add a row for the bit-vector $ F $, with each cell containin
 a string starting with a one followed by as many zeroes as are necessary such that
 the length of the string is equal to the amount of entries of the corresponding BWT cell.
 This concludes the generation of the XBW node table for the given graph.
-An example outcome can be seen in table~\ref{table:node_construct_prefixes_3}.
+An example outcome can be seen in Table~\ref{table:node_construct_prefixes_3}.
 
 \begin{table}[htb]
 \centering
-\caption[Complete node table]{Complete node table for the graph in figure~\ref{fig:evo_fig_node_construct_prefixes}.}
+\caption[Complete node table]{Complete node table for the graph in Figure~\ref{fig:evo_fig_node_construct_prefixes}.}
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | c | c | c | c | c | }
 \hline
 T & \textbf{\#} & T|C & G|T & A & T & A|T & A & C & G & G & C & \$ & \textbf{BWT} \\ \hline
@@ -3609,12 +3609,12 @@ of the nodes of the first input table can be changed within the merged table.
 The reason for this is that their prefixes, which within the first input table ended at the
 end node $ v_e $ of the first graph, can now spill over into the second graph,
 thereby giving different relative orderings.
-This concept is illustrated in figure~\ref{fig:evo_fig_node_merge_aftersort} and table~\ref{table:node_merge_aftersort}.
+This concept is illustrated in Figure~\ref{fig:evo_fig_node_merge_aftersort} and Table~\ref{table:node_merge_aftersort}.
 
 % GAAT|,1,CT,3 and CAA|,1,,3
 \begin{table}[htb]
 \centering
-\caption[Node tables showing purpose of aftersort array]{Node tables showing the purpose of the aftersort array. The upper two node tables are the inputs for the XBW node merging, while the bottom table is the outcome. The highlighted columns correspond to the highlighted nodes in figure~\ref{fig:evo_fig_node_merge_aftersort}.}
+\caption[Node tables showing purpose of aftersort array]{Node tables showing the purpose of the aftersort array. The upper two node tables are the inputs for the XBW node merging, while the bottom table is the outcome. The highlighted columns correspond to the highlighted nodes in Figure~\ref{fig:evo_fig_node_merge_aftersort}.}
 
 {
 % reduce whitespace in this table (default might be 6pt)
@@ -3652,7 +3652,7 @@ A & A|C & C & G & A|T & T & G & $\#$ &\cellcolor{purple_bg}\color{purple_fx}C &\
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_node_merge_aftersort.pdf}
-\caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
+\caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in Table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
 
@@ -3693,9 +3693,9 @@ of the second input which actually becomes the end node of the merged table.
 
 We now wish to create a flat XBW table based on a node table.
 % TODO :: later on also create a flat XBW table directly, without the node table in between?
-For the general definition of such a flat table, see section~\ref{sec:flat_table_definition}.
+For the general definition of such a flat table, see Section~\ref{sec:flat_table_definition}.
 
-The process of converting an XBW node table into a flat table is illustrated in tables~\ref{table:evo_node_to_flat_node}
+The process of converting an XBW node table into a flat table is illustrated in Tables~\ref{table:evo_node_to_flat_node}
 and \ref{table:evo_node_to_flat_flat}, which respectively show the a node table and a flat table representing the same graph. \\
 % GATAATG|,3,C,6;,1,AG,3
 {
@@ -3769,7 +3769,7 @@ of nodes, respectively.
 
 \subsection{Graph Navigation}
 
-As with the navigation through XBW node tables described in section~\ref{sec:gml_node_navigation},
+As with the navigation through XBW node tables described in Section~\ref{sec:gml_node_navigation},
 the navigation through a graph represented by a flat XBW table relies on
 being able to find special nodes within the graph
 as well as being able to advance from one node to another one.
@@ -3800,7 +3800,7 @@ To find the preceding nodes of a given node,
 we can use the function \texttt{LF}. It performs last-to-first mapping to
 map the last column in the matrix of sorted cyclic rotations, which is the BWT,
 to the first column, which is the FC row.
-How this function operates can be seen in algorithm~\ref{alg:lf}.
+How this function operates can be seen in Algorithm~\ref{alg:lf}.
 \begin{algorithm}
 \caption[\texttt{LF} function for flat table navigation]{\texttt{LF} function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It gives out an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
 \addtocontents{loa}{\vskip 15pt}
@@ -3860,7 +3860,7 @@ deciding to use different indexing methods if that is more convenient.
 % find succeeding nodes
 Similar to the \texttt{LF} function for preceding nodes, there is also a second special function we can use
 to find the succeeding nodes of a given node.
-This function is called $ \Psi $ and its approach is shown in algorithm~\ref{alg:psi}.
+This function is called $ \Psi $ and its approach is shown in Algorithm~\ref{alg:psi}.
 \begin{algorithm}
 \caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ k $. It gives out the absolute index of the $ k $th node succeeding the node with index $ i $.}
 \addtocontents{loa}{\vskip 15pt}
@@ -3930,13 +3930,13 @@ all $ j $ and $ k $ for which $ u_j $ and $ u_k $ are defined, then we can appen
 to the prefix we are building.
 Otherwise, we have to append an error character such as “!” to indicate that this position in the
 prefix cannot be filled unambiguously and stop the prefix generation.
-We also have to stop building up the prefix when we add the special “\$” character to it,
+We also have to stop building up the prefix when adding the special “\$” character to it,
 as we would otherwise just continue building it from the start.
 We can continue onwards with this process until we have generated a prefix of the desired length
 by repeatedly using $ \Psi $ again to find all succeeding nodes
 of all current nodes $ u_j $, and again adding the shared label of all of them if it is unambiguous. \\
 This process is implemented in the function \texttt{\_publishPrefix} of the XBW environment in GML.
-Its general approach is outlined in algorithm~\ref{alg:_publishPrefix}.
+Its general approach is outlined in Algorithm~\ref{alg:_publishPrefix}.
 \begin{algorithm}
 \caption[Generate prefix of a node in a flat table]{Generate the prefix of a node with FC-index $ i $ in a flat XBW table up to a given length. The optional parameter use\_all\_out\_edges can be set to \texttt{true} such that all outgoing edges of the specified node are used. Otherwise, only the specific edge addressed by $ i $ is followed out of the first considered node.}
 \addtocontents{loa}{\vskip 15pt}
@@ -4026,7 +4026,7 @@ just as they should be to generate the real prefix of the node. Therefore, the p
 Only when it is explicitly set to \texttt{false} does the edge given by the input matter,
 as the other outgoing edges of the input node are then not visited while generating the prefix.
 The differences between the two possible choices for this parameter
-are shown in figure~\ref{fig:evo_fig_use_all_out_edges_or_not}. \\
+are shown in Figure~\ref{fig:evo_fig_use_all_out_edges_or_not}. \\
 % GACGT|,2,T,4;,3,,5 and ACCT|,1,,4;,1,,3
 \begin{figure}[!htb]
 \centering
@@ -4035,13 +4035,13 @@ are shown in figure~\ref{fig:evo_fig_use_all_out_edges_or_not}. \\
 \end{figure}
 In addition to performing the aforementioned calculations to generate the prefix of a given node,
 this function can also return a recommended \textit{split node} through the optional parameter give\_the\_split\_node.
-The computations necessary for this have not been included in algorithm~\ref{alg:_publishPrefix} to simplify
+The computations necessary for this have not been included in Algorithm~\ref{alg:_publishPrefix} to simplify
 the understanding of it, but they basically consist of an array of visited paths which keeps track
 of the potential split nodes, and an evaluation at the very end of the function which determines
 which one of these to return by choosing a node actually on a path leading to a prefix ambiguity.
 We here define a split node as a node which can be split into several nodes, thereby ideally enabling us
 to continue building longer prefixes.
-An example for such a node can be seen in figure~\ref{fig:evo_split_node}.
+An example for such a node can be seen in Figure~\ref{fig:evo_split_node}.
 % GTCTTAACT|,3,AG,5
 \begin{figure}[!htb]
 \centering
@@ -4056,15 +4056,15 @@ two outgoing edges to nodes with different labels was replaced by two nodes
 with only one outgoing edge each, so that each one of the new nodes can
 have a longer prefix. \\
 For the general concept of splitting nodes to
-enable the building of longer prefixes, see section~\ref{sec:prefix_sorting}. \\
-In figure~\ref{fig:evo_split_node},
+enable the building of longer prefixes, see Section~\ref{sec:prefix_sorting}. \\
+In Figure~\ref{fig:evo_split_node},
 after generating the prefix of node “C!” the function \texttt{\_publishPrefix} would
 return that node as a recommended split node. However, the node returned is
 not always the node for which the prefix is constructed; instead, we decided to return the first node
 with several outgoing edges encountered when going backwards through the tree of nodes
 that were inspected for generating the prefix, starting at the leaf nodes whose labels
 necessitated the adding of a “!” character instead of a letter.
-Such a tree of inspected nodes can be seen in figure~\ref{fig:evo_node_splitting_tree}.
+Such a tree of inspected nodes can be seen in Figure~\ref{fig:evo_node_splitting_tree}.
 % GTGATTGAA|,4,CC,6;,2,GATG,7
 \begin{figure}[!htb]
 \centering
@@ -4082,7 +4082,7 @@ and to split the node with label “A!” later on.
 Text patters in a graph corresponding to a flat table
 can be found using the \texttt{LF} function with a big initial range which gets diminished through
 several applications, calling the function once for each letter in the text.
-This happens in the \texttt{find} function, the general approach of which is shown in algorithm~\ref{alg:find}.
+This happens in the \texttt{find} function, the general approach of which is shown in Algorithm~\ref{alg:find}.
 \begin{algorithm}
 \caption[Find pattern in a flat table]{Find pattern $ P $ in a flat table.}
 \addtocontents{loa}{\vskip 15pt}
@@ -4137,12 +4137,12 @@ The merging of flat XBW tables is in principle similar to the merging of node ta
 We again iterate over all nodes of all involved graphs and construct a new table
 based on them. Throughout this section we will illustrate the merging process
 by applying it to the flat XBW tables shown in
-table~\ref{table:evo_fig_flat_merge_step_zero}.
+Table~\ref{table:evo_fig_flat_merge_step_zero}.
 Figure~\ref{fig:evo_fig_flat_merge_step_zero} contains the corresponding graphs.
 
 \begin{table}[htb]
 \centering
-\caption[Flat XBW tables before merging]{Flat XBW tables corresponding to graphs in figure~\ref{fig:evo_fig_flat_merge_step_zero} before merging.}
+\caption[Flat XBW tables before merging]{Flat XBW tables corresponding to graphs in Figure~\ref{fig:evo_fig_flat_merge_step_zero} before merging.}
 {
 % reduce whitespace in this table (default might be 6pt)
 \renewcommand{\tabcolsep}{5pt}
@@ -4170,7 +4170,7 @@ C & A & A & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_flat_merge_step_zero.pdf}
-\caption[Graphs before merging]{Graphs corresponding to table~\ref{table:evo_fig_flat_merge_step_zero} before merging.} \label{fig:evo_fig_flat_merge_step_zero}
+\caption[Graphs before merging]{Graphs corresponding to Table~\ref{table:evo_fig_flat_merge_step_zero} before merging.} \label{fig:evo_fig_flat_merge_step_zero}
 \end{figure}
 
 A big difference to the merging of the node tables is that we no longer have
@@ -4199,21 +4199,21 @@ and either advances to the next set of nodes, or populates the splitnodes array
 with nodes which it recommends to split to be able to construct unambiguous prefixes if this
 construction is not possible without splitting nodes.
 To return such a split node, \texttt{checkIfSplitOneMore} internally uses the \texttt{\_publishPrefix} function
-described in section~\ref{sec:gml_flat_construct_prefixes}, which can make a recommendation for a
+described in Section~\ref{sec:gml_flat_construct_prefixes}, which can make a recommendation for a
 node that enables us to construct longer prefixes upon being split.
 If such a node is returned, then the function \texttt{splitOneMore} is used to actually
 perform the node splitting. \\
-Just as when merging XBW node tables as described in section~\ref{sec:gml_merging_node_tables},
+Just as when merging XBW node tables as described in Section~\ref{sec:gml_merging_node_tables},
 we again use an aftersort array.
 The reason for using it is that the ordering of the nodes within the first input table is not necessarily the
 same as their ordering within the merged table, necessitating this adjustment to the order of comparison
 for the construction of prefixes and the splitting of nodes. \\
 Table~\ref{table:evo_fig_flat_merge_step_one} shows the results of the first step in the merging algorithm being applied
-to the example tables, and figure~\ref{fig:evo_fig_flat_merge_step_one} shows the corresponding graphs.
+to the example tables, and Figure~\ref{fig:evo_fig_flat_merge_step_one} shows the corresponding graphs.
 
 \begin{table}[htb]
 \centering
-\caption[Flat XBW tables after first merge step]{Flat XBW tables corresponding to graphs in figure~\ref{fig:evo_fig_flat_merge_step_one} after first merge step.}
+\caption[Flat XBW tables after first merge step]{Flat XBW tables corresponding to graphs in Figure~\ref{fig:evo_fig_flat_merge_step_one} after first merge step.}
 {
 % reduce whitespace in this table (default might be 6pt)
 \renewcommand{\tabcolsep}{5pt}
@@ -4241,7 +4241,7 @@ C & A & A & $\#$ & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_flat_merge_step_one.pdf}
-\caption[Graphs after first merge step]{Graphs corresponding to tables~\ref{table:evo_fig_flat_merge_step_one} after first merge step. In this step, both nodes with prefix “AA” have been split apart.} \label{fig:evo_fig_flat_merge_step_one}
+\caption[Graphs after first merge step]{Graphs corresponding to Tables~\ref{table:evo_fig_flat_merge_step_one} after first merge step. In this step, both nodes with prefix “AA” have been split apart.} \label{fig:evo_fig_flat_merge_step_one}
 \end{figure}
 
 As the second and main part of the merging algorithm
@@ -4291,12 +4291,12 @@ making it unnecessary to perform an extra step in the end.
 This however would have increased the complexity of the second step, which is why we
 decided to perform it as a separate step in the end. \\
 The results of the third step for our merge example are shown in
-table~\ref{table:evo_fig_flat_merge_step_three}.
+Table~\ref{table:evo_fig_flat_merge_step_three}.
 Figure~\ref{fig:evo_fig_flat_merge_step_three} contains the corresponding graphs.
 
 \begin{table}[htb]
 \centering
-\caption[Flat XBW merging result]{Flat XBW table merging result, corresponding to graph in figure~\ref{fig:evo_fig_flat_merge_step_three}.}
+\caption[Flat XBW merging result]{Flat XBW table merging result, corresponding to graph in Figure~\ref{fig:evo_fig_flat_merge_step_three}.}
 {
 % reduce whitespace in this table (default might be 6pt)
 \renewcommand{\tabcolsep}{5pt}
@@ -4315,7 +4315,7 @@ C & A & A & T & T & $\#$ & $\#$ & A & A & A & A & A & C & T & A & \$ & \textbf{B
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\textwidth]{evo_fig_flat_merge_step_three.pdf}
-\caption[Graph merging result]{Graph merging result, corresponding to tables~\ref{table:evo_fig_flat_merge_step_three}.} \label{fig:evo_fig_flat_merge_step_three}
+\caption[Graph merging result]{Graph merging result, corresponding to Tables~\ref{table:evo_fig_flat_merge_step_three}.} \label{fig:evo_fig_flat_merge_step_three}
 \end{figure}
 
 % TODO :: add algorithms! like, all of them!
@@ -4337,7 +4337,7 @@ as it is inherently different from the actions we perform when merging tables.
 
 \subsection{Fusing Instead of Merging}
 
-As shown in section~\ref{sec:merging_flat_tables}, merging flat XBW tables is rather complex.
+As shown in Section~\ref{sec:merging_flat_tables}, merging flat XBW tables is rather complex.
 It requires a lot of computations and can lead to a lot of node splitting,
 which might be necessary to ensure unambiguously sortable prefixes along the entire merged graph.
 This leads to an increase in file size as opposed to the total file
@@ -4346,7 +4346,7 @@ To explore how these problems might be avoided,
 we decided to implement another way to combining several flat XBW tables.
 In this way, consecutive graphs encoded as flat XBW tables are fused together on their ends,
 meaning that the dollar sign node of one graph is connected with the hash tag node of the next.
-How fusing differs from merging is illustrated in figure~\ref{fig:evo_fig_merge_fuse_diffy}.
+How fusing differs from merging is illustrated in Figure~\ref{fig:evo_fig_merge_fuse_diffy}.
 % GTC|,1,C,3 and ACT|,1,,3
 \begin{figure}[!htb]
 \centering
@@ -4379,7 +4379,7 @@ When we want to fuse tables together, then every fused start node needs to have
 exactly one outgoing edge, and every fused end node needs to have exactly one incoming edge.
 This requirement is necessary to ensure that the navigation functions \texttt{LF} and $\Psi$,
 which we will define for a fused table
-in section~\ref{sec:fused_table_navigation}, can actually perform their work correctly.
+in Section~\ref{sec:fused_table_navigation}, can actually perform their work correctly.
 More elaborate future work could however erase this requirement by adding more end nodes and start nodes
 to each fused table representing the edges leading out of the start nodes and into the end nodes of the surrounding tables,
 respectively. \\
@@ -4402,7 +4402,7 @@ and then sets an internal integer called role to the value 3.
 Here, the value 1 stands for a regular XBW environment containing exactly one flat XBW table,
 while 2 stands for an XBW environment which is in the process of being merged from several tables
 and 3 stands for an environment which is the host data structure for several flat tables. \\
-We then call the function \texttt{addSubXBW}, shown in algorithm~\ref{alg:addSubXBW},
+We then call the function \texttt{addSubXBW}, shown in Algorithm~\ref{alg:addSubXBW},
 \begin{algorithm}
 \caption[Add a table to a host data structure]{Add a flat XBW table to a host data structure. The parameter newXBW is a pointer to the XBW environment containing the table which is to be added to the host data structure.}
 \addtocontents{loa}{\vskip 15pt}
@@ -4514,7 +4514,7 @@ Furthermore each algorithm working on the fused data structure needs to be able 
 handle such a data structure containing an arbitrary amount of tables,
 as it would not help having a fused table consisting of more than two tables if there
 were no algorithms readily available to perform any work on that fused table. \\
-Luckily, the changes needed to be made to the algorithm from section~\ref{sec:perform_fusion_of_two_tables} to
+Luckily, the changes needed to be made to the algorithm from Section~\ref{sec:perform_fusion_of_two_tables} to
 account for more than two input tables are rather small.
 In particular, the host data structure needs to be able to provide an arbitrary amount of slots into
 which to put these tables, such as an array which can hold as little as one element but has no practical boundary
@@ -4558,7 +4558,7 @@ can be given via FC-indexing, BWT-indexing or absolute indexing, while the secon
 actually refers to the table we are picking.
 
 Using this pairwise indexing method, we can find the start node of the graph as
-last node of the first table.
+the last node of the first table.
 We know that it is a node within the first table due to the fact that we start each path
 through the entire graph
 in the first table, and we know that it needs to be the last node within that table
@@ -4590,7 +4590,7 @@ These same arguments include the optional parameters do\_select and do\_rank.
 The result of the function is also slightly different, again being a pair $ (i, j) $ to
 properly address a node within the fused graph instead of a plain integer $ i $.
 The approach on which the $ \Psi $ function within the host environment is based
-is shown in algorithm~\ref{alg:host_psi}. \\
+is shown in Algorithm~\ref{alg:host_psi}. \\
 \begin{algorithm}
 \caption[$\Psi$ function in a host environment for fused graphs]{$\Psi$ function in a host environment for fused graphs. It takes in a pair $ (i, j) $ containing an absolute index and an integer representing a table within the fused graph. In addition to that, it takes in the integer $ k $. This function gives out a pair $ (i, j) $, where $ i $ is the absolute index of the $ k $th node succeeding the node with index $ i $ in the $ j $th fused table.}
 \addtocontents{loa}{\vskip 15pt}
@@ -4620,7 +4620,7 @@ is shown in algorithm~\ref{alg:host_psi}. \\
 \end{algorithm}
 Similarly we have the function \texttt{LF} which when called in the host environment accepts a range of nodes
 and the index of a table as $ ([sp, ep], j) $ and gives out such a structure as well.
-It is shown in algorithm~\ref{alg:host_lf}.
+It is shown in Algorithm~\ref{alg:host_lf}.
 \begin{algorithm}
 \caption[\texttt{LF} function in a host environment for fused graphs]{\texttt{LF} function in a host environment for fused graphs. It takes in a pair $ ([sp, ep], j) $ containing a absolutely indexed range and an integer representing a table within the fused graph. In addition to that, it takes in a character $ c $. This function gives out a pair $ ([sp, ep], j) $, where $ [sp, ep] $ is the absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in the $ j $th fused table.}
 \addtocontents{loa}{\vskip 15pt}
@@ -4705,12 +4705,12 @@ and noticed that indeed some do seem more appropriate than others
 for representing genomic graphs
 and in particular population graphs used as alignment references. \\
 Explanations and examples for the different formats that we consider here
-are contained in section~\ref{sec:methods_data_formats}.
+are contained in Section~\ref{sec:methods_data_formats}.
 
 \subsection{FASTG Format}
 
 In the FASTG format, genomic graphs can be encoded in a very flexible manner,
-making it possible to encode graphs which contain loops as well as graphs
+making it possible to encode graphs which contain cycles as well as graphs
 which consist of several unconnected parts.
 In addition to that, this format is also designed in such a way that any
 FASTG file containing a graph can easily be converted into a file just containing
@@ -4761,7 +4761,7 @@ does not actually occur in the standard written in 2012 \citep{specGFA1,specFAST
 
 We also considered the GFA format in which genomic graphs can be encoded.
 This format is as flexible as the previously considered FASTG format, allowing us to encode graphs consisting of
-several parts which are not connected as well as loops. \\
+several parts which are not connected as well as cycles. \\
 An advantage of GFA over FASTG is that
 graph behaviour in GFA is encoded in completely the same fashion, no matter whether it is global
 or local. This simplifies writing software that can work with the format,
@@ -4802,14 +4802,14 @@ in which graph behaviour on any scale is encoded in the exact same way.
 
 While using the GML format within the Graph Merging Library,
 it proved to be a straightforward and flexible format.
-If we allow for loops then this format is as flexible as FASTG and GFA are,
-also being able to encode any kinds of genomic graphs.
-Therefore, the requirement of our input not containing any loops should be
+If we allow for cycles then this format is as flexible as FASTG and GFA,
+with it also being able to encode any kinds of genomic graphs.
+Therefore, the requirement of our input not containing any cycles should be
 seen as a specific requirement for the Graph Merging Library, which attempts
-to convert such graphs into flat XBW tables in which loops can provide problems
+to convert such graphs into flat XBW tables in which cycles can provide problems
 due to potential infinite loops during the prefix generation.
 It should however not be seen as a requirement for the GML format itself,
-which is perfectly capable of encoding graphs with loops.
+which is perfectly capable of encoding graphs with cycles.
 
 A slight drawback that we noticed when using the GML format was that
 modifying graphs with it by hand is rather cumbersome.
@@ -4894,14 +4894,14 @@ Finally, the label \textit{crash} is associated with a test which causes the
 entire program to crash completely, without generating any useful results whatsoever.
 Ideally, no input data should ever be able to cause this to happen,
 but if it should happen, then a crash would be reported to alarm the user to it. \\
-The representations of all these result types in the GML interface can be seen in figure~\ref{fig:evo_gml_different_test_results}.
+The representations of all these result types in the GML interface can be seen in Figure~\ref{fig:evo_gml_different_test_results}.
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=0.95\textwidth]{evo_gml_different_test_results.png}
 \caption[GML Test Results]{Different test results in the GUI of the Graph Merging Library.} \label{fig:evo_gml_different_test_results}
 \end{figure}
 A list of all predefined tests for the construction of XBW node tables can be found
-in section~\ref{sec:appendix_graph_const_tests} in the appendix.
+in Section~\ref{sec:appendix_graph_const_tests} in the appendix.
 Section~\ref{sec:appendix_graph_merge_tests} contains the predefined tests for
 the merging of XBW node tables and flat XBW tables.
 Each of these lists also contains a smaller optional section at its end,
@@ -4917,12 +4917,12 @@ Therefore, a second mode of testing has been implemented
 in which random test data is created during the execution time of the program.
 However, generating such random test data automatically means
 that it is difficult to ensure that the input conforms
-to the core assumptions as formulated in section~\ref{sec:gml_core_assumptions}.
+to the core assumptions as formulated in Section~\ref{sec:gml_core_assumptions}.
 It is in particular difficult to randomly generate test data for which
 no spillover in the splitting of nodes across several graphs which are
 supposed to be merged could possibly happen during the merging process.
 Opposed to that, it is straightforward to ensure that the input graphs
-contain no loops.\footnote{\,\,\,This can be achieved by starting out with a
+contain no cycles.\footnote{\,\,\,This can be achieved by starting out with a
 random sequence of characters as one path from the start to the end
 of the graph.
 Then new paths can be added one at a time to the emerging
@@ -4938,7 +4938,7 @@ to the previously formulated core assumptions.
 \subsection{Test Analysis}
 
 For the Graph Merging Library to be able to report whether a test is a success or
-a failure, the more robust graph merging from section~\ref{sec:direct_graph_merging}
+a failure, the more robust graph merging from Section~\ref{sec:direct_graph_merging}
 is used to generate the result that we
 wish to see. Then, a more advanced algorithm is used for the direct merging
 of XBW node tables or flat XBW tables.
@@ -4949,7 +4949,7 @@ The resulting flat tables are then compared.
 \includegraphics[width=\textwidth]{evo_test_comparison.png}
 \caption[Test analysis]{Test analysis by comparison of flat XBW table generated after robust merging of graphs and flat XBW table generated through advanced merging of several flat XBW tables.} \label{fig:evo_test_comparison}
 \end{figure}
-This approach is illustrated in figure~\ref{fig:evo_test_comparison}. \\
+This approach is illustrated in Figure~\ref{fig:evo_test_comparison}. \\
 It is however entirely possible for the two tables to be different, but for the result to
 still be a success. That is, the flat XBW table generated through one method and the
 flat XBW table generated through another method can be different if the order in which BWT
@@ -4962,7 +4962,7 @@ in order to more quickly build prefixes. \\
 To be able to compare the results of different methods anyway, and call a test
 a success even if not the exact same flat table has been generated, but a nevertheless
 equally acceptable table has been constructed, we convert the tables in question to the
-primitive automata described in section~\ref{sec:internal_graph_format}. \\
+primitive automata described in Section~\ref{sec:internal_graph_format}. \\
 We further introduced the function \texttt{automataAreEquivalent}, which
 takes in two automata to give out \texttt{true} if both are equivalent,
 and \texttt{false} if they are not. We here define two automata to be
@@ -5055,7 +5055,7 @@ and nodes in the graph.
 Therefore, unless no node splitting is necessary at all,
 the merged graph has a size larger than the total size of the
 original graphs. An example for intense node splitting behaviour can
-be seen in figure~\ref{fig:evo_fig_massive_split}.
+be seen in Figure~\ref{fig:evo_fig_massive_split}.
 In this example, we have two input graphs with 23 edges in total.
 To save these together as fused graph, each graph is stored individually,
 such that 23 columns are stored altogether.
@@ -5074,7 +5074,7 @@ in this thesis would not be able to merge this graph anyway.
 \caption[Node splitting resulting in large merged graph]{Node splitting resulting in a large merged graph. The top and middle graph are the input graphs, and the bottom shows the merged graph, which is much larger than each input individually. When fusing the input graphs together, no node splitting needs to occur, and their smaller sizes can be preserved in the resulting data structure.} \label{fig:evo_fig_massive_split}
 \end{figure}
 
-The method of fusing flat XBW tables together as proposed in section~\ref{sec:fusing_flat_tables} omits
+The method of fusing flat XBW tables together as proposed in Section~\ref{sec:fusing_flat_tables} omits
 the need for an increased file size,
 as all input graphs are stored exactly as they are without having to perform additional node splitting.
 This not only makes it easier to store the data compared to storing a merged graph,
