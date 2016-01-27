@@ -860,10 +860,11 @@ graphs rather than sequential string data within the field of DNA sequencing.
 %         eru nauðsynlegar á seinni blaðsíða útdráttar að hefjast á oddatölusíðu (hægri síðu).
 %         NICHT VERGESSEN! Englische und Isländische Abstracts müssen immer den gleichen Inhalt haben!
 
-Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA manna. Venjulega er DNA röðum samraðað með hjálp strengatilvísana. Í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð. \\
-Stungið hefur verið upp á nokkrum leiðir til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
-Markmiðið er að hjálpa við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim. Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum. \\
-í heildina er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á sviði DNA raðgreininga.
+Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða til við raðgreiningu á DNA úr mönnum. Venjulega er DNA röðum samraðað með hjálp strengjatilvísana. Í þessari ritgerð verða hinsvegar tækifæri og vandamál með notkun netatilvísana skoðuð. \\
+Stungið hefur verið upp á nokkrum leiðum til að nota netatilvísanir en slíkar aðferðir hafa enn ekki komist í almenna notkun. Við berum því saman núverandi nálganir og þróum ný reiknirit til að vinna með erfðamengisnet.
+Markmiðið er að hjálpa til við að útbreiða notkun á netatilvísunum og höfum við þróað reiknrit sem að sameina og samtvinna flatar XBW töflur sem hafa að geyma erfðamengisnet. Við höfum útfært þessi reiknirit í forritunarsafninu Graph Merging Library (GML) og er hægt í því að sýna á myndrænan hátt hvernig þau virka og auka skilning okkar á þeim.
+Auk þess að nota þau til samröðunar á raðgreiningargögnum með hjálp netatilvísana geta erfðamengisnet nýst annara hluta. Reiknritin eru næginlega almenn til að nýtast í þeim tilfellum. \\
+Á heildina litið er þessi ritgerð skref í átt að koma í notkun flóknari og öflugri netum í stað þess að nota línulega strengi á fyrir samröðun á DNA.
 
 % Markmið þessarar ritgerðar er að varpa ljósi á þær áskoranir í tölvunarfræði sem verða við á lestri DNA (erfðaefni) manna.
 % Venjulega er lestri á DNA samraðað með hjálp strengatilvísana.
@@ -1099,7 +1100,7 @@ within the reference, and are often given together with confidence estimates.
 % Thank you.
 
 I would like to thank my tutor, Páll Melsted, for his guidance, support and advice.
-I also would like to thank Mareva Nardelli, Kristinn Ólafsson, Rosemary Milton, 
+I also would like to thank Mareva Nardelli, Kristinn Ólafsson, Rosemary Milton,
 Karl Helgason, Erik Pohl and Christian Käser
 for inspiring me to continue working even when facing difficult problems.
 Finally I would like to thank my family for their ongoing support and curiosity.
@@ -1782,8 +1783,8 @@ In addition to bit-vector $ M $, a second bit-vector designated as $ F $ can be 
 The value of $ F $ in column $ i $ is a bit sequence whose length corresponds to
 the amount of predecessor nodes of node $ v_i $. \\
 The reason why using the $ F $ bit-vector is not strictly necessary is that its information
-for any column $ i $ is already encoded in the length of the BWT cell of column $ i $. 
-However, when considering flat XBW tables, we will not be able to leave out the bit-vector $ F $. 
+for any column $ i $ is already encoded in the length of the BWT cell of column $ i $.
+However, when considering flat XBW tables, we will not be able to leave out the bit-vector $ F $.
 It is therefore helpful to already get used to its presence when considering the simpler XBW node tables. \\
 When implementing $ M $ and $ F $, it is possible to think of them as arrays of strings,
 with each string containing the characters “1” and “0”, for ease of implementation.
@@ -1818,9 +1819,9 @@ we usually calculate three further data structures based
 on the BWT, $ M $ and $ F $ rows.
 We call these “$ \Sigma $”, “ord” and “$ C $”. \\
 $ \Sigma $ is the alphabet of the graph, which is a set of all distinct characters in the BWT. \\
-The ord array has the characters of the alphabet as keys. 
+The ord array has the characters of the alphabet as keys.
 Its values are their positions in the alphabetically sorted $ \Sigma $. \\
-The array $ C $ also has the characters of the alphabet as keys, 
+The array $ C $ also has the characters of the alphabet as keys,
 with its values being the indices of the first occurrences of these characters within FC.
 Using $ C $, we can completely reconstruct FC, and accessing an arbitrary cell in the FC row
 via an iteration over $ C $ is a very quick operation.
