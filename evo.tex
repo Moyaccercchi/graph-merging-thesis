@@ -1054,9 +1054,9 @@ to access the original data at all,
 and allows efficient pattern searches to be able to quickly perform typical work on the contained data.
 \\ \\
 
-\textbf{snip:} &
-A \textit{single nucleotide polymorphisms} is a change of a single nucleotide.
-Snips are rather straightforward to work with, as the location of the surrounding data is not affected.
+\textbf{SNP:} &
+A \textit{single nucleotide polymorphism} is a change of a single nucleotide.
+SNPs are rather straightforward to work with, as the location of the surrounding data is not affected.
 \\ \\
 
 \textbf{start node:} & If a graph has a node with label “$\#$”
@@ -1181,7 +1181,7 @@ annotations would not give us any information.
 Instead, we are interested only in the variations from the norm,
 as these might be known to be associated with a specific disease.
 By aligning the reads to the reference, the software pipeline can keep track
-of the encountered differences and in the end give out a list of differences between the individual and the reference.
+of the encountered differences. In the end it can output a list of differences between the individual and the reference.
 An example for the process leading to such a list of differences
 can be seen in Figure~\ref{fig:evo_intro_general_variation_calling_process}.
 \begin{figure}[!htb]
@@ -1192,7 +1192,7 @@ can be seen in Figure~\ref{fig:evo_intro_general_variation_calling_process}.
 The alternative would be to construct the entire individual genome, and upon being done with this enormous task to
 compare the genome with a reference to find all the differences. This comparison however would be a sizeable
 and difficult alignment problem in its own right, so that it is more sensible to align the reads directly to the reference
-and give out the differences that were found in that way.
+and output the differences that were found in that way.
 
 The reference therefore serves both as a blueprint while aligning the reads,
 as well as an anchor point to which variations within the individual string can be marked.
@@ -1262,7 +1262,7 @@ already known variants \citep{Albers2010}.
 Another advantage of using a reference graph presents itself when the continuous use of
 references over time is considered.
 When a new version of the human reference genome is published,
-it can take several years for research projects to adapt it,
+it can take several years for research projects to adopt it,
 as existing pre-processed, aligned and annotated files all have to be updated \citep{RedditSwitchTo38}. \\
 If instead a reference graph was underlying all alignments, it would be conceivable
 to update parts of that reference graph without changing the overall indexing of the entire structure,
@@ -1462,7 +1462,7 @@ such as a collection of reads which are aligned to the same location.
 Another proposed use of graphs when aligning reads to a reference
 has been to represent the outcome of the alignment phase as a graph \citet{Myers2005}.
 That is, instead of reporting a list of variations from the reference,
-the alignment pipeline gives out a graph which contains the reads and their assumed positions
+the alignment pipeline returns a graph which contains the reads and their assumed positions
 relative to each other.
 To create such a graph, long reads need to be used, for which large overlaps
 between adjacent reads can be achieved, as short reads would present too many
@@ -1526,7 +1526,7 @@ Such insights can be used to design graphs unifying the strengths of several dif
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We define a \textit{graph} $ G = (V, E) $ as a collection of a set
 of \textit{nodes} $ V = \{ v_1, ..., v_n \} $, where $ n = |V| $, and a set of edges $ E {\: \subseteq \:} V {\: \times \:} V $.
-Each one of these edges is a set $ (u, v) {\: \in \:} E $,
+Each one of these edges is an ordered pair $ (u, v) {\: \in \:} E $,
 which we call an edge from node $ u {\: \in \:} V $ to node $ v {\: \in \:} V $.
 As the graphs we are working with are considered to be \textit{directed},
 we assume edge $ (u, v) {\: \in \:} E $ to
@@ -1569,7 +1569,7 @@ to achieve graph-like results without explicitly constructing a reference graph.
 One of these is the alignment tool BWBBLE which
 was created by \citet{Huang2013}.
 It works on the core assumption that most differences between two references
-are snips, which can be encoded with a specific extended alphabet.
+are SNPs, which can be encoded with a specific extended alphabet.
 Then, a modification to the Burrows--Wheeler Transform is made to
 be able to work with a single string reference containing this extended alphabet. \\
 BWBBLE also supports insertions and deletions, which means that it does support
@@ -1707,7 +1707,7 @@ As seen in these sections,
 these requirements are not actually limiting us in practice,
 as we can convert any acyclic connected finite graph
 into a prefix-sorted reverse-deterministic one. \\
-In the paper, the extended XBW is stored in two different kinds of data structures,
+In the paper, the extended XBW is stored in either one of two different kinds of data structures,
 which have not been given explicit names there. We refer to these structures as
 XBW node tables and flat XBW tables.
 Each such table unambiguously encodes exactly one graph, but a given graph
@@ -1746,7 +1746,8 @@ stands for any of these characters, instead of standing for the string
 formed by the characters, we decided to display BWT values containing
 more than one character separated by pipe characters, as can be
 seen in Figure~\ref{fig:evo_fig_node_table_example} which is represented
-by the node table in Table~\ref{table:evo_node_table_example}. \\
+by the node table in Table~\ref{table:evo_node_table_example}.
+
 % GCTGGCGAG|,2,TT,5;,2,TGG,7
 {
 % reduce whitespace in this table (default might be 6pt)
@@ -1771,10 +1772,13 @@ G & G & G & G & A & C|G & G|T & $\#$ & G & T & T & T & C & C & C & \$ & \textbf{
 \caption[Graph corresponding to a node table]{Graph corresponding to node table in Table~\ref{table:evo_node_table_example}. The prefixes of the nodes have been provided in small print above the nodes, to make it easier to identify which node in the graph corresponds to which column in the table.} \label{fig:evo_fig_node_table_example}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
-The value of the prefix in column $ i $ is precisely the prefix of node $ v_i $ in the graph,
-which is a string starting with the label of $ v_i $ and then containing
+
+The value of the prefix in column $ i $ is precisely the prefix of node $ v_i $ in the graph.
+This prefix is a string starting with the label of $ v_i $ and then containing
 the labels of the following nodes in sequence of encountering them traversing
-the graph outwards from $ v_i $.
+the graph outwards from $ v_i $. The length of the prefix is hereby determined by the 
+requirement that it needs to be long enough to be unambiguously alphabetically sortable 
+against all other prefixes in the graph. \\
 The value of the cell $ M $ in column $ i $ is a sequence of bits whose length corresponds to
 the amount of successor nodes of $ v_i $, or equally the amount of outgoing edges of node $ v_i $.
 This sequence always starts with the bit “1” and is then followed
@@ -1876,7 +1880,7 @@ More formally, we can observe that
 if we have a cell in column $ i $ of the FC row, and want to find the other cells corresponding to
 the node which this cell belongs to, then we first of all check the value of $ M $ in column $ i $.
 If it is zero, we go to the left until we reach a column $ j $ which contains a one in $ M $.
-If it is not zero, then we set $ j = i $.
+If the value of $ M $ in column $ i $ is not zero, then we set $ j = i $ instead.
 We now go to the right from cell $ j + 1 $ onwards, until we encounter a one in $ M $ in column $ k $.
 This shows us that all the FC values and all the $ M $ value
 from columns $ j $ until $ k - 1 $, including both $ j $ and $ k - 1 $,
@@ -2303,7 +2307,7 @@ Within a data block, a genomic graph is encoded in two different parts. \\
 The first part is referred to as the \textit{main path}.
 This is simply the sequence of labels on any one path from the \textit{start node},
 which has no incoming edges, to the \textit{end node}, which has no outgoing edges.
-The start and end nodes are labelled with a hashtag symbol and a dollarsign, respectively.
+The start and end nodes are labelled with a hash tag symbol and a dollar sign, respectively.
 These labels are not included in the main path within the file, as they are implicitly assumed
 to exist for any such graph. \\
 The second part of a data block is optional.
@@ -2705,7 +2709,7 @@ It in turn calls several functions which check one assumption at a time. \\
 The first one of these functions is called \texttt{eliminateMultipleEdgesInAutomaton}.
 Its underlying functionality can be found in Algorithm~\ref{alg:eliminateMultipleEdgesInAutomaton}.
 \begin{algorithm}
-\caption[Unify multiple edges in a graph]{Unify multiple edges in a graph.}
+\caption[\texttt{eliminateMultipleEdgesInAutomaton}: Unify multiple edges in a graph]{\texttt{eliminateMultipleEdgesInAutomaton}: Unify multiple edges in a graph.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:eliminateMultipleEdgesInAutomaton}
 \begin{algorithmic}[1]
@@ -2741,7 +2745,7 @@ of these pairs of edges are left. \\
 The next function is \texttt{checkAutomatonForCycles}.
 Its general approach is shown in Algorithm~\ref{alg:checkAutomatonForCycles}.
 \begin{algorithm}
-\caption[Check if graph contains cycles]{Check if a graph contains cycles.}
+\caption[\texttt{checkAutomatonForCycles}: Check if graph contains cycles]{\texttt{checkAutomatonForCycles}: Check if a graph contains cycles.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:checkAutomatonForCycles}
 \begin{algorithmic}[1]
@@ -2780,7 +2784,7 @@ error is given out and the invalid input warning is displayed to the user. \\
 Finally, the function \texttt{checkAutomatonForIncorrectChars} as shown in
 Algorithm~\ref{alg:checkAutomatonForIncorrectChars} iterates over all nodes of the automaton
 \begin{algorithm}
-\caption[Check if graph labels contain invalid characters]{Check if graph labels contain invalid characters.}
+\caption[\texttt{checkAutomatonForIncorrectChars}: Check if graph labels are invalid]{\texttt{checkAutomatonForIncorrectChars}: Check if graph labels contain invalid characters.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:checkAutomatonForIncorrectChars}
 \begin{algorithmic}[1]
@@ -2834,7 +2838,7 @@ which we use to convert an automaton into a GML data block.
 \pagebreak
 
 \begin{breakablealgorithm}
-\caption[Visualize a graph]{Visualize a graph by first displaying one path from
+\caption[\texttt{visualize}: Visualize a graph]{\texttt{visualize}: Visualize a graph by first displaying one path from
 the start node to the end node, referred to as main path,
 and then adding alternative paths around the established core.}
 \addtocontents{loa}{\vskip 15pt}
@@ -3007,7 +3011,7 @@ node upon starting at the hash tag node leads directly to the dollar sign node.
 
 It is also notable how exactly the iteration over the nodes works out.
 In line 43 we iterate over all edges that have been added to further\_edges,
-an array which keeps track of edges which we have not been drawn yet. \\
+an array which keeps track of edges which have not been drawn yet. \\
 Line 46 ensures that we only proceed with an edge
 if it starts in a node which has already been drawn.
 However, the edge might lead to a node which has or has not yet been drawn.
@@ -3035,7 +3039,7 @@ was successful.
 We therefore developed the function \texttt{mergeAutomata},
 the general approach of which is shown in Algorithm~\ref{alg:mergeAutomata}.
 \begin{algorithm}
-\caption[Merge two graphs]{Merge two graphs in a simple manner. The input consists of graph\_1 and graph\_2, which are to be merged.}
+\caption[\texttt{mergeAutomata}: Merge two graphs]{\texttt{mergeAutomata}: Merge two graphs in a simple manner. The input consists of graph\_1 and graph\_2, which are to be merged.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:mergeAutomata}
 \begin{algorithmic}[1]
@@ -3197,11 +3201,11 @@ all of its nodes unambiguously alphabetically by its prefixes. \qed
 % \end{proof}
 
 The program therefore first needs to check if the opened graph is reverse deterministic.
-This can easily done by comparing the labels of every nodes' predecessors, as can be seen
+This can easily be done by comparing the labels of every nodes' predecessors, as can be seen
 in Algorithm~\ref{alg:isAutomatonReverseDeterministic}.
 
 \begin{algorithm}
-\caption[Check if a graph is reverse deterministic]{Checks if a graph is reverse deterministic.}
+\caption[\texttt{isAutomatonReverseDeterministic}: Check if graph is rev. deterministic]{\texttt{isAutomatonReverseDeterministic}: Checks if a graph is reverse deterministic.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:isAutomatonReverseDeterministic}
 \begin{algorithmic}[1]
@@ -3268,7 +3272,7 @@ The process of achieving a prefix sorted graph is therefore based on iterating t
 the nodes and reducing the amount of
 prefixes which end on exclamation points, as can be seen in Algorithm~\ref{alg:workOnAutomatonPrefixes}.
 \begin{algorithm}
-\caption[Prefix sort a graph]{Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
+\caption[\texttt{workOnAutomatonPrefixes}: Prefix sort a graph]{\texttt{workOnAutomatonPrefixes}: Prefix sorting a graph by splitting nodes with prefixes that are not unambiguously sortable.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:workOnAutomatonPrefixes}
 \begin{algorithmic}[1]
@@ -3354,7 +3358,7 @@ To create a node table when a prefix sorted graph such as the one in Figure~\ref
 \end{figure}
 we can first create
 an alphabetically sorted list of all prefixes of the nodes in the graph.
-Such as list is shown in Table~\ref{table:node_construct_prefixes_1}.
+Such a list is shown in Table~\ref{table:node_construct_prefixes_1}.
 
 \begin{table}[htb]
 \centering
@@ -3434,7 +3438,7 @@ ordering of the nodes by the prefixes being already guaranteed from just the fir
 However, a longer prefix would not be invalid, and therefore we would technically need to
 search for such a prefix starting with a hash tag sign. \\
 Luckily, this entire search is unnecessary, as the single start node that is contained in the
-table can always be found in the same position. This position is the last, or right-most, column of the table.
+table can always be found in the same position, which is the last, or right-most, column of the table.
 The reason why the column corresponding to the start node can always be found in this position is that
 the columns are alphabetically sorted by their prefixes, and the prefix of the start node starts with its label.
 The lexicographic value of this label is above the lexicographic value of all characters from the
@@ -3474,7 +3478,7 @@ To navigate the graph in the forward direction, that is, to find the immediate s
 of a node $ v_i $, we can use the \texttt{nextNodes} function. Algorithm~\ref{alg:nextNodes} shows how this
 function works.
 \begin{algorithm}
-\caption[Find succeeding nodes in a node table]{Given a column $ i $ in an XBW node table, find the indices of the columns corresponding to the succeeding nodes.}
+\caption[\texttt{nextNodes}: Find succeeding nodes in a node table]{\texttt{nextNodes}: Given a column $ i $ in an XBW node table, find the indices of the columns corresponding to the succeeding nodes.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:nextNodes}
 \begin{algorithmic}[1]
@@ -3567,7 +3571,7 @@ is to add the columns of both tables which are supposed to be merged to a single
 to sort the columns in this new table by their prefixes,
 and to then expand prefixes until they all are unambiguous.
 
-More exactly, we first add a row with the caption “origin” to both input tables,
+More precisely, we first add a row with the caption “origin” to both input tables,
 with all the cells of this row in the first table containing the character “0” and
 all the cells of the origin row in the second table containing the character “1”.
 We use these rows to later on keep track of where a node came from,
@@ -3604,18 +3608,50 @@ a fully merged XBW node table.
 \subsection{Aftersort Array}
 
 While working on the emerging XBW node table, we often have to construct longer prefixes for nodes
-with ambiguous prefixes. Do do so, we navigate through the graph and append labels of the nodes we encounter.
+with ambiguous prefixes. To do so, we navigate through the graph and append labels of the nodes we encounter.
 However, this navigation through the graph is made more difficult by the fact that the ordering
 of the nodes of the first input table can be changed within the merged table.
-The reason for this is that their prefixes, which within the first input table ended at the
+The reason for this is that their prefixes, which ended within the first input table at the
 end node $ v_e $ of the first graph, can now spill over into the second graph,
 thereby giving different relative orderings.
-This concept is illustrated in Figure~\ref{fig:evo_fig_node_merge_aftersort} and Table~\ref{table:node_merge_aftersort}.
+This concept is illustrated in Figure~\ref{fig:evo_fig_node_merge_aftersort} and Table~\ref{table:node_merge_aftersort}. \\
+We can see that in the input table at the top, the green node with prefix T\$$\#$C is sorted
+before the purple node with prefix TA,
+as the dollar sign is lexicographically smaller
+than all other considered characters.
+When considering just the first input table on its own, the prefix of the green node would actually be T\$,
+as we only appended $\#$C to that prefix to show
+how the prefix will look like when a spillover into the second input graph occurs, in which labels from the
+second input graph are appended to prefixes in the first graph.
+However, in the merged table at the bottom, the green node with prefix TC is sorted after the purple node with prefix TA,
+as “C” is lexicographically bigger than “A”. \\
+Therefore, when we are working with the merged table, we cannot simply append the columns from the two input
+tables in the exact order in which they are within the input tables, but we need to change the order slightly
+to account for the fact that such spillovers from the first into the second input can happen.
+This itself is not a particularly challenging problem, as we can just account for this different sorting
+behaviour when initially constructing the merged table. That is, we can append the nodes within the 
+first input table to the merged table in alphabetical order with respect to prefixes 
+generated with spillovers 
+into the second input table, thereby leaving out the end node of the first input table 
+and the start node of the second one. \\
+However, doing so results in a merged table which is internally inconsistent as long as we still
+see it as merged form of two individual tables, using an origin row to keep track of the partial table
+we are working in.
+To counteract this problem, we use a structure which we refer to as an \textit{aftersort array},
+which allows us to account for sorting problems after the start of merging the two tables.
+It provides a mapping from the expected locations within the first input table 
+to the actual locations in the merged table, which can slightly differ from it.
+In particular, we use such an array with the name bwt\_aftersort in
+the functions \texttt{nextNodes} and \texttt{prevNodes} to this end. \\
+It is never necessary to apply an aftersort array when considering the second input,
+as no spillovers out of that table can occur when building prefixes, as we build
+prefixes by advancing to succeeding nodes, and no new node is succeeding the end node
+of the second input which actually becomes the end node of the merged table.
 
 % GAAT|,1,CT,3 and CAA|,1,,3
 \begin{table}[htb]
 \centering
-\caption[Node tables showing purpose of aftersort array]{Node tables showing the purpose of the aftersort array. The upper two node tables are the inputs for the XBW node merging, while the bottom table is the outcome. The highlighted columns correspond to the highlighted nodes in Figure~\ref{fig:evo_fig_node_merge_aftersort}.}
+\caption[Node tables showing purpose of aftersort array]{Node tables showing the purpose of the aftersort array. The upper two node tables are the inputs for the XBW node merging, while the bottom table is the outcome. The highlighted columns correspond to the highlighted nodes in Figure~\ref{fig:evo_fig_node_merge_aftersort}. The aftersort array itself is \textup{\texttt{[\$ => [\,], A => [\,], C => [\,], G => [\,], T => [1, 0], \# => [\,]]}}. In it, the entries for all characters but T are empty arrays, representing no changes to their ordering, while the entry for \textup{\texttt{T}} is the array \textup{\texttt{[1, 0]}}. This tells us that whenever we intend to access the zeroeth \textup{\texttt{T}} in the BWT, we actually should access the first one, and whenever we intend to access the first \textup{\texttt{T}} in the BWT, we should actually access the zeroeth one.}
 
 {
 % reduce whitespace in this table (default might be 6pt)
@@ -3623,7 +3659,7 @@ This concept is illustrated in Figure~\ref{fig:evo_fig_node_merge_aftersort} and
 \begin{tabular}{ | c | c | c | c | c | c | c | c | c | }
 \hline
 T & G & A|T & G & $\#$ &\cellcolor{green_bg}\color{green_fx}A &\cellcolor{purple_bg}\color{purple_fx}C & \$ & \textbf{BWT} \\ \hline
-\$ & AA & AT & C & G &\cellcolor{green_bg}\color{green_fx}T\$$\#$C &\cellcolor{purple_bg}\color{purple_fx}TA & $\#$ & \textbf{Prefix} \\ \hline
+\$ & AA & AT & C & G &\cellcolor{green_bg}\color{green_fx}T\$ &\cellcolor{purple_bg}\color{purple_fx}TA & $\#$ & \textbf{Prefix} \\ \hline
 1 & 1 & 1 & 1 & 10 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{M}$ \\ \hline
 1 & 1 & 10 & 1 & 1 &\cellcolor{green_bg}\color{green_fx}1 &\cellcolor{purple_bg}\color{purple_fx}1 & 1 & $\boldsymbol{F}$ \\ \hline
 \end{tabular}
@@ -3656,35 +3692,6 @@ A & A|C & C & G & A|T & T & G & $\#$ &\cellcolor{purple_bg}\color{purple_fx}C &\
 \caption[Graphs showing purpose of aftersort array]{Graphs showing the purpose of the aftersort array. The upper two graphs correspond to the inputs for the XBW node merging, while the bottom graph corresponds to the outcome. The highlighted nodes correspond to the highlighted columns in Table~\ref{table:node_merge_aftersort}.} \label{fig:evo_fig_node_merge_aftersort}
 \end{figure}
 % TODO :: make sure that these two (the table and the figure) actually end up on the same page, and are not split over several pages
-
-We can see that in the input table at the top, the green node with prefix T\$$\#$C is sorted
-before the purple node with prefix TA,
-as the dollar sign is lexicographically smaller
-than all other considered characters.
-When considering just the first input table on its own, the prefix of the green node would actually be T\$,
-as we only appended $\#$C to that prefix is to show
-how the prefix will look like when a spillover into the second input graph occurs, in which labels from the
-second input graph are appended to prefixes in the first graph.
-However, in the merged table at the bottom, the green node with prefix TC is sorted after the purple node with prefix TA,
-as “C” is lexicographically bigger than “A”. \\
-Therefore, when we are working with the merged table, we cannot simply append the columns from the two input
-tables in the exact order in which they are within the input tables, but we need to change the order slightly
-to account for the fact that such spillovers from the first into the second input can happen.
-This itself is not a particularly challenging problem, as we can just account for this different sorting
-behaviour when initially constructing the merged table. \\
-However, doing so results in a merged table which is internally inconsistent as long as we still
-see it as merged form of two individual tables, using an origin row to keep track of the partial table
-we are working in.
-To counteract this problem, we use a structure which we refer to as an \textit{aftersort array},
-which allows us to account for sorting problems after the start of merging the two tables.
-It provides a mapping from the locations within the first input table that we expect
-to the actual locations in the merged table, which can slightly differ from it.
-In particular, we use such an array with the name bwt\_aftersort in
-the functions \texttt{nextNodes} and \texttt{prevNodes} to this end. \\
-It is never necessary to apply an aftersort array when considering the second input,
-as no spillovers out of that table can occur when building prefixes, as we build
-prefixes by advancing to succeeding nodes, and no new node is succeeding the end node
-of the second input which actually becomes the end node of the merged table.
 
 \section{Creating a Flat Table}
 %
@@ -3773,19 +3780,21 @@ of nodes, respectively.
 As with the navigation through XBW node tables described in Section~\ref{sec:gml_node_navigation},
 the navigation through a graph represented by a flat XBW table relies on
 being able to find special nodes within the graph
-as well as being able to advance from one node to another one.
-In particular, we should to be able to find the start node and the end node in the flat table,
+as well as being able to advance from one node to another.
+In particular, we should be able to find the start node and the end node in the flat table,
 and given a node $ v $, we should be able to find the preceding and the succeeding nodes of $ v $.
 
 % find start node
 To find the cells corresponding to the start node $ v_s $, we can again look at the end of the table,
 just as when finding the start node in a node table.
 However, in this case it is not enough to look at the last column, as some other cells could belong
-to the start node too. In particular, as the start node can have several outgoing edges,
+to the start node, too. In particular, as the start node can have several outgoing edges,
 there could be several cells in the FC and $ M $ rows corresponding to the start node.
-Therefore, using FC-indexing or BWT-indexing complicates finding the start node slightly,
-while finding this node with absolute indexing is as simple as for node tables. \\
-In absolute indexing, the index $ i_s $ of the start node is the highest index of all nodes.
+Therefore, using FC-indexing or BWT-indexing means that we have to go to the last column and then 
+advance to the left as long as the $ M $ or $ F $ values are zero, respectively. \\
+Finding this node with absolute indexing on the other hand requires a rank operation. 
+In absolute indexing, finding the start node 
+corresponds to finding the highest index $ i_s $ of all nodes.
 It can be found as $ i_s = \textrm{rank}_1 ( M, l ) = \textrm{rank}_1 ( F, l ) $ where we
 define $ l $ as the index of the last column in the table,
 which is equal to one less than the amount of columns in the table. \\
@@ -3803,7 +3812,7 @@ map the last column in the matrix of sorted cyclic rotations, which is the BWT,
 to the first column, which is the FC row.
 How this function operates can be seen in Algorithm~\ref{alg:lf}.
 \begin{algorithm}
-\caption[\texttt{LF} function for flat table navigation]{\texttt{LF} function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It gives out an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
+\caption[\texttt{LF} function for flat table navigation]{\texttt{LF} function for flat table navigation which takes in an absolutely indexed range $ [ sp, ep ] $ and a character $ c $. It returns an absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:lf}
 \begin{algorithmic}[1]
@@ -3863,7 +3872,7 @@ Similar to the \texttt{LF} function for preceding nodes, there is also a second 
 to find the succeeding nodes of a given node.
 This function is called $ \Psi $ and its approach is shown in Algorithm~\ref{alg:psi}.
 \begin{algorithm}
-\caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ k $. It gives out the absolute index of the $ k $th node succeeding the node with index $ i $.}
+\caption[$ \Psi $ function for flat table navigation]{$ \Psi $ function for flat table navigation which takes in an absolute index $ i $ and an edge number $ k $. It returns the absolute index of the $ k $th node succeeding the node with index $ i $.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:psi}
 \begin{algorithmic}[1]
@@ -3939,7 +3948,7 @@ of all current nodes $ u_j $, and again adding the shared label of all of them i
 This process is implemented in the function \texttt{\_publishPrefix} of the XBW environment in GML.
 Its general approach is outlined in Algorithm~\ref{alg:_publishPrefix}.
 \begin{algorithm}
-\caption[Generate prefix of a node in a flat table]{Generate the prefix of a node with FC-index $ i $ in a flat XBW table up to a given length. The optional parameter use\_all\_out\_edges can be set to \texttt{true} such that all outgoing edges of the specified node are used. Otherwise, only the specific edge addressed by $ i $ is followed out of the first considered node.}
+\caption[\texttt{\_publishPrefix}: Generate prefix of a node in a flat table]{\texttt{\_publishPrefix}: Generate the prefix of a node with FC-index $ i $ in a flat XBW table up to a given length. The optional parameter use\_all\_out\_edges can be set to \texttt{true} such that all outgoing edges of the specified node are used. Otherwise, only the specific edge addressed by $ i $ is followed out of the first considered node.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:_publishPrefix}
 \begin{algorithmic}[1]
@@ -4019,7 +4028,8 @@ Its general approach is outlined in Algorithm~\ref{alg:_publishPrefix}.
 \end{algorithmic}
 \end{algorithm}
 As the input to the function is given with the FC-indexing method, a particular edge can be specified
-via which the first node is supposed to exited. This can be helpful for specific visualization purposes.
+via which the first node is supposed to exited, as FC-indexing allows us to address a particular 
+outgoing edge instead of just addressing a node. This can be helpful for specific visualization purposes.
 However, usually this is not the intended behaviour, which is why we introduced the parameter
 use\_all\_out\_edges which defaults to \texttt{true}.
 When it is left at its default value, all outgoing edges from the input node are considered,
@@ -4085,7 +4095,7 @@ can be found using the \texttt{LF} function with a big initial range which gets 
 several applications, calling the function once for each letter in the text.
 This happens in the \texttt{find} function, the general approach of which is shown in Algorithm~\ref{alg:find}.
 \begin{algorithm}
-\caption[Find pattern in a flat table]{Find pattern $ P $ in a flat table.}
+\caption[\texttt{find}: Find pattern in a flat table]{\texttt{find}: Find pattern $ P $ in a flat table.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:find}
 \begin{algorithmic}[1]
@@ -4122,7 +4132,7 @@ to convert its output into absolute indices.
 The reason why we wish to use this indexing method here
 is that FC-indexing allows us to specify not just a node,
 but a precise outgoing edge of that node, so that the caller does
-not need to guess which edge to take out of the node.
+not need to guess which outgoing edge of the node to follow.
 However, the caller is still expected to find the rest of the edges manually by
 traversing the graph from the node that was found onwards,
 as they are not directly given out.
@@ -4175,11 +4185,10 @@ C & A & A & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
 \end{figure}
 
 A big difference to the merging of the node tables is that we no longer have
-a data structure available to store the computed prefixes of all columns.
-This is intentional, as storing all of these prefixes in memory would be prohibitive
-in a real-world scenario. The implication of not having the prefixes readily available
+a data structure available to store the computed prefixes of all columns. 
+The implication of not having the prefixes readily available
 are that we can no longer keep track of problematic nodes that easily.
-Therefore, merging the separate tables together as they are and working on the node splitting to expand the prefixes
+Therefore, merging the separate tables as they are and working on the node splitting to expand the prefixes
 after the merge, as we did for merging node tables, is impractical.
 As the flat XBW format relies heavily on the ordering on the columns,
 we simply cannot guarantee that we will order the columns correctly
@@ -4247,7 +4256,7 @@ C & A & A & $\#$ & $\#$ & A & A & \$ & \textbf{BWT} \\ \hline
 
 As the second and main part of the merging algorithm
 we then construct the merged table by again advancing through the
-input tables node for node and always adding the node with the lexicographically smallest prefix
+input tables node by node and adding the node with the lexicographically smallest prefix
 as next node to the emerging table. The way in which we step through the two input tables
 is exactly the same as in the first step, again using the aftersort array to allow us to
 append nodes to the final table in an ordering different from how they are
@@ -4336,7 +4345,7 @@ combining two graphs which we would like to look at.
 We decided to refer to this method as \textit{fusing} several tables together,
 as it is inherently different from the actions we perform when merging tables.
 
-\subsection{Fusing Instead of Merging}
+\subsection{Motivation for Fusing Flat XBW Tables}
 
 As shown in Section~\ref{sec:merging_flat_tables}, merging flat XBW tables is rather complex.
 It requires a lot of computations and can lead to a lot of node splitting,
@@ -4365,7 +4374,7 @@ fusing is that when we merge two tables, we perform a lot of work once
 to generate one merged table. After the process is finished,
 it is impossible to decide whether the table has been constructed directly
 from some input graph, or has been the result of a merge operation of several graphs.
-On the other hand, when we are fusing two tables together,
+On the other hand, when we are fusing two tables,
 we only perform a relatively small amount work in the moment of fusing them,
 and we then perform a little bit of extra work every time we are operating on the fused table.
 The resulting data structure will always reveal that it actually consists of several
@@ -4389,7 +4398,7 @@ Apart from that, work can be performed in a fused table just like in a regular o
 \subsection{Performing the Fusion of Two Tables}
 \label{sec:perform_fusion_of_two_tables}
 
-To actually perform the fusion two flat XBW tables, we create
+To actually perform the fusion of two flat XBW tables, we create
 a host data structure which has a slot in which it can contain each table.
 We then make each table aware of its immediately succeeding table as well as its immediately preceding table.
 In the case of having two inputs, this means that the first input table needs to store the information
@@ -4405,7 +4414,7 @@ while 2 stands for an XBW environment which is in the process of being merged fr
 and 3 stands for an environment which is the host data structure for several flat tables. \\
 We then call the function \texttt{addSubXBW}, shown in Algorithm~\ref{alg:addSubXBW},
 \begin{algorithm}
-\caption[Add a table to a host data structure]{Add a flat XBW table to a host data structure. The parameter newXBW is a pointer to the XBW environment containing the table which is to be added to the host data structure.}
+\caption[\texttt{addSubXBW}: Add a table to a host data structure]{\texttt{addSubXBW}: Add a flat XBW table to a host data structure. The parameter newXBW is a pointer to the XBW environment containing the table which is to be added to the host data structure.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:addSubXBW}
 \begin{algorithmic}[1]
@@ -4527,14 +4536,14 @@ one table, as otherwise it would be pointless to try and perform any work on it 
 The reason why we want to allow one table in the data structure instead of requiring at least two
 of them is that we would like algorithms designed to work on these data structures to also be
 able to handle single flat tables without having to create a whole special case for them in which
-they are used directly without surrounding data structure.
+they are used directly without a surrounding data structure.
 
 \subsection{Navigating Through Fused Tables}
 \label{sec:fused_table_navigation}
 
 Just as with the navigation through XBW node tables and regular flat XBW tables,
 we again wish to be able to find the start and end nodes of a fused flat XBW table.
-We also wish to able to find the preceding and succeeding nodes of a
+We also wish to be able to find the preceding and succeeding nodes of a
 given node within a fused flat XBW table.
 
 To be able to perform any of these navigation functions, we however first need to
@@ -4593,7 +4602,7 @@ properly address a node within the fused graph instead of a plain integer $ i $.
 The approach on which the $ \Psi $ function within the host environment is based
 is shown in Algorithm~\ref{alg:host_psi}. \\
 \begin{algorithm}
-\caption[$\Psi$ function in a host environment for fused graphs]{$\Psi$ function in a host environment for fused graphs. It takes in a pair $ (i, j) $ containing an absolute index and an integer representing a table within the fused graph. In addition to that, it takes in the integer $ k $. This function gives out a pair $ (i, j) $, where $ i $ is the absolute index of the $ k $th node succeeding the node with index $ i $ in the $ j $th fused table.}
+\caption[$\Psi$ function in a host environment for fused graphs]{$\Psi$ function in a host environment for fused graphs. It takes in a pair $ (i, j) $ containing an absolute index and an integer representing a table within the fused graph. In addition to that, it takes in the integer $ k $. This function returns a pair $ (i, j) $, where $ i $ is the absolute index of the $ k $th node succeeding the node with index $ i $ in the $ j $th fused table.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:host_psi}
 \begin{algorithmic}[1]
@@ -4620,10 +4629,10 @@ is shown in Algorithm~\ref{alg:host_psi}. \\
 \end{algorithmic}
 \end{algorithm}
 Similarly we have the function \texttt{LF} which when called in the host environment accepts a range of nodes
-and the index of a table as $ ([sp, ep], j) $ and gives out such a structure as well.
+and the index of a table as $ ([sp, ep], j) $ and returns such a structure as well.
 It is shown in Algorithm~\ref{alg:host_lf}.
 \begin{algorithm}
-\caption[\texttt{LF} function in a host environment for fused graphs]{\texttt{LF} function in a host environment for fused graphs. It takes in a pair $ ([sp, ep], j) $ containing a absolutely indexed range and an integer representing a table within the fused graph. In addition to that, it takes in a character $ c $. This function gives out a pair $ ([sp, ep], j) $, where $ [sp, ep] $ is the absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in the $ j $th fused table.}
+\caption[\texttt{LF} function in a host environment for fused graphs]{\texttt{LF} function in a host environment for fused graphs. It takes in a pair $ ([sp, ep], j) $ containing a absolutely indexed range and an integer representing a table within the fused graph. In addition to that, it takes in a character $ c $. This function returns a pair $ ([sp, ep], j) $, where $ [sp, ep] $ is the absolutely indexed range corresponding to nodes with label $ c $ preceding the ones that were put in the $ j $th fused table.}
 \addtocontents{loa}{\vskip 15pt}
 \label{alg:host_lf}
 \begin{algorithmic}[1]
@@ -4658,7 +4667,7 @@ then the \texttt{LF} function needs to be called on each of the fused tables sep
 
 \subsection{Prefix Construction}
 
-To construct the prefix a node within the fused table,
+To construct the prefix of a node within the fused table,
 we perform an algorithm similar to the one we performed for the prefix construction
 in regular flat XBW tables.
 In particular, we read out the label of the node itself as starting character of the prefix,
@@ -4717,14 +4726,14 @@ In addition to that, this format is also designed in such a way that any
 FASTG file containing a graph can easily be converted into a file just containing
 a linear sequence, such that backwards compatibility with software tools which
 cannot yet handle graph data is given. \\
-However, the format also has several drawbacks, which we investigated into
+However, the format also has several drawbacks, which we investigated
 while implementing it.
 
 Files in the FASTG format are unnecessarily big, which is mostly caused
 by a lot of intentional whitespaces but also by the decision to repeat the
 default interpretation of each FASTG-specific command just before the command.
 While this does make it simpler to convert FASTG files into the linear FASTA format,
-it does add any value to a FASTG file as long as it is worked on in a pipeline of
+it does not add any value to a FASTG file which is worked on in a pipeline of
 software tools which are all fully capable of working with graphs. \\
 In the following example taken from a FASTG file, the underlined
 text is just repeated and therefore unnecessary information: \\
@@ -4743,7 +4752,7 @@ The first layer considers global variation that is implemented through a mechani
 FASTA comments define which sequences can lead to which others. \\
 The second layer handles local variation that is implemented through FASTG-specific constructs
 directly in the genomic data. \\
-The third layer represents highly localized variation (such as snips) that can be nested
+The third layer represents highly localized variation (such as SNPs) that can be nested
 inside of other FASTG-specific constructs from the second layer. \\
 As not all of the constructs can be nested inside of each other
 and as the comment-based global and construct-based local
@@ -4931,7 +4940,7 @@ graph, with each new path from node $ u $ to node $ v $ only being
 allowed to be added if $ v $ could already be reached from $ u $ before
 the new path was added.} \\
 It is therefore necessary for the program to ensure that the
-input can actually be worked on, and to give out a warning if not.
+input can actually be worked on, and to return a warning if not.
 That is why another possible test result with the label \textit{invalid input} can be reported.
 This occurs when the program determines that the input does not conform
 to the previously formulated core assumptions.
@@ -4965,7 +4974,7 @@ a success even if not the exact same flat table has been generated, but a nevert
 equally acceptable table has been constructed, we convert the tables in question to the
 primitive automata described in Section~\ref{sec:internal_graph_format}. \\
 We further introduced the function \texttt{automataAreEquivalent}, which
-takes in two automata to give out \texttt{true} if both are equivalent,
+takes in two automata. It returns \texttt{true} if both are equivalent,
 and \texttt{false} if they are not. We here define two automata to be
 equivalent if they generate the same language, even though they may differ
 in the amount and layout of nodes that they use to construct this language. \\
@@ -5149,8 +5158,9 @@ ways of using genomic graphs within the field of human DNA analysis,
 using reference graphs rather than reference strings still
 is a difficult proposition and only few tools exist that incorporate
 such methods.
-It could therefore be argued that the known advantages of using reference
-graphs do not outweigh the tremendous difficulties that have to
+Judging by the prevalence of tools using reference strings rather than reference graphs, 
+it could therefore be argued that the known advantages of using reference
+graphs do not seem to outweigh the tremendous difficulties that have to
 be overcome in order to be able to use them on a large scale. \\
 After all, the reason why reference graphs are proposed to be used
 rather than reference strings is to improve alignment results
@@ -5162,10 +5172,13 @@ justifies complicating matters so much in general by the introduction of
 these new graph structures.
 
 However, we would argue that in the long run, reference graphs will come to be used.
-With every new individual DNA that is constructed, more insight is gained into
+With every new individual DNA that is sequenced, more insight is gained into
 variations which could be quite common among populations.
 Discarding all of that data in favour of a simpler but ultimately flawed approach
 will not work forever, as over time better alignment results will come to be expected. \\
+Also, even minuscule improvements in the sequencing approaches 
+might end up being pivotal to discoveries with medical uses, 
+which is why every possible improvement should actually be pursued. \\
 Therefore, it seems inevitable to work on reference graphs eventually,
 and it seems only logical to start that work as soon as possible, rather than investing
 more time and resources into improving current alignment tools which are likely to be drastically

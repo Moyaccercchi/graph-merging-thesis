@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -36,7 +36,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1200"
-     inkscape:window-height="672"
+     inkscape:window-height="689"
      id="namedview132"
      showgrid="false"
      inkscape:zoom="0.79880651"
@@ -51,7 +51,7 @@
      id="style4">svg * {color:#000;font-family:Times New Roman,serif;line-height:22px;font-style:normal;font-weight:500;}svg &gt; text, svg &gt; text &gt; tspan {font-size:30px;}svg &gt; text.prefix, svg &gt; text.prefix &gt; tspan {font-size:15px;}svg &gt; text &gt; tspan.d {font-size:20px;}svg &gt; text.prefix &gt; tspan.d {font-size:10px;}svg &gt; text &gt; tspan.u {font-size:20px;}svg &gt; text.prefix &gt; tspan.u {font-size:10px;}</style>
   <rect
      style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
-     height="322.97971"
+     height="302.94983"
      width="1041"
      y="-130.97972"
      x="-70.5"
@@ -266,332 +266,321 @@
     </marker>
   </defs>
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="50"
      id="circle16" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="50"
      id="circle18" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="50"
      id="text20">
     <tspan
-       style="font-weight:bold;"
+       style="color:#000000;font-style:normal;font-weight:bold;font-size:30px;line-height:22px;font-family:'Times New Roman', serif"
        id="tspan22">#</tspan>
   </text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="50"
      class="prefix"
      id="text24">
     <tspan
-       style="font-weight:bold;"
+       style="color:#000000;font-style:normal;font-weight:bold;font-size:15px;line-height:22px;font-family:'Times New Roman', serif"
        id="tspan26">#</tspan>
   </text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M75,100 L125,100"
-     id="path28" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 75,78 50,0"
+     id="path28"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="150"
      id="circle30" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="150"
      id="circle32" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="150"
      id="text34">G</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="150"
      class="prefix"
      id="text36">G</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M175,100 L225,100"
-     id="path38" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 175,78 50,0"
+     id="path38"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="250"
      id="circle40" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="250"
      id="circle42" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="250"
      id="text44">A</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="250"
      class="prefix"
      id="text46">AAT</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M275,100 L325,100"
-     id="path48" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 275,78 50,0"
+     id="path48"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="350"
      id="circle50" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="350"
      id="circle52" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="350"
      id="text54">A</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="350"
      class="prefix"
      id="text56">AT</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M375,100 L425,100"
-     id="path58" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 375,78 50,0"
+     id="path58"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="450"
      id="circle60" />
   <circle
-     style="fill:#00BF00"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#00bf00"
      r="18"
-     cy="100"
+     cy="78"
      cx="450"
      id="circle62" />
   <text
-     style="fill:#FFF;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#ffffff"
+     y="88"
      x="450"
      id="text64">T</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="450"
      class="prefix"
      id="text66">TC</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M475,100 L525,100"
-     id="path68" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 475,78 50,0"
+     id="path68"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="550"
      id="circle70" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="550"
      id="circle72" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="550"
      id="text74">C</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="550"
      class="prefix"
      id="text76">CA</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M575,100 L625,100"
-     id="path78" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 575,78 50,0"
+     id="path78"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="650"
      id="circle80" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="650"
      id="circle82" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="650"
      id="text84">A</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="650"
      class="prefix"
      id="text86">AA$</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M675,100 L725,100"
-     id="path88" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 675,78 50,0"
+     id="path88"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="750"
      id="circle90" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="750"
      id="circle92" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="750"
      id="text94">A</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="750"
      class="prefix"
      id="text96">A$</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M775,100 L825,100"
-     id="path98" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 775,78 50,0"
+     id="path98"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="100"
+     cy="78"
      cx="850"
      id="circle100" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="100"
+     cy="78"
      cx="850"
      id="circle102" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="110"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="88"
      x="850"
      id="text104">$</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="78"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="56"
      x="850"
      class="prefix"
      id="text106">$</text>
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="170"
+     cy="148"
      cx="200"
      id="circle108" />
   <circle
-     style="fill:#FFF"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#ffffff"
      r="18"
-     cy="170"
+     cy="148"
      cx="200"
      id="circle110" />
   <text
-     style="fill:#000;"
-     text-anchor="middle"
-     y="180"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="158"
      x="200"
      id="text112">C</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="148"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="126"
      x="200"
      class="prefix"
      id="text114">CT</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M225,170 L275,170"
-     id="path116" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 225,148 50,0"
+     id="path116"
+     inkscape:connector-curvature="0" />
   <circle
-     style="fill:#000"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
-     cy="170"
+     cy="148"
      cx="300"
      id="circle118" />
   <circle
-     style="fill:#A0A"
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#aa00aa"
      r="18"
-     cy="170"
+     cy="148"
      cx="300"
      id="circle120" />
   <text
-     style="fill:#FFA;"
-     text-anchor="middle"
-     y="180"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:30px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#ffffaa"
+     y="158"
      x="300"
      id="text122">T</text>
   <text
-     style="fill:#000"
-     text-anchor="middle"
-     y="148"
+     style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif;text-anchor:middle;fill:#000000"
+     y="126"
      x="300"
      class="prefix"
      id="text124">TA</text>
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M325,170 Q340,170 347,125"
-     id="path126" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 325,148 q 15,0 22,-45"
+     id="path126"
+     inkscape:connector-curvature="0" />
   <path
-     style="stroke: #000; stroke-width: 2.25px; fill: none; marker-end: url(#markerArrow2644);"
-     d="M153,125 Q160,170 175,170"
-     id="path128" />
+     style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2644)"
+     d="m 153,103 q 7,45 22,45"
+     id="path128"
+     inkscape:connector-curvature="0" />
   <circle
      style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:#000000"
      r="20"
@@ -885,10 +874,7 @@
      id="text66-9">T<tspan
    id="tspan68"
    style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif">$</tspan>
-<tspan
-   id="tspan70"
-   style="color:#000000;font-style:normal;font-weight:500;font-size:15px;line-height:22px;font-family:'Times New Roman', serif">#</tspan>
-C</text>
+</text>
   <path
      inkscape:connector-curvature="0"
      style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2642)"
@@ -981,6 +967,6 @@ C</text>
   <path
      inkscape:connector-curvature="0"
      style="color:#000000;font-style:normal;font-weight:500;line-height:22px;font-family:'Times New Roman', serif;fill:none;stroke:#000000;stroke-width:2.25px;marker-end:url(#markerArrow2643-2)"
-     d="m 559.60735,125.41305 q 89.99999,75 180,0"
+     d="m 559.60735,103.41305 q 89.99999,75 180,0"
      id="path68-0-0" />
 </svg>
